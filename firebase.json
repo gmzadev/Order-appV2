@@ -1,10 +1,19 @@
 {
+  "rewrites": [ {
+    "source": "**",
+    "destination": "./public/index.html"
+  } ],
   "database": {
     "rules": "database.rules.json"
   },
   "hosting": {
     "site": "orden-app-ac0af",
-    "public": "public"
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   },
   "emulators": {
     "auth": {
