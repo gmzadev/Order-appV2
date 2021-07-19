@@ -92,10 +92,13 @@
           <CCardBody>
             <div class="container-fluid d-flex justify-content-center" 
               style="border-style: none;width: auto">
-              <form action="Dashboard_submit" method="get" accept-charset="utf-8">
-                <input type="search" name="" value="" placeholder="Cedula" style="width: 300px; margin-bottom: 3%"/>
-                <button type="submit"><i class="fa fa-search" ></i></button>
-              </form>
+              <CForm  class="container-fluid" action="Dashboard_submit" method="get" accept-charset="utf-8">
+                <CInput type="search" name="" value="" placeholder="Cedula" >
+                 <template #append-content>
+                    <button type="submit" style="border:none"><i class="cil-search" ></i></button>
+                 </template>
+                </CInput>
+              </CForm>
             </div>
             <!--
             <CRow>
@@ -465,14 +468,14 @@
 <script>
 import MainChartExample from './charts/MainChartExample'
 import WidgetsDropdown from './widgets/WidgetsDropdown'
-import WidgetsBrand from './widgets/WidgetsBrand'
+//import WidgetsBrand from './widgets/WidgetsBrand'
 
 export default {
   name: 'Dashboard',
   components: {
     MainChartExample,
     WidgetsDropdown,
-    WidgetsBrand
+    //WidgetsBrand
   },
   data () {
     return {

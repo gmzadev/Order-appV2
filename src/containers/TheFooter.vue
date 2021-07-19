@@ -1,7 +1,7 @@
 <template>
   <CFooter :fixed="false">
     <div>
-      <a href="https://coreui.io" target="_blank">Sirenita Deli</a>
+      <a href="https://www.disclaimergenerator.net/live.php?token=cW5TdW1uz8gRk1npy6kuYayB9MNYMD2y" target="_blank">Sirenita Deli Espress</a>
       <span class="ml-1">&copy; {{new Date().getFullYear()}} gmzadev</span>
     </div>
     <div class="mfs-auto">

@@ -7,11 +7,10 @@ const TheContainer = () => import('@/containers/TheContainer')
 // Views
 const Dashboard = () => import('@/views/Dashboard')
 
-const Colors = () => import('@/views/theme/Colors')
-const Typography = () => import('@/views/theme/Typography')
-
-const Charts = () => import('@/views/charts/Charts')
-const Widgets = () => import('@/views/widgets/Widgets')
+//const Colors = () => import('@/views/theme/Colors')
+//const Typography = () => import('@/views/theme/Typography')
+//const Charts = () => import('@/views/charts/Charts')
+//const Widgets = () => import('@/views/widgets/Widgets')
 
 // Views - Components
 const Cards = () => import('@/views/base/Cards')
@@ -93,28 +92,28 @@ function configRoutes () {
             render (c) { return c('router-view') }
           },
           children: [
-            {
+           /* {
               path: 'colors',
               name: 'Colors',
               component: Colors
-            },
-            {
+            },*/
+           /* {
               path: 'typography',
               name: 'Typography',
               component: Typography
-            }
+            }*/
           ]
         },
-        {
+       /* {
           path: 'charts',
           name: 'Charts',
           component: Charts
-        },
-        {
+        },*/
+        /*{
           path: 'widgets',
           name: 'Widgets',
           component: Widgets
-        },
+        },*/
         {
           path: 'users',
           meta: {

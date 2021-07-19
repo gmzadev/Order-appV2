@@ -1,3 +1,4 @@
+
 <template>
   <div class="c-app">
     <TheSidebar/>
@@ -16,7 +17,6 @@
     </CWrapper>
   </div>
 </template>
-
 <script>
 import TheSidebar from './TheSidebar'
 import TheHeader from './TheHeader'
