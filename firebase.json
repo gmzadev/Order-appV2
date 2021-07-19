@@ -1,0 +1,32 @@
+{
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "hosting": {
+    "site": "orden-app-ac0af",
+    "public": "public"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8083
+    },
+    "database": {
+      "port": 9000
+    },
+    "hosting": {
+      "port": 9001
+    },
+    "storage": {
+      "port": 9002
+    },
+    "ui": {
+      "enabled": true
+    }
+  }
+}

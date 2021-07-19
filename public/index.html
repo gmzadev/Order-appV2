@@ -11,7 +11,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>CoreUI - Vue Open Source Bootstrap Admin Template</title>
+  <title>Order App</title>
   <!-- favicons for all devices -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/all.min.css">
@@ -53,9 +53,30 @@
     <strong>We're sorry but this app doesn't work properly without JavaScript enabled. Please enable it to
       continue.</strong>
   </noscript>
+
+
   <div id="app"></div>
   <!-- built files will be auto injected -->
   <script src="https://kit.fontawesome.com/f036cc6781.js" crossorigin="anonymous"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="/__/firebase/8.7.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="/__/firebase/8.7.1/firebase-analytics.js"></script>
+
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('flutter-first-frame', function () {
+      navigator.serviceWorker.register('flutter_service_worker.js?v=2330050811');
+    });
+  }
+</script>
+<script src="main.dart.js" type="application/javascript"></script>
+
+
 </body>
 
 </html>
