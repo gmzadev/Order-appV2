@@ -1,7 +1,7 @@
 
 <template>
   <div class="c-app">
-    <TheSidebar/>
+    <TheSidebar v-if="Login"/>
     <CWrapper>
       <TheHeader/>
       <div class="c-body">
@@ -21,13 +21,19 @@
 import TheSidebar from './TheSidebar'
 import TheHeader from './TheHeader'
 import TheFooter from './TheFooter'
-
+export let Login= true
 export default {
   name: 'TheContainer',
+  data () {
+    return {
+      Login
+    }
+  },
   components: {
     TheSidebar,
     TheHeader,
-    TheFooter
+    TheFooter,
+    
   }
 }
 </script>
