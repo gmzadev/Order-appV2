@@ -34,15 +34,12 @@
          </div>
       </div>
     </div>
-    <GFooter/>
   </div>
 </template>
 <script>
 
-import GFooter from '@/components/GFooter.vue'
 export default {
   components: {
-    GFooter
   },
   data () {
     return {

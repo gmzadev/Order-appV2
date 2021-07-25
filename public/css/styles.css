@@ -1,0 +1,137 @@
+
+nav:hover{
+  background-color: rgba(99, 111, 131,1);
+}
+
+body {
+  margin: 0;
+  background: rgb(117,230,212) !important;
+  background: linear-gradient(180deg, rgba(117,230,212,1) 11%, rgba(117,169,230,1) 84%) !important;
+  min-width: 360px;
+  min-height: 640px
+
+}
+.nav-link{
+  color: black;
+}
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+main {
+  text-align: center;
+  margin-top: 40px;
+}
+
+
+.card img{
+  position: relative;
+}
+
+.carousel-control-prev-icon{
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f00' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E")
+}
+.carousel-control-next-icon{
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f00' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+.imagen-centrada{
+  display: block;
+  margin: auto;
+}
+.titulo-imagen-caruser{
+  background-color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0%;
+  display: flex;
+  justify-content: center;
+  width: 500px;
+  max-width:500px;
+ 
+}
+.footer-text {
+  text-decoration: none;;
+  color: white;
+}
+.footer-text:hover{
+  text-decoration: underline;
+}
+.iconos{
+  width: 64px;
+  height: 64px;
+  border-radius: 50%
+}
+.icono-form{
+  width: 128px;
+  height:128px;
+  border-radius: 50%
+}
+.titulos{
+  text-align: center;
+  margin-top: 2%
+}
+.colores-invertidos{
+  -webkit-filter: invert(80%);
+  filter: invert(80%);
+}
+h6{
+  font-size:89%;
+  padding-top:  5%;
+  margin-top: 2%;
+  text-align:center;
+}
+.div-centrado{
+  display:inline-block
+}
+
+.parrafo{
+  padding: 2%;
+  background-color: white;
+  border-radius: 10px;
+  font-family: "Georgia",  serif;
+
+}
+.img-grid{
+  padding: 5px;
+}
+.grid-galeria{
+   display: inline-grid;
+   width: 80%;
+}
+.galeria{
+  background-color: rgba(0, 0, 0, 0.04);
+}
+.itemgaleria{
+
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding:  2%;
+}
+.imput-text{
+  margin: 15px;
+  padding: 15px;
+
+}
+.formulario {
+  text-align: center;
+  padding: 8px;
+  color: white;
+  font-family: "Georgia",  serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+.formulario p{
+ font-family: sans-serif;
+
+}
+
+
+.h7{
+  font-size: 22px;
+  font-family: "Impact", fantasy;
+  color: white !important;
+  text-shadow: 50px;
+  -webkit-text-stroke: 1px black;
+}

@@ -3,9 +3,12 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 const state = {
   sidebarShow: 'responsive',
-  sidebarMinimize: false
+  sidebarMinimize: false,
+  login:true
 }
+
 const mutations = {
+ 
   toggleSidebarDesktop (state) {
     const sidebarOpened = [true, 'responsive'].includes(state.sidebarShow)
     state.sidebarShow = sidebarOpened ? false : 'responsive'
@@ -16,11 +19,14 @@ const mutations = {
   },
   set (state, [variable, value]) {
     state[variable] = value
-  }
+  },
+  
 }
-
 export default new Vuex.Store({
   state,
-  mutations
+  mutations,
+ 
+  
 }
+
 )

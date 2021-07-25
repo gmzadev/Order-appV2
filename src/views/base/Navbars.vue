@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <CCard>
       <CCardHeader>
         <CIcon name="cil-justify-center"/>

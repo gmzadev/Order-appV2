@@ -1,7 +1,7 @@
-<template >
+<template>
   <CDropdown
     inNav
-    class="c-header-nav-items"
+    class="c-header-nav-items "
     placement="bottom"
     add-menu-classes="pt-0"
   >
@@ -11,26 +11,26 @@
         <div class="c-avatar"><!-- el que no tiene img define el tamano-->
           <img
             src="img/avatars/6.jpg"
-            class="c-avatar-img " 
+            class="c-avatar-img d-flex justify-content-center" 
           />
         </div>
-         <a style="margin-left:10px; padding-right: 8px"> {{UserName}}</a>
+         <a style="margin-left:10px; padding-right: 15px"> {{UserName}}</a>
       </CHeaderNavLink>
     </template>
     <CDropdownHeader tag="div" class="text-center" color="light" >
       <strong>Eventos</strong>
     </CDropdownHeader>
     <CDropdownItem>
-      <CIcon name="cil-bell"/> Notificaciones
-      <CBadge color="info" class="mfs-auto">{{ itemsCount }}</CBadge>
+      <CIcon name="cil-bell"/> <span>Notificaciones</span> 
+      <CBadge color="info" class="isquierda">{{ itemsCount }}</CBadge>
     </CDropdownItem>
     <!-- <CDropdownItem> no lo veo necesario pero puede servir
       <CIcon name="cil-envelope-open" /> Messages
       <CBadge color="success" class="mfs-auto">{{ itemsCount }}</CBadge>
     </CDropdownItem>-->
     <CDropdownItem >
-      <CIcon name="cil-task" />  <a >Ords. Pendientes</a>
-      <CBadge color="danger" class="mfs-auto">{{ itemsCount }}</CBadge>
+      <CIcon name="cil-task" />  <span>Ords. Pendientes</span>
+      <CBadge color="danger" class="isquierda">{{ itemsCount }}</CBadge>
     </CDropdownItem>
    <!-- <CDropdownItem>
       <CIcon name="cil-comment-square" /> Comments
@@ -50,19 +50,21 @@
       <CIcon name="cil-settings" /> Configuraciones
     </CDropdownItem>-->
     <CDropdownItem>
-      <CIcon name="cil-dollar" /> Pagos
-      <CBadge color="secondary" class="mfs-auto">{{ itemsCount }}</CBadge>
+      <CIcon name="cil-dollar" /> 
+        <span>Pagos</span>
+      <CBadge color="secondary" class="isquierda">{{ itemsCount }}</CBadge>
     </CDropdownItem>
     <CDropdownItem>
-      <CIcon name="cil-file" /> Reservaciones
-      <CBadge color="primary" class="mfs-auto">{{ itemsCount }}</CBadge>
+      <CIcon name="cil-file" /> 
+        <span> Reservaciones</span>
+      <CBadge color="primary" class="isquierda">{{ itemsCount }}</CBadge>
     </CDropdownItem>
     <CDropdownDivider/>
     <!--<CDropdownItem>
       <CIcon name="cil-shield-alt" /> Lock Account
     </CDropdownItem>-->
-    <CDropdownItem>
-      <CIcon name="cil-lock-locked" /> Cerrar sesion
+    <CDropdownItem class="cerrado">
+      <CIcon  name="cil-lock-locked" /> Cerrar sesion
     </CDropdownItem>
   </CDropdown>
 </template>
@@ -80,10 +82,27 @@ export default {
 </script>
 
 <style scoped>
-  .c-icon {
-    margin-right: 0.3rem;
-  }
-  a {
-     font-size: 12.4px
-  }
+.CDropdown{
+  display: flex;
+  justify-content: right!important
+}
+.cerrado{
+ display: flex;
+  justify-content: center;
+}
+strong{
+  font-size:1.1rem;
+}
+.isquierda{
+  display: flex;
+  justify-content: right;
+}
+span{
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+}
+.c-icon {
+    margin-right: 0.5rem;
+}
+  
 </style>

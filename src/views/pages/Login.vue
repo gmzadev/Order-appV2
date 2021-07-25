@@ -24,7 +24,7 @@
                   </CInput>
                   <CRow>
                     <CCol col="6" class="text-left">
-                      <CButton color="primary" class="px-4">Login</CButton>
+                      <CButton color="primary" class="px-4" ><span v-c-emit-root-event:span-clicked="log"><CLink to="/Dashboard">Iniciar Sesion</CLink></span></CButton>
                     </CCol>
                     <CCol col="6" class="text-right">
                       <CButton color="link" class="px-0">olvidaste tu contraseña?</CButton>
@@ -59,12 +59,43 @@
   </div>
 </template>
 
+
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+   
+   data() {
+     return {
+       login: false,
+      admin: false,
+     }
+   },
+
+  methods: {
+    log (){
+      console.log(this.login);
+      this.login=!this.login;
+      console.log(this.login);
+      this.admin=!this.admin;
+      let a= this.login;
+      let b= this.admin;
+      this.$emit('getLogin',{login: a,admin: b});
+    }
+  },
+ 
 }
 </script>
-<style >
+<style scoped>
+  a{
+    color: white;
+  }
+  .CButon{
+    color: white  !important;
+  }
+  .CLink{
+    
+    color: white  !important;
+  }
   .body{
       margin: 0;
       background: rgb(117,230,212);

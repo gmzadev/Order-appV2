@@ -49,8 +49,11 @@
  <div class="d-flex justify-content-center" style="padding:3%">
       <div class="col">
         <div class="card">
-            <img class="img-fluid" :src="menuinfantil" alt="text1" style="">
-            <h6>Infantiles</h6>
+            <router-link to="/Ordenar">
+              <img class="img-fluid" :src="menuinfantil" alt="text1" style="">
+              <h6>Infantiles</h6>
+            </router-link>
+            
         </div>
       </div>
       <div class="col">
@@ -72,15 +75,13 @@
           </div>
       </div>
  </div>
- <GFooter/>
+ 
 </div>
 
 </template>
 <script>
-import GFooter from '@/components/GFooter.vue'
 export default {
   components: {
-    GFooter
   },
   data  () {
     return {
@@ -97,3 +98,9 @@ export default {
   }
 }
 </script>
+<style scoped src='@/assets/css/styles.css'>
+ 
+ 
+</style>>
+ 
+  

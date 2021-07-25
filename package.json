@@ -1,13 +1,8 @@
 {
   "name": "@coreui/coreui-free-vue-admin-template",
   "version": "3.1.4",
-  "description": "Open Source Bootstrap Admin Template",
-  "author": {
-    "name": "CoreUI",
-    "url": "https://coreui.io",
-    "github": "https://github.com/coreui",
-    "twitter": "https://twitter.com/core_ui"
-  },
+  "description": "PWA para hacer pedidos online",
+  
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -26,6 +21,7 @@
     "@coreui/vue-chartjs": "^1.0.6",
     "register-service-worker": "^1.7.1",
     "vue": "~2.6.12",
+    "vue-resource": "^1.5.3",
     "vue-router": "^3.5.1",
     "vuex": "~3.6.2"
   },

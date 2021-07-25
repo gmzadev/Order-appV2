@@ -1,17 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+//import '/src/assets/css/styles.css'
 
 // Containers
 const TheContainer = () => import('@/containers/TheContainer')
 
 // Views
 const Dashboard = () => import('@/views/Dashboard')
-
 //const Colors = () => import('@/views/theme/Colors')
 //const Typography = () => import('@/views/theme/Typography')
 //const Charts = () => import('@/views/charts/Charts')
 //const Widgets = () => import('@/views/widgets/Widgets')
 
+//home seccion sin iniciar sesion
+const About = () => import('@/views/inicio/About')
+const Contactenos = () => import('@/views/inicio/Contactenos')
+const Home = () => import('@/views/inicio/Home')
+const Horarios = () => import('@/views/inicio/Horarios')
+const Ordenar = () => import('@/views/inicio/Ordenar')
+const PagoCliente = () => import('@/views/inicio/PagoCliente')
+const MenuEspeciales = () => import('@/views/inicio/MenuEspeciales')
+const Barra = () => import('@/views/inicio/Barra')
 // Views - Components
 const Cards = () => import('@/views/base/Cards')
 const Forms = () => import('@/views/base/Forms')
@@ -76,44 +85,66 @@ function configRoutes () {
     {
       path: '/',
       redirect: '/dashboard',
-      name: 'Home',
+      name: 'dashboard',
       component: TheContainer,
       children: [
-        {
-          path: 'dashboard',
-          name: 'Dashboard',
-          component: Dashboard
-        },
-        {
-          path: 'theme',
-          redirect: '/theme/colors',
-          name: 'Theme',
+      
+        {//este es la ruta de home parqa usuarios sin iniciar sesion1
+          path: '/inicio',
+          redirect: '/home',
+          name: 'inicio',
           component: {
             render (c) { return c('router-view') }
           },
           children: [
-           /* {
-              path: 'colors',
-              name: 'Colors',
-              component: Colors
-            },*/
-           /* {
-              path: 'typography',
-              name: 'Typography',
-              component: Typography
-            }*/
+            {
+              path: '/home',
+              name: 'Home',
+              component: Home
+            },
+            {
+              path: '/Barra',
+              name: 'Barra',
+              component: Barra
+            },
+            {
+              path: '/horarios',
+              name: 'Horarios',
+              component: Horarios
+            },
+            {
+              path: '/ordenar',
+              name: 'Ordenar',
+              component: Ordenar
+            },
+        
+            {
+              path: '/pagoCliente',
+              name: 'PagoCliente',
+              component: PagoCliente
+            },
+            {
+              path: '/menuEspeciales',
+              name: 'MenuEspecialeso',
+              component: MenuEspeciales
+            },
+            {
+              path: '/about',
+              name: 'About',
+              component: About
+            },
+            {
+              path: '/contactenos',
+              name: 'Contactenos',
+              component: Contactenos
+            }
           ]
         },
-       /* {
-          path: 'charts',
-          name: 'Charts',
-          component: Charts
-        },*/
-        /*{
-          path: 'widgets',
-          name: 'Widgets',
-          component: Widgets
-        },*/
+          {
+          path: 'dashboard', //dashboar  @funciont admin 
+          name: 'Dashboard',
+          component: Dashboard
+        },
         {
           path: 'users',
           meta: {
@@ -357,18 +388,7 @@ function configRoutes () {
               component: Modals
             }
           ]
-        }
-      ]
-    },
-    {
-      path: '/pages',
-      redirect: '/pages/404',
-      name: 'Pages',
-      component: {
-        render (c) { return c('router-view') }
-      },
-      children: [
-
+        },
         {
           path: '404',
           name: 'Page404',
@@ -380,7 +400,7 @@ function configRoutes () {
           component: Page500
         },
         {
-          path: 'login',
+          path: '/pages/login',
           name: 'Login',
           component: Login
         },
@@ -389,8 +409,13 @@ function configRoutes () {
           name: 'Register',
           component: Register
         }
+          
+        
+        
       ]
-    }
+    },
+    
+    
   ]
 }
 

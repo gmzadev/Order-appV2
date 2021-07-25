@@ -2,22 +2,15 @@ export default [
   {
     _name: 'CSidebarNav',
     _children: [
-      {
-        _name: 'CSidebarNavItem',
-        name: 'Dashboard',
-        to: '/dashboard',
-        icon: 'cil-speedometer',
-        /*badge: {
-          color: 'primary',
-          text: 'NEW'
-        }*/
-      },
+      
       {
         _name: 'CSidebarNavTitle',
-        _children: ['Administrativo']
+        _children: ['Administrativo'],
+        
       },
       {
         _name: 'CSidebarNavItem',
+        show: false,
         route: '/base',
         name: 'Inventario',
         to: '/base/Inventario',//aqui esta la ruta para inventario
@@ -57,13 +50,13 @@ export default [
       to: '/Ordenes',//aqui esta la ruta para ordenes
       icon: 'cil-inbox'
       },
-     /*{
+     {
         _name: 'CSidebarNavItem',
         route: '/base',
         name: 'Comprar',
         to: '/base/Comprar',//aqui esta la ruta para  comprar
         icon: 'cil-inbox'
-      },*/
+      },
 
       /*/{
         _name: 'CSidebarNavSDropdown',
@@ -95,7 +88,7 @@ export default [
         _name: 'CSidebarNavDivider',
         _class: 'm-2'
       },*/
-     /* {
+      {
         _name: 'CSidebarNavDropdown',
         name: 'Pages',
         route: '/pages',
@@ -119,7 +112,7 @@ export default [
           }
 
         ]
-      }*/
+      }
     
 
     ]

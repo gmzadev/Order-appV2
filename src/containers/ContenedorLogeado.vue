@@ -1,13 +1,10 @@
-
 <template>
-<div>
-   
-  <TheSidebar/>
+  <div class="ContenedorLogeado">
+    <TheSidebar />
     <CWrapper>
       <TheHeader />
       <div class="c-body">
         <main class="c-main">
-          <h1> {{$store.state.login}}</h1>
           <CContainer fluid>
             <transition name="fade" mode="out-in">
               <router-view></router-view>
@@ -17,42 +14,25 @@
       </div>
       <TheFooter />
     </CWrapper>
-</div>
+  </div>
 </template>
+
 <script>
 import TheSidebar from "./TheSidebar";
-//import Home from "@/views/inicio/Home";
-//import Barra from "@/views/inicio/Barra";
 import TheHeader from "./TheHeader";
 import TheFooter from "./TheFooter";
-//import Dashboard from "@/views/Dashboard";
+import Dashboard from "@/views/Dashboard";
 export default {
-  name: "TheContainer",
-
   data() {
     return {
-      value:true
+      name: "ContenedorLogeado",
     };
-    
   },
-  components: {
-    TheSidebar,
-    TheHeader,
-    TheFooter,
-    //Barra,
-    //Home,
-  },
+  components:{
+      TheHeader,
+      TheSidebar,
+      TheFooter,
+      Dashboard
+  }
 };
-//src='@/assets/css/styles.css'
 </script>
-
-<style >
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

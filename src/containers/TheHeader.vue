@@ -1,40 +1,26 @@
 <template>
   <div>
-
-    <CHeader fixed with-subheader light>
+    <div > 
+      <CHeader  with-subheader light fixed >
       <CToggler
         in-header
-        class="ml-3 d-lg-none"
+        class="mr-3 d-lg-none justify-content-between"
         @click="$store.commit('toggleSidebarMobile')"
       />
       <CToggler v
         in-header
-        class="ml-3 d-md-down-none"
+        class="ml-5 d-lg-down-none justify-content-between  "
         @click="$store.commit('toggleSidebarDesktop')"
       />
       
       <CHeaderNav class="d-md-down-none mr-auto">
-        <CHeaderNavItem class="px-3">
-          <CHeaderNavLink to="/dashboard">
-            Dashboard
-          </CHeaderNavLink>
-        </CHeaderNavItem>
-        <CHeaderNavItem class="px-3">
-          <CHeaderNavLink to="/users" exact>
-            Historico
-          </CHeaderNavLink>
-        </CHeaderNavItem>
-        <CHeaderNavItem class="px-3">
-          <CHeaderNavLink to="/users" exact>
-            Inventario
-          </CHeaderNavLink>
-        </CHeaderNavItem>
+        
         <!--<CHeaderNavItem class="px-3">
           <CHeaderNavLink>
             Ajustes
           </CHeaderNavLink>-->
       </CHeaderNav>
-      <CHeaderNav class="ml-5 pl-4">
+      <CHeaderNav class="align-self-md-end pl-4">
       <!-- <CHeaderNavItem class="d-md-down-none mx-2">
           <CHeaderNavLink>
             <CIcon name="cil-bell"/>
@@ -50,28 +36,43 @@
             <CIcon name="cil-envelope-open"/>
           </CHeaderNavLink>
         </CHeaderNavItem>-->
-        <TheHeaderDropdownAccnt/>
+        <div  class="listaCuenta ">
+          <TheHeaderDropdownAccnt/>
+        </div>
+        
       </CHeaderNav>
     <!-- <CSubheader class="px-3">
         <CBreadcrumbRouter class="border-0 mb-0"/>
       </CSubheader>-->
     </CHeader>
   </div>
+</div>
 </template>
 
 <script>
 import TheHeaderDropdownAccnt from './TheHeaderDropdownAccnt'
-import {Login} from './TheContainer.vue'
 
 export default {
   name: 'TheHeader',
+  data() {
+    return {
+      text1: 'no cargo',
+      iconosirenita: 'https://i.imgur.com/as1ZB1e.png'
+    }
+  },
   components: {
     TheHeaderDropdownAccnt
   },
   methods: {
-    debug (){
-      console.log(Login);
-    }
+
   },
 }
 </script>
+<style scoped>
+.c-header{
+  position: fixed!important;;
+}
+.pl-4{
+  padding-left: 11rem!important;
+}
+</style>

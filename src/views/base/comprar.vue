@@ -1,5 +1,5 @@
 <template>
-    <div id="Reservaciones">
+    <div id="Comprar">
         <CRow >
     <CCol col>
       <CCard>
