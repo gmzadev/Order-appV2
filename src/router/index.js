@@ -41,15 +41,35 @@ const Register = () => import('@/views/pages/Register')
 const Users = () => import('@/views/users/Users')
 const User = () => import('@/views/users/User')
 
+// firebase
+import firebase from "firebase"
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'hash', // https://router.vuejs.org/api/#mode
   linkActiveClass: 'active',
   scrollBehavior: () => ({ y: 0 }),
   routes: configRoutes()
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(ruta => ruta.meta.requiresAuth)){
+    const user = firebase.auth().currentUser;
+    if (user) {
+     // $store.commit('set', 'user', user)
+      next();
+    } else {
+      next({
+        name: 'Login'
+      })
+    }
+  } else {
+    next();
+  }
+})
+
+export default router
 function configRoutes() {
   return [
     {
@@ -85,13 +105,16 @@ function configRoutes() {
             {
               path: '/ordenar',
               name: 'Ordenar',
-              component: Ordenar
+              component: Ordenar,
+              meta: { requiresAuth: true }
             },
 
             {
               path: '/pagoCliente',
               name: 'PagoCliente',
-              component: PagoCliente
+              component: PagoCliente,
+              meta: { requiresAuth: true }
+
             },
             {
               path: '/menuEspeciales',
@@ -113,7 +136,9 @@ function configRoutes() {
         {
           path: 'dashboard', //dashboar  @funciont admin 
           name: 'Dashboard',
-          component: Dashboard
+          component: Dashboard,
+        meta: { requiresAuth: true/*, admin: true*/ }
+
         },
         {
           path: 'users',
@@ -129,7 +154,8 @@ function configRoutes() {
             {
               path: '',
               name: 'Users',
-              component: Users
+              component: Users,
+              meta: { requiresAuth: true, admin: true }
             },
             {
               path: ':id',
@@ -155,7 +181,8 @@ function configRoutes() {
             {
               path: '',
               name: 'Ordenes',
-              component: Ordenes
+              component: Ordenes,
+              meta: { requiresAuth: true, admin: true }
             },
             {
               path: ':id',
@@ -163,7 +190,9 @@ function configRoutes() {
                 label: 'Orden Details'
               },
               name: 'Orden',
-              component: Orden
+              component: Orden,
+
+
             }
           ]
         },
@@ -177,12 +206,16 @@ function configRoutes() {
             {
               path: 'comprar',
               name: 'Comprar',
-              component: Comprar
+              component: Comprar,
+              meta: { requiresAuth: true }
+
             },
             {
               path: 'platos',
               name: 'Platos',
-              component: Platos
+              component: Platos,
+              meta: { requiresAuth: true, admin: true }
+
             },
 
             /*{
@@ -194,13 +227,16 @@ function configRoutes() {
             {
               path: 'inventario',
               name: 'Inventario',
-              component: Inventario
+              component: Inventario,
+              meta: { requiresAuth: true, admin: true }
 
             },
             {
               path: 'reservaciones',
               name: 'Reservaciones',
-              component: Reservaciones
+              component: Reservaciones,
+              meta: { requiresAuth: true }
+
             },
           ],
         },

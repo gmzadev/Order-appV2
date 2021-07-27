@@ -91,6 +91,7 @@ export default {
           .signInWithEmailAndPassword(this.email, this.password)
           .then((data) => console.log(data))
           .catch((err) => {this.error=err.message});
+          this.$router.push({name:'Dashboard'})
       } else {
         this.error = "todos los campos son requeridos";
       }

@@ -20,6 +20,8 @@
   </div>
 </template>
 <script>
+import firebase from 'firebase'
+
 import TheSidebar from "./TheSidebar";
 //import Home from "@/views/inicio/Home";
 //import Barra from "@/views/inicio/Barra";
@@ -32,6 +34,7 @@ export default {
   data() {
     return {
       value: true,
+      user:null,
     };
   },
   components: {
@@ -41,6 +44,19 @@ export default {
     //Barra,
     //Home,
   },
+  
+  created (){
+      firebase.auth().onAuthStateChanged((user)=>{
+        if (user){
+          this.user=user
+          this.$store.commit('set', ['user', this.user])
+        }
+        else{
+          this.user=null
+        }
+        
+      })
+  }
 };
 
 </script>

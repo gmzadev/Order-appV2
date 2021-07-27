@@ -63,13 +63,19 @@
     <!--<CDropdownItem>
       <CIcon name="cil-shield-alt" /> Lock Account
     </CDropdownItem>-->
-    <CDropdownItem class="cerrado">
-      <CIcon  name="cil-lock-locked" /> Cerrar sesion
-    </CDropdownItem>
+    <CDropdownItem  class="cerrado">
+      <CButton @click.prevent="logout">
+        Cerrar Sesión
+        <template #prepend-content>
+          <CIcon  name="cil-lock-locked" /> Cerrar sesion
+        </template>
+      </CButton>
+    </CDropdownItem >
   </CDropdown>
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
   name: 'TheHeaderDropdownAccnt',
   data () {
@@ -77,7 +83,14 @@ export default {
       itemsCount: 42,
        UserName: 'Alexandra Medina'
     }
-  }
+  },
+  methods: {
+    logout(){
+      firebase.auth().signOut().then(()=>{
+        this.$router.push({name:'Home'})
+      })
+    }
+  },
 }
 </script>
 

@@ -72,6 +72,6 @@ export default {
   position: fixed!important;;
 }
 .pl-4{
-  padding-left: 11rem!important;
+  padding-left: 7rem!important;
 }
 </style>
