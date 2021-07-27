@@ -50,7 +50,7 @@
 
 <script>
 import TheHeaderDropdownAccnt from "./TheHeaderDropdownAccnt";
-import firebase from "firebase";
+//import firebase from "firebase";
 
 export default {
   name: "TheHeader",
@@ -64,24 +64,14 @@ export default {
     TheHeaderDropdownAccnt,
   },
   methods: {},
-  created() {
-    console.log("creado c navbar");
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.user = user;
-        this.$store.commit("set", ["user", this.user]);
-      } else {
-        this.user = null;
-      }
-    });
-  },
+
 };
 </script>
 <style scoped>
 .c-header {
   position: fixed !important;
 }
-.pl-4 {
-  padding-left: 7rem !important;
+.listaCuenta{
+  padding-left: 6rem !important;
 }
 </style>

@@ -30,6 +30,7 @@ firebase.firestore().settings({ timestampInSnapshots: true })
 //variables de firebase y vue
 var db = firebase.firestore();
 var usuarios=[];
+//funcion que llena el array de usuarios con los documentos de la coleccion de usuario
 db.collection("Usuarios").onSnapshot((querySnapshot) => {
   querySnapshot.forEach((doc) => {
       var   usuario ={

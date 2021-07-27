@@ -102,7 +102,7 @@
 <script>
 //import { onBeforeMount } from "vue";
 import firebase from "firebase";
-import {db,usuarios} from "@/main.js";
+import {db} from "@/main.js";
 export default {
   name: "Register",
   methods: {
@@ -191,8 +191,8 @@ export default {
     };
   },
   /*created (){
-    console.log(usuarios)
-    console.log(this.$store.state.user.email)//optener el email del usuario
+    console.log(usuarios) //leyendo usuarios
+    console.log(this.$store.state.user)//optener el email del usuario
   }*/
 };
 </script>

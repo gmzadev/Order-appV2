@@ -24,6 +24,7 @@
 import TheSidebar from "./TheSidebar";
 //import Home from "@/views/inicio/Home";
 //import Barra from "@/views/inicio/Barra";
+import firebase from 'firebase'
 import TheHeader from "./TheHeader";
 import TheFooter from "./TheFooter";
 //import Dashboard from "@/views/Dashboard";
@@ -42,6 +43,18 @@ export default {
     TheFooter,
     //Barra,
     //Home,
+  },
+    created() {
+    console.log("creado container");
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.user = user;
+        this.$store.commit("set", ["user", this.user.email]);
+        console.log(this.$store.state.user)
+      } else {
+        this.user = null;
+      }
+    });
   },
   
 };
