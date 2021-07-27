@@ -21,7 +21,7 @@
 import TheSidebar from "./TheSidebar";
 import TheHeader from "./TheHeader";
 import TheFooter from "./TheFooter";
-import Dashboard from "@/views/Dashboard";
+//import Dashboard from "@/views/Dashboard";
 export default {
   data() {
     return {
@@ -32,7 +32,7 @@ export default {
       TheHeader,
       TheSidebar,
       TheFooter,
-      Dashboard
+      
   }
 };
 </script>

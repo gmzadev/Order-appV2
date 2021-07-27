@@ -207,12 +207,5 @@ export default {
 }
 </script>
 <style>
-   .body {
-  margin: 0;
-  background: rgb(117,230,212);
-  background: linear-gradient(180deg, rgba(117,230,212,1) 11%, rgba(117,169,230,1) 84%);
-  min-width: 360px;
-  min-height: 640px
-
-} 
+   
 </style>

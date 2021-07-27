@@ -6,32 +6,42 @@
           <CCardGroup>
             <CCard class="p-4">
               <CCardBody>
-                <CForm>
+                <form @submit.prevent="Login">
                   <h1>Iniciar Sesión</h1>
                   <p class="text-muted">Inicia sesion en tu cuenta</p>
                   <CInput
                     placeholder="Nombre de usuario"
-                    autocomplete="correo nombre de usuario"
+                    autocomplete="correo"
+                    v-model="email"
                   >
-                    <template #prepend-content><CIcon name="cil-user"/></template>
+                    <template #prepend-content
+                      ><CIcon name="cil-user"
+                    /></template>
                   </CInput>
                   <CInput
                     placeholder="Contraseña"
                     type="password"
                     autocomplete="Contraseña"
+                    v-model="password"
                   >
-                    <template #prepend-content><CIcon name="cil-lock-locked"/></template>
+                    <template #prepend-content
+                      ><CIcon name="cil-lock-locked"
+                    /></template>
                   </CInput>
                   <CRow>
                     <CCol col="6" class="text-left">
-                      <CButton color="primary" class="px-4" ><span v-c-emit-root-event:span-clicked="log"><CLink to="/Dashboard">Iniciar Sesion</CLink></span></CButton>
+                      <input type="submit" value="Iniciar Sesion" />
                     </CCol>
                     <CCol col="6" class="text-right">
-                      <CButton color="link" class="px-0">olvidaste tu contraseña?</CButton>
-                      <CButton color="link" class="d-lg-none">Registrate ahora!</CButton>
+                      <CButton color="link" class="px-0"
+                        >olvidaste tu contraseña?</CButton
+                      >
+                      <CButton color="link" class="d-lg-none"
+                        >Registrate ahora!</CButton
+                      >
                     </CCol>
                   </CRow>
-                </CForm>
+                </form>
               </CCardBody>
             </CCard>
             <CCard
@@ -42,12 +52,8 @@
             >
               <CCardBody>
                 <h2>Registrate</h2>
-                <p> no tienes cuenta? que esperas, unetenos ya!</p>
-                <CButton
-                  color="light"
-                  variant="outline"
-                  size="lg"
-                >
+                <p>no tienes cuenta? que esperas, unetenos ya!</p>
+                <CButton color="light" variant="outline" size="lg">
                   Crear cuenta!
                 </CButton>
               </CCardBody>
@@ -55,50 +61,46 @@
           </CCardGroup>
         </CCol>
       </CRow>
+      <CAlert color="warning" v-if="error" style="margin-top:1rem">
+        {{ error }}
+      </CAlert>
     </CContainer>
   </div>
 </template>
 
 
 <script>
+//import { ref } from "@vue/composition-api";
+import firebase from "firebase";
 export default {
-  name: 'Login',
-   
-   data() {
-     return {
-       login: false,
-      admin: false,
-     }
-   },
-
-  methods: {
-    log (){
-      console.log(this.login);
-      this.login=!this.login;
-      console.log(this.login);
-      this.admin=!this.admin;
-      let a= this.login;
-      let b= this.admin;
-      this.$emit('getLogin',{login: a,admin: b});
-    }
+  name:'Login',
+  data() {
+    return {
+      name: "Login",
+      email: '',
+      password: '',
+      error: '',
+    };
   },
- 
-}
+  methods: {
+    Login() {
+      this.error = "";
+      if (this.email && this.password) {
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.password)
+          .then((data) => console.log(data))
+          .catch((err) => {this.error=err.message});
+      } else {
+        this.error = "todos los campos son requeridos";
+      }
+    },
+  },
+};
 </script>
-<style scoped>
-  a{
-    color: white;
-  }
-  .CButon{
-    color: white  !important;
-  }
-  .CLink{
-    
-    color: white  !important;
-  }
-  .body{
-      margin: 0;
-      background: rgb(117,230,212);
-      background: linear-gradient(180deg, rgba(117,230,212,1) 11%, rgba(117,169,230,1) 84%);
-  }
+<style>
+.body {
+  margin-top: -11rem!important;
+}
+
 </style>

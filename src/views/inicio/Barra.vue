@@ -48,7 +48,7 @@ export default {
 
  
 
-<style scoped src='@/assets/css/styles.css' >
+<style  >
 nav {
     margin: 0.5% !important;
     background-color: rgba(99, 111, 131,0.8);

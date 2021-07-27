@@ -17,7 +17,7 @@
              <div >
               <CForm >
                 <h4>Bread Basket</h4><br>
-                <Crow class=" container-fluid">  
+                <CRow class=" container-fluid">  
                   <CContainer class="w3-text-grey  justify-content-between">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, incidunt a?  </p>
                         <CButton   variant="outline"  color="dark" @click.prevent="incrementar" flex > + {{precio}}$</CButton>
@@ -25,18 +25,18 @@
                         <img src="https://images.freejpg.com.ar/400/0105/hamburger-dinner-meal-food-beef-bottle-bread-F100023594.jpg" alt="">   
                   </CContainer>
                   
-                </Crow> <br>
+                </CRow> <br>
                 <h4>Bread Basket</h4><br>
-                <Crow class=" container-fluid">  
+                <CRow class=" container-fluid">  
                   <CContainer class="w3-text-grey  justify-content-between">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, incidunt a?  </p>
                          <img src="https://images.freejpg.com.ar/400/0105/hamburger-dinner-meal-food-beef-bottle-bread-F100023594.jpg" alt="">  
                         <CButton  class="btn" variant="outline"  color="dark" @click.prevent="incrementar" flex > + {{precio}}$</CButton>
                         <CButton   variant="outline"  color="dark" @click.prevent="decrementar" flex > - {{precio}}$</CButton>
                   </CContainer>
-                </Crow> <br>
+                </CRow> <br>
                 <h4>Bread Basket</h4><br>
-                <Crow class=" container-fluid">  
+                <CRow class=" container-fluid">  
                   <CContainer class="w3-text-grey  justify-content-between">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, incidunt a?  </p>
                         <CButton   variant="outline"  color="dark" @click.prevent="incrementar" flex > + {{precio}}$</CButton>
@@ -44,16 +44,16 @@
                         <img src="https://images.freejpg.com.ar/400/0105/hamburger-dinner-meal-food-beef-bottle-bread-F100023594.jpg" alt="">   
                   </CContainer>
                   
-                </Crow> <br>
+                </CRow> <br>
                 <h4>Bread Basket</h4><br>
-                <Crow class=" container-fluid">  
+                <CRow class=" container-fluid">  
                   <CContainer class="w3-text-grey  justify-content-between">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, incidunt a?  </p>
                          <img src="https://images.freejpg.com.ar/400/0105/hamburger-dinner-meal-food-beef-bottle-bread-F100023594.jpg" alt="">  
                         <CButton  class="btn" variant="outline"  color="dark" @click.prevent="incrementar" flex > + {{precio}}$</CButton>
                         <CButton   variant="outline"  color="dark" @click.prevent="decrementar" flex > - {{precio}}$</CButton>
                   </CContainer>
-                </Crow> <br>
+                </CRow> <br>
                 
            
               

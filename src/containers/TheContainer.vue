@@ -1,23 +1,23 @@
 
 <template>
-<div>
-   
-  <TheSidebar/>
+  <div>
+    <TheSidebar />
     <CWrapper>
       <TheHeader />
       <div class="c-body">
         <main class="c-main">
-          <h1> {{$store.state.login}}</h1>
           <CContainer fluid>
-            <transition name="fade" mode="out-in">
-              <router-view></router-view>
-            </transition>
+            <div class="main-container">
+              <transition name="fade" mode="out-in">
+                <router-view></router-view>
+              </transition>
+            </div>
           </CContainer>
         </main>
       </div>
       <TheFooter />
     </CWrapper>
-</div>
+  </div>
 </template>
 <script>
 import TheSidebar from "./TheSidebar";
@@ -31,9 +31,8 @@ export default {
 
   data() {
     return {
-      value:true
+      value: true,
     };
-    
   },
   components: {
     TheSidebar,
@@ -43,10 +42,14 @@ export default {
     //Home,
   },
 };
-//src='@/assets/css/styles.css'
+
 </script>
 
-<style >
+<style scoped >
+.main-container {
+  margin-top: 5rem;
+  height: auto;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s;

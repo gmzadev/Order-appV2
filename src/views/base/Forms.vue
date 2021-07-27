@@ -184,7 +184,7 @@
                 placeholder="Please select"
                 disabled
               />
-              <template v-for="(name, key) in checkboxNames">
+              <template v-for="(name, key) in checkboxNames" >
                 <CRow form class="form-group" :key="name">
                   <CCol tag="label" sm="3" class="col-form-label">
                     {{name}}
