@@ -26,7 +26,7 @@
                   type="number"
                 >
                   <template #prepend-content>
-                    <select v-model="seleccionado" class="forma" >
+                    <select v-model="seleccionado" class="forma">
                       <option value="V-" selected>V-</option>
                       <option value="E-">E-</option>
                       <option value="J-">J-</option>
@@ -102,17 +102,18 @@
 <script>
 //import { onBeforeMount } from "vue";
 import firebase from "firebase";
+import {db,usuarios} from "@/main.js";
 export default {
   name: "Register",
   methods: {
     Register() {
-      let join="";
-      console.log(this.cedula)
+      let join = "";
+      console.log(this.cedula);
       join = this.seleccionado + this.cedula;
       this.cedula = join;
-      console.log(this.cedula)
+      console.log(this.cedula);
       this.error = "";
-      join=""
+      join = "";
       if (
         this.email &&
         this.password &&
@@ -131,6 +132,20 @@ export default {
               .auth()
               .createUserWithEmailAndPassword(this.email, this.password)
               .then((user) => {
+                db.collection("Usuarios")
+                  .doc(this.email).set({
+                    Nombre: this.name,
+                    Correo: this.email,
+                    Cedula: this.cedula,
+                    Telefono: this.telefono,
+                    nivelUsuario: "cliente",
+                  })
+                  .then((docRef) => {
+                    console.log("Document written with ID: ", docRef.id);
+                  })
+                  .catch((error) => {
+                    console.error("Error adding document: ", error);
+                  });
                 this.name = "";
                 this.email = "";
                 this.password = "";
@@ -175,13 +190,17 @@ export default {
       ],
     };
   },
+  /*created (){
+    console.log(usuarios)
+    console.log(this.$store.state.user.email)//optener el email del usuario
+  }*/
 };
 </script>
 <style >
 .body {
   margin: -1rem !important;
 }
-.forma{
-  font-size: 0.8rem;
+.forma {
+  font-size: 0.8rem !important;
 }
 </style>

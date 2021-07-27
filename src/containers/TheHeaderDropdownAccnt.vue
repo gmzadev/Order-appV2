@@ -87,7 +87,9 @@ export default {
   methods: {
     logout(){
       firebase.auth().signOut().then(()=>{
+        this.$store.commit('set', ['user', this.user])
         this.$router.push({name:'Home'})
+
       })
     }
   },

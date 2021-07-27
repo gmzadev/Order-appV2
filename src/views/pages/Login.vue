@@ -61,7 +61,7 @@
           </CCardGroup>
         </CCol>
       </CRow>
-      <CAlert color="warning" v-if="error" style="margin-top:1rem">
+      <CAlert color="warning" v-if="error" style="margin-top: 1rem">
         {{ error }}
       </CAlert>
     </CContainer>
@@ -73,13 +73,13 @@
 //import { ref } from "@vue/composition-api";
 import firebase from "firebase";
 export default {
-  name:'Login',
+  name: "Login",
   data() {
     return {
       name: "Login",
-      email: '',
-      password: '',
-      error: '',
+      email: "",
+      password: "",
+      error: "",
     };
   },
   methods: {
@@ -90,18 +90,27 @@ export default {
           .auth()
           .signInWithEmailAndPassword(this.email, this.password)
           .then((data) => console.log(data))
-          .catch((err) => {this.error=err.message});
-          this.$router.push({name:'Dashboard'})
+          .catch((err) => {
+            this.error = err.message;
+          });
+        this.$router
+          .push({ name: "Dashboard" })
+          .then((data) => console.log(data))
+          .catch((err) => {
+            this.error = err.message;
+          });
       } else {
         this.error = "todos los campos son requeridos";
       }
     },
   },
+  created() {
+    console.log("creado login");
+  },
 };
 </script>
 <style>
 .body {
-  margin-top: -11rem!important;
+  margin-top: -11rem !important;
 }
-
 </style>

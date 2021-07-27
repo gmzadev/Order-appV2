@@ -5,7 +5,7 @@ const state = {
   sidebarShow: 'responsive',
   sidebarMinimize: false,
   login:true,
-  user:{}
+  user:null
 }
 
 const mutations = {

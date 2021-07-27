@@ -54,16 +54,16 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(ruta => ruta.meta.requiresAuth)){
-    const user = firebase.auth().currentUser;
-    if (user) {
-     // $store.commit('set', 'user', user)
-      next();
-    } else {
-      next({
-        name: 'Login'
-      })
-    }
+  if (to.matched.some(ruta => ruta.meta.requiresAuth)) {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        next();
+      } else {
+        next({
+          name: 'Login'
+        })
+      }
+    });
   } else {
     next();
   }
@@ -74,12 +74,12 @@ function configRoutes() {
   return [
     {
       path: '/',
-      redirect: '/dashboard',
-      name: 'dashboard',
+      redirect: '/home',
+      name: 'TheContainer',
       component: TheContainer,
       children: [
 
-        {//este es la ruta de home parqa usuarios sin iniciar sesion1
+        {//este es la ruta de home para usuarios sin iniciar sesion1
           path: '/inicio',
           redirect: '/home',
           name: 'inicio',
@@ -137,7 +137,7 @@ function configRoutes() {
           path: 'dashboard', //dashboar  @funciont admin 
           name: 'Dashboard',
           component: Dashboard,
-        meta: { requiresAuth: true/*, admin: true*/ }
+          meta: { requiresAuth: true/*, admin: true*/ }
 
         },
         {
@@ -155,7 +155,7 @@ function configRoutes() {
               path: '',
               name: 'Users',
               component: Users,
-              meta: { requiresAuth: true, admin: true }
+              meta: { requiresAuth: true/*, admin: true*/ }
             },
             {
               path: ':id',
@@ -182,7 +182,7 @@ function configRoutes() {
               path: '',
               name: 'Ordenes',
               component: Ordenes,
-              meta: { requiresAuth: true, admin: true }
+              meta: { requiresAuth: true/*, admin: true*/ }
             },
             {
               path: ':id',
@@ -214,7 +214,7 @@ function configRoutes() {
               path: 'platos',
               name: 'Platos',
               component: Platos,
-              meta: { requiresAuth: true, admin: true }
+              meta: { requiresAuth: true/*, admin: true*/ }
 
             },
 
@@ -228,7 +228,7 @@ function configRoutes() {
               path: 'inventario',
               name: 'Inventario',
               component: Inventario,
-              meta: { requiresAuth: true, admin: true }
+              meta: { requiresAuth: true/*, admin: true*/ }
 
             },
             {
