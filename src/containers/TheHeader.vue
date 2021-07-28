@@ -3,11 +3,13 @@
     <div>
       <CHeader with-subheader light fixed>
         <CToggler
+          v-if="$store.state.user"
           in-header
           class="mr-3 d-lg-none justify-content-between"
           @click="$store.commit('toggleSidebarMobile')"
         />
         <CToggler
+          v-if="$store.state.user"
           v
           in-header
           class="ml-5 d-lg-down-none justify-content-between"
@@ -15,12 +17,18 @@
         />
 
         <CHeaderNav class="d-md-down-none mr-auto">
-          <!--<CHeaderNavItem class="px-3">
-          <CHeaderNavLink>
-            Ajustes
-          </CHeaderNavLink>-->
+          <CHeaderNavItem style="margin-left: 15px">
+            <router-link class="navbar-brand" to="/home">
+              <img class="img-fluid iconos" :src="iconosirenita" :alt="text1" />
+            </router-link>
+          </CHeaderNavItem>
         </CHeaderNav>
-        <CHeaderNav class="align-self-md-end pl-4">
+        <CHeaderNav class="d-md-down-none titulos">
+          <CHeaderNavItem style="margin-left: 12vw">
+              <h3>La Sirenita Deli Expreess</h3>
+          </CHeaderNavItem>
+        </CHeaderNav>
+        <CHeaderNav class="align-self-md-end pl-4 ml-auto">
           <!-- <CHeaderNavItem class="d-md-down-none mx-2">
           <CHeaderNavLink>
             <CIcon name="cil-bell"/>
@@ -36,13 +44,26 @@
             <CIcon name="cil-envelope-open"/>
           </CHeaderNavLink>
         </CHeaderNavItem>-->
-          <div v-if="$store.state.user" class="listaCuenta">
+          <div v-if="!$store.state.user">
+            <CHeaderNavItem class="px-1">
+              <CHeaderNavLink to="/pages/Register">
+                <div class="titulosnaviten">Registrarse</div>
+                <i class="fa fa-user-plus px-1" aria-hidden="true"></i>
+              </CHeaderNavLink>
+            </CHeaderNavItem>
+          </div>
+          <div v-if="!$store.state.user">
+            <CHeaderNavItem class="px-1">
+              <CHeaderNavLink to="/pages/Login">
+                <div class="titulosnaviten">Iniciar Sesion</div>
+                <i class="fa fa-sign-in px-1" aria-hidden="true" />
+              </CHeaderNavLink>
+            </CHeaderNavItem>
+          </div>
+          <div v-if="$store.state.user" class="">
             <TheHeaderDropdownAccnt />
           </div>
         </CHeaderNav>
-        <!-- <CSubheader class="px-3">
-        <CBreadcrumbRouter class="border-0 mb-0"/>
-      </CSubheader>-->
       </CHeader>
     </div>
   </div>
@@ -64,14 +85,13 @@ export default {
     TheHeaderDropdownAccnt,
   },
   methods: {},
-
 };
 </script>
 <style scoped>
 .c-header {
   position: fixed !important;
 }
-.listaCuenta{
+.listaCuenta {
   padding-left: 6rem !important;
 }
 </style>

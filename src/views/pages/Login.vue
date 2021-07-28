@@ -1,5 +1,4 @@
 <template>
-  <div class="c-app flex-row align-items-center body">
     <CContainer>
       <CRow class="justify-content-center">
         <CCol md="8">
@@ -12,6 +11,7 @@
                   <CInput
                     placeholder="Nombre de usuario"
                     autocomplete="correo"
+                    class="texto"
                     v-model="email"
                   >
                     <template #prepend-content
@@ -23,6 +23,7 @@
                     type="password"
                     autocomplete="Contraseña"
                     v-model="password"
+                    class="texto"
                   >
                     <template #prepend-content
                       ><CIcon name="cil-lock-locked"
@@ -30,13 +31,15 @@
                   </CInput>
                   <CRow>
                     <CCol col="6" class="text-left">
-                      <input type="submit" value="Iniciar Sesion" />
+                      <CButton  variant="outline" type="submit" value="Iniciar Sesion"  class="btn-secondary">
+                        Iniciar Sesion
+                        </CButton> 
                     </CCol>
-                    <CCol col="6" class="text-right">
+                    <CCol col="6" class="text-right texto">
                       <CButton color="link" class="px-0"
                         >olvidaste tu contraseña?</CButton
                       >
-                      <CButton color="link" class="d-lg-none"
+                      <CButton color="link" class="d-lg-none texto"
                         >Registrate ahora!</CButton
                       >
                     </CCol>
@@ -47,13 +50,13 @@
             <CCard
               color="primary"
               text-color="white"
-              class="text-center py-5 d-md-down-none"
+              class="text-center py-5 d-md-down-none fondo-registrate texto"
               body-wrapper
             >
-              <CCardBody>
+              <CCardBody >
                 <h2>Registrate</h2>
                 <p>no tienes cuenta? que esperas, unetenos ya!</p>
-                <CButton color="light" variant="outline" size="lg">
+                <CButton class="texto" color="light" variant="outline" size="lg">
                   Crear cuenta!
                 </CButton>
               </CCardBody>
@@ -65,7 +68,6 @@
         {{ error }}
       </CAlert>
     </CContainer>
-  </div>
 </template>
 
 
@@ -110,6 +112,11 @@ export default {
 };
 </script>
 <style>
+.fondo-registrate{
+  background-image: url(https://i.imgur.com/JyszCWs.jpg);
+  background-size:100%;
+  }
+
 .body {
   margin-top: -11rem !important;
 }

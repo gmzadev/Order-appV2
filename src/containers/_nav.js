@@ -2,11 +2,11 @@ export default [
   {
     _name: 'CSidebarNav',
     _children: [
-      
+
       {
         _name: 'CSidebarNavTitle',
         _children: ['Administrativo'],
-        
+
       },
       {
         _name: 'CSidebarNavItem',
@@ -45,12 +45,12 @@ export default [
         icon: 'cil-file',
       },
       {
-      _name: 'CSidebarNavItem',
-      name: 'Ordenes',
-      to: '/Ordenes',//aqui esta la ruta para ordenes
-      icon: 'cil-inbox'
+        _name: 'CSidebarNavItem',
+        name: 'Ordenes',
+        to: '/Ordenes',//aqui esta la ruta para ordenes
+        icon: 'cil-inbox'
       },
-     {
+      {
         _name: 'CSidebarNavItem',
         route: '/base',
         name: 'Comprar',
@@ -84,36 +84,7 @@ export default [
         to: '/widgets',
         icon: '',
       },
-      {
-        _name: 'CSidebarNavDivider',
-        _class: 'm-2'
-      },*/
-      {
-        _name: 'CSidebarNavDropdown',
-        name: 'Pages',
-        route: '/pages',
-        icon: 'cil-star',
-        items: [
-          {
-            name: 'Login',
-            to: '/pages/login'
-          },
-          {
-            name: 'Register',
-            to: '/pages/register'
-          },
-          {
-            name: 'Error 404',
-            to: '/pages/404'
-          },
-          {
-            name: 'Error 500',
-            to: '/pages/500'
-          }
-
-        ]
-      }
-    
+      */
 
     ]
   }

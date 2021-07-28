@@ -64,7 +64,11 @@ export default {
 <style scoped >
 .main-container {
   margin-top: 5rem;
-  height: auto;
+  justify-content: center;
+  
+}
+.c-main{
+  background-color: tomato;
 }
 .fade-enter-active,
 .fade-leave-active {

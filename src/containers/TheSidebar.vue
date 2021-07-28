@@ -1,5 +1,6 @@
 <template>
   <CSidebar 
+    
     fixed 
     :minimize="minimize"
     :show="show"

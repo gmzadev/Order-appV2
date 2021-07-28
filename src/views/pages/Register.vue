@@ -9,17 +9,19 @@
             <CCardBody class="p-4">
               <CForm @submit.prevent="Register">
                 <h1>Registrate</h1>
-                <p class="text-muted">Create tu cuenta</p>
+                <p class="text-muted forma">Create tu cuenta</p>
                 <CInput
                   placeholder="Nombre de Usuario"
                   autocomplete="Nombre de Usuario"
                   v-model="name"
+                  class="forma"
                 >
                   <template #prepend-content
                     ><CIcon name="cil-user"
                   /></template>
                 </CInput>
                 <CInput
+                class="forma"
                   placeholder="Cedula"
                   autocomplete="Cedula"
                   v-model="cedula"
@@ -34,12 +36,14 @@
                   </template>
                 </CInput>
                 <CInput
+                class="forma"
                   placeholder="Correo Electrónico"
                   autocomplete="Correo Electrónico"
                   prepend="@"
                   v-model="email"
                 />
                 <CInput
+                class="forma"
                   placeholder="Telefono"
                   autocomplete="Telefono"
                   type="number"
@@ -50,6 +54,7 @@
                   /></template>
                 </CInput>
                 <CInput
+                class="forma"
                   placeholder="Password"
                   type="password"
                   autocomplete="new-password"
@@ -60,17 +65,18 @@
                   /></template>
                 </CInput>
                 <CInput
+                
                   placeholder="Repeat password"
                   type="password"
                   autocomplete="new-password"
-                  class="mb-4"
+                  class="mb-4 forma"
                   v-model="password2"
                 >
                   <template #prepend-content
                     ><CIcon name="cil-lock-locked"
                   /></template>
                 </CInput>
-                <CButton color="success" block type="submit"
+                <CButton class="forma" color="success" block type="submit"
                   >Crear Cuenta</CButton
                 >
               </CForm>
@@ -202,5 +208,6 @@ export default {
 }
 .forma {
   font-size: 0.8rem !important;
+  font-family: 'Poppins', sans-serif;
 }
 </style>

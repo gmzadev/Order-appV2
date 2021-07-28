@@ -1,1 +1,29 @@
 // Here you can add other styles
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Noto+Sans+JP&family=Open+Sans&family=Poppins:wght@500&family=Roboto&display=swap');
+/*font-family: 'Lato', sans-serif;
+font-family: 'Montserrat', sans-serif;
+font-family: 'Noto Sans JP', sans-serif;
+font-family: 'Open Sans', sans-serif;
+font-family: 'Poppins', sans-serif;
+font-family: 'Roboto', sans-serif;*/
+.titulosnaviten{
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+
+}
+p{
+    font-size: 0.8rem !important;
+    font-family: 'Poppins', sans-serif;
+}
+a{
+    font-size: 0.8rem !important;
+    font-family: 'Poppins', sans-serif;
+}
+.texto{
+    font-size: 0.8rem !important;
+    font-family: 'Poppins', sans-serif;
+}
+.iconos{
+    height: 7vh;
+    border-radius: 5%;
+}
