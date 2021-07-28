@@ -21,7 +21,7 @@
                   /></template>
                 </CInput>
                 <CInput
-                class="forma"
+                  class="forma"
                   placeholder="Cedula"
                   autocomplete="Cedula"
                   v-model="cedula"
@@ -36,14 +36,14 @@
                   </template>
                 </CInput>
                 <CInput
-                class="forma"
+                  class="forma"
                   placeholder="Correo Electrónico"
                   autocomplete="Correo Electrónico"
                   prepend="@"
                   v-model="email"
                 />
                 <CInput
-                class="forma"
+                  class="forma"
                   placeholder="Telefono"
                   autocomplete="Telefono"
                   type="number"
@@ -54,7 +54,7 @@
                   /></template>
                 </CInput>
                 <CInput
-                class="forma"
+                  class="forma"
                   placeholder="Password"
                   type="password"
                   autocomplete="new-password"
@@ -65,7 +65,6 @@
                   /></template>
                 </CInput>
                 <CInput
-                
                   placeholder="Repeat password"
                   type="password"
                   autocomplete="new-password"
@@ -108,16 +107,15 @@
 <script>
 //import { onBeforeMount } from "vue";
 import firebase from "firebase";
-import {db} from "@/main.js";
+
+import { db } from "@/main.js";
 export default {
   name: "Register",
   methods: {
     Register() {
       let join = "";
-      console.log(this.cedula);
       join = this.seleccionado + this.cedula;
       this.cedula = join;
-      console.log(this.cedula);
       this.error = "";
       join = "";
       if (
@@ -139,7 +137,8 @@ export default {
               .createUserWithEmailAndPassword(this.email, this.password)
               .then((user) => {
                 db.collection("Usuarios")
-                  .doc(this.email).set({
+                  .doc(this.email)
+                  .set({
                     Nombre: this.name,
                     Correo: this.email,
                     Cedula: this.cedula,
@@ -208,6 +207,6 @@ export default {
 }
 .forma {
   font-size: 0.8rem !important;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <CHeader with-subheader light fixed>
+      <CHeader light fixed class="navbar navbar-expand-lg">
         <CToggler
           v-if="$store.state.user"
           in-header
@@ -12,22 +12,25 @@
           v-if="$store.state.user"
           v
           in-header
-          class="ml-5 d-lg-down-none justify-content-between"
+          class="ml-4 d-lg-down-none justify-content-between"
           @click="$store.commit('toggleSidebarDesktop')"
         />
 
-        <CHeaderNav class="d-md-down-none mr-auto">
+        <CHeaderNav class="col ml-auto ">
           <CHeaderNavItem style="margin-left: 15px">
             <router-link class="navbar-brand" to="/home">
               <img class="img-fluid iconos" :src="iconosirenita" :alt="text1" />
             </router-link>
           </CHeaderNavItem>
         </CHeaderNav>
-        <CHeaderNav class="d-md-down-none titulos">
-          <CHeaderNavItem style="margin-left: 12vw">
-              <h3>La Sirenita Deli Expreess</h3>
+        <CHeaderNav class=" col ml-auto container-fluid col-md-auto collapse navbar-collapse ">
+          <CHeaderNavItem style="margin-left:50vh">
+            <h3>La Sirenita Deli Expreess</h3>
           </CHeaderNavItem>
         </CHeaderNav>
+        <!--<CHeaderNav class="d-md-down-none titulos">
+          
+        </CHeaderNav>-->
         <CHeaderNav class="align-self-md-end pl-4 ml-auto">
           <!-- <CHeaderNavItem class="d-md-down-none mx-2">
           <CHeaderNavLink>
@@ -44,6 +47,7 @@
             <CIcon name="cil-envelope-open"/>
           </CHeaderNavLink>
         </CHeaderNavItem>-->
+
           <div v-if="!$store.state.user">
             <CHeaderNavItem class="px-1">
               <CHeaderNavLink to="/pages/Register">

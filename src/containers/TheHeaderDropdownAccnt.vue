@@ -81,7 +81,7 @@ export default {
   data () {
     return { 
       itemsCount: 42,
-       UserName: 'Alexandra Medina'
+       UserName: this.$store.state.user
     }
   },
   methods: {

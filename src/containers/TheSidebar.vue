@@ -1,6 +1,6 @@
 <template>
   <CSidebar 
-    
+    v-if="this.$store.state.user"
     fixed 
     :minimize="minimize"
     :show="show"

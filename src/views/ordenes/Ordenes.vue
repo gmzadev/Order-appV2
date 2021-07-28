@@ -1,9 +1,9 @@
 <template>
   <CRow>
-    <CCol col="12" xl="8">
+    <CCol >
       <CCard>
         <CCardHeader>
-          Users
+          Ordenes
         </CCardHeader>
         <CCardBody>
           <CDataTable
@@ -43,7 +43,6 @@ export default {
       fields: [
         { key: 'Nombre', label: 'Nombre', _classes: 'font-weight-bold' },
         { key: 'Fecha', label:'Fecha de pago' },
-        { key: 'Referencia' },
         {key: 'Tipo',label:'Tipo'}
       ],
       activePage: 1

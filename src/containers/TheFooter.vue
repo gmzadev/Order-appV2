@@ -1,12 +1,10 @@
 <template>
-  <CFooter :fixed="false">
-    <div>
+  <CFooter :fixed="false" class="navbar navbar-expand-lg">
+    <div class="container-fluid col-md-auto collapse navbar-collapse">
       <a href="https://www.disclaimergenerator.net/live.php?token=cW5TdW1uz8gRk1npy6kuYayB9MNYMD2y" target="_blank">Sirenita Deli Espress, J-301368150</a>
-      <span class="ml-1"> {{new Date().getFullYear()}} Universidad de Margqarita&copy;</span>
-    </div>
-    <div class="mfs-auto">
-      <span class="mr-1" target="_blank">Powered by</span>
-      <a href="https://coreui.io/vue">CoreUI for Vue</a>
+      <span class="texto">realizado como trabajo de grado para obtar por el titulo de ingenieria de sistemas, por Gabriel Medina
+</span>
+      <span class="ml-1">  Universidad de Margqarita, J-30660040-0. &copy; {{new Date().getFullYear()}}</span>
     </div>
   </CFooter>
 </template>

@@ -1,9 +1,9 @@
 <template>
   <CRow>
-    <CCol col="12" xl="8">
+    <CCol>
       <CCard>
         <CCardHeader>
-          Users
+          Pagos Pendientes
         </CCardHeader>
         <CCardBody>
           <CDataTable

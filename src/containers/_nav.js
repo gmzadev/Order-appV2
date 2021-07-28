@@ -2,11 +2,18 @@ export default [
   {
     _name: 'CSidebarNav',
     _children: [
-
       {
         _name: 'CSidebarNavTitle',
         _children: ['Administrativo'],
 
+      },
+      {
+        _name: 'CSidebarNavItem',
+        show: false,
+        route: '/Dasboard',
+        name: 'Dashboard',
+        to:'/Dashboard',
+        icon: 'cil-speedmeter'
       },
       {
         _name: 'CSidebarNavItem',
@@ -37,16 +44,10 @@ export default [
         to: '/base/Platos'
 
       },
+    
       {
         _name: 'CSidebarNavItem',
-        name: 'Reservaciones',
-        route: '/base',
-        to: '/base/Reservaciones',
-        icon: 'cil-file',
-      },
-      {
-        _name: 'CSidebarNavItem',
-        name: 'Ordenes',
+        name: 'Órdenes',
         to: '/Ordenes',//aqui esta la ruta para ordenes
         icon: 'cil-inbox'
       },

@@ -7,7 +7,6 @@ import CoreuiVue from '@coreui/vue'
 import { iconsSet as icons } from './assets/icons/icons.js'
 import store from './store'
 import firebase from 'firebase'
-import firestore from 'firebase/firestore'
 import 'firebase/analytics'
 import './registerServiceWorker'
 
@@ -30,6 +29,7 @@ firebase.firestore().settings({ timestampInSnapshots: true })
 //variables de firebase y vue
 var db = firebase.firestore();
 var usuarios=[];
+var inventario=[];
 //funcion que llena el array de usuarios con los documentos de la coleccion de usuario
 db.collection("Usuarios").onSnapshot((querySnapshot) => {
   querySnapshot.forEach((doc) => {
@@ -43,12 +43,24 @@ db.collection("Usuarios").onSnapshot((querySnapshot) => {
       usuarios.push(usuario);
   });
 });
+//funcion que llena el arreglo de inventarios
+db.collection("Inventario").onSnapshot((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+      var   iten ={
+        nombre:doc.data().Nombre,
+        itenID:doc.data().itenID,
+        existencia:doc.data().Existencia,
+        fecha:doc.data().Fecha,
+      }
+      inventario.push(iten);
+  });
+});
 Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.prototype.$log = console.log.bind(console)
 
 
-export {usuarios, db}
+export {usuarios, db,inventario}
 new Vue({
   el: '#app',
   router,
