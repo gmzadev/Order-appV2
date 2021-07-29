@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex border-dark justify-content-center row " style="margin:1%">
       <div class="card body ">
-        <div class="card-header"><h3 class="h7">Contactenos</h3></div>
+        <div class="card-header center"><h3 class="h7">Contactenos</h3></div>
         <div class="card-body text-dark">
           <h5 class="h7"><i class="fa fa-phone"> Telefonos </i></h5>
            <hr>

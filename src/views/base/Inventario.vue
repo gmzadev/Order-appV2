@@ -21,17 +21,24 @@
                 name=""
                 value=""
                 placeholder="Nombre"
+                size="lg"
               >
                 <template #append-content>
                   <CButton
-                    flex
                     color="dark"
                     variant="outline"
                     type="submit"
-                    style="padding: 3%"
+                    style="height:25px !important ; width:10px; display: flex;align-items: center; justify-content:center"
                   >
-                    <i class="cil-search" style="" />
+                    <i class="fas fa-search fa-xs"></i>
                   </CButton>
+                </template>
+                <template #prepend-content class="forma-div">
+                  <select v-model="seleccionado" class="forma center form-select">
+                    <option selected value="Codigo"  style="height:25px !important ;">Codigo</option>
+                    <option value="Nombre">Nombre</option>
+                    <option value="Fecha">Fecha</option>
+                  </select>
                 </template>
               </CInput>
             </CForm>
@@ -48,7 +55,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(iten,index) in intens" :key="index" id="tabla">
+                <tr v-for="(iten, index) in intens" :key="index" id="tabla">
                   <th scope="row">{{ iten.itenID }}</th>
                   <td>{{ iten.nombre }}</td>
                   <td>{{ iten.existencia }}</td>
@@ -103,9 +110,9 @@
                 <CButton variant="outline" disabled color="danger" flex
                   >Eliminar</CButton
                 >
-                <CButton  type="submit" variant="outline" color="success" flex
-                  >Crear </CButton
-                >
+                <CButton type="submit" variant="outline" color="success" flex
+                  >Crear
+                </CButton>
               </div>
             </CForm>
           </div>
@@ -123,7 +130,7 @@ import { db, inventario } from "@/main.js";
 export default {
   name: "Inventario",
   methods: {
-    rerender (){
+    rerender() {
       location.reload();
     },
     agregarIten() {
@@ -140,6 +147,8 @@ export default {
           })
           .then((docRef) => {
             console.log("Document written with ID: ", docRef.id);
+            this.intens = [];
+            inventario = [];
           })
           .catch((error) => {
             console.error("Error adding document: ", error);
@@ -147,12 +156,12 @@ export default {
       } else {
         this.error = "todos los campos son requeridos";
       }
-      
     },
   },
   data() {
     return {
-      itenID: inventario.length,
+      seleccionado:"Codigo",
+      itenID: inventario.length + 1,
       nombre: "",
       existencia: "",
       fecha: "",
@@ -161,13 +170,12 @@ export default {
     };
   },
   mounted() {
-    inventario=[];
     console.log(inventario.length + 1);
   },
-  destroyed(){
-    inventario=[];
-    
+  destroyed() {
+    this.intens = [];
   },
+  
 };
 </script>
 

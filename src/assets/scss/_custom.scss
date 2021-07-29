@@ -1,29 +1,45 @@
 // Here you can add other styles
-@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Noto+Sans+JP&family=Open+Sans&family=Poppins:wght@500&family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Noto+Sans+JP&family=Open+Sans&family=Poppins:wght@500&family=Roboto&display=swap");
 /*font-family: 'Lato', sans-serif;
 font-family: 'Montserrat', sans-serif;
 font-family: 'Noto Sans JP', sans-serif;
 font-family: 'Open Sans', sans-serif;
 font-family: 'Poppins', sans-serif;
 font-family: 'Roboto', sans-serif;*/
-.titulosnaviten{
-    font-family: 'Roboto', sans-serif;
-    font-size: 1rem;
-
+.forma {
+  font-size: 0.8rem !important;
+  font-family: "Poppins", sans-serif;
 }
-p{
-    font-size: 0.8rem !important;
-    font-family: 'Poppins', sans-serif;
+.forma-div{
+  height: 15vh!important;
+  font-size: 15px;
 }
-a{
-    font-size: 0.8rem !important;
-    font-family: 'Poppins', sans-serif;
+.titulosnaviten {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
 }
-.texto{
-    font-size: 0.8rem !important;
-    font-family: 'Poppins', sans-serif;
+.titulosnavitenG {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
 }
-.iconos{
-    height: 7vh;
-    border-radius: 5%;
+p {
+  font-size: 1rem !important;
+  font-family: "Poppins", sans-serif;
+}
+a {
+  font-size: 1rem !important;
+  font-family: "Poppins", sans-serif;
+}
+.texto {
+  font-size: 0.8rem !important;
+  font-family: "Poppins", sans-serif;
+}
+.iconos {
+      max-height: 5.8vh!important;
+      border-radius: 5%;
+      justify-content: center;
+}
+.center {
+  text-align: center !important;
+  justify-content: center;
 }

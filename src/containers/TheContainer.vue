@@ -50,7 +50,6 @@ export default {
       if (user) {
         this.user = user;
         this.$store.commit("set", ["user", this.user.email]);
-        console.log(this.$store.state.user)
       } else {
         this.user = null;
       }
@@ -68,7 +67,7 @@ export default {
   
 }
 .c-main{
-  background-color: tomato;
+  background-color: rgb(245, 156, 83);
 }
 .fade-enter-active,
 .fade-leave-active {

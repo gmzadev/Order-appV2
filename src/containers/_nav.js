@@ -13,7 +13,7 @@ export default [
         route: '/Dasboard',
         name: 'Dashboard',
         to:'/Dashboard',
-        icon: 'cil-speedmeter'
+        icon: 'cil-speedometer'
       },
       {
         _name: 'CSidebarNavItem',

@@ -147,6 +147,7 @@ export default {
                   })
                   .then((docRef) => {
                     console.log("Document written with ID: ", docRef.id);
+                    this.$router.push({path: '/'})
                   })
                   .catch((error) => {
                     console.error("Error adding document: ", error);
@@ -157,7 +158,6 @@ export default {
                 this.password2 = "";
                 this.telefono = "";
                 this.cedula = "";
-                console.log(user);
               })
               .catch((err) => {
                 this.error = err.messag3e;
@@ -171,7 +171,7 @@ export default {
   },
   data() {
     return {
-      seleccionado: "",
+      seleccionado: "V-",
       name: "",
       email: "",
       password: "",
@@ -205,8 +205,5 @@ export default {
 .body {
   margin: -1rem !important;
 }
-.forma {
-  font-size: 0.8rem !important;
-  font-family: "Poppins", sans-serif;
-}
+
 </style>

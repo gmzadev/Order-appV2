@@ -60,7 +60,7 @@ router.beforeEach((to, from, next) => {
         next();
       } else {
         next({
-          name: 'Login'
+          name: 'Home'
         })
       }
     });
@@ -254,12 +254,14 @@ function configRoutes() {
         {
           path: '/pages/login',
           name: 'Login',
-          component: Login
+          component: Login,
+          meta:{requiresAuth: false}
         },
         {
           path: '/pages/register',
           name: 'Register',
-          component: Register
+          component: Register,
+          meta:{requiresAuth: false}
         }
 
 

@@ -1,37 +1,36 @@
 <template>
   <div>
     <div>
-      <CHeader light fixed class="navbar navbar-expand-lg">
+      <CHeader light fixed class="navbar navbar-expand-md">
         <CToggler
           v-if="$store.state.user"
           in-header
-          class="mr-3 d-lg-none justify-content-between"
+          class=" d-lg-none justify-content-between"
           @click="$store.commit('toggleSidebarMobile')"
         />
         <CToggler
           v-if="$store.state.user"
-          v
           in-header
-          class="ml-4 d-lg-down-none justify-content-between"
+          class="d-lg-down-none justify-content-between"
           @click="$store.commit('toggleSidebarDesktop')"
         />
 
-        <CHeaderNav class="col ml-auto ">
+        <CHeaderNav class=" col-sm-auto  collapse navbar-collapse ">
           <CHeaderNavItem style="margin-left: 15px">
             <router-link class="navbar-brand" to="/home">
               <img class="img-fluid iconos" :src="iconosirenita" :alt="text1" />
             </router-link>
           </CHeaderNavItem>
         </CHeaderNav>
-        <CHeaderNav class=" col ml-auto container-fluid col-md-auto collapse navbar-collapse ">
-          <CHeaderNavItem style="margin-left:50vh">
-            <h3>La Sirenita Deli Expreess</h3>
+        <CHeaderNav class=" mr-auto col-sm-auto collapse navbar-collapse  ">
+          <CHeaderNavItem style="margin-left:20vw">
+            <h3 class="titulosnavitenG">La Sirenita Deli Expreess</h3>
           </CHeaderNavItem>
         </CHeaderNav>
         <!--<CHeaderNav class="d-md-down-none titulos">
           
         </CHeaderNav>-->
-        <CHeaderNav class="align-self-md-end pl-4 ml-auto">
+        <CHeaderNav class=" ml-auto">
           <!-- <CHeaderNavItem class="d-md-down-none mx-2">
           <CHeaderNavLink>
             <CIcon name="cil-bell"/>
@@ -47,7 +46,6 @@
             <CIcon name="cil-envelope-open"/>
           </CHeaderNavLink>
         </CHeaderNavItem>-->
-
           <div v-if="!$store.state.user">
             <CHeaderNavItem class="px-1">
               <CHeaderNavLink to="/pages/Register">
@@ -64,7 +62,7 @@
               </CHeaderNavLink>
             </CHeaderNavItem>
           </div>
-          <div v-if="$store.state.user" class="">
+          <div v-if="$store.state.user" class="col-sm-auto">
             <TheHeaderDropdownAccnt />
           </div>
         </CHeaderNav>
@@ -74,6 +72,7 @@
 </template>
 
 <script>
+
 import TheHeaderDropdownAccnt from "./TheHeaderDropdownAccnt";
 //import firebase from "firebase";
 
@@ -92,6 +91,7 @@ export default {
 };
 </script>
 <style scoped>
+
 .c-header {
   position: fixed !important;
 }
