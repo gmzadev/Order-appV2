@@ -26,7 +26,7 @@
             </CButtonGroup>
           </CCol>
         </CRow>
-        <MainChartExample style="height:300px;margin-top:40px;"/>
+        <MainChartExample style="height:300px;margin-top:40px;"/> 
       </CCardBody>
 
     </CCard> 

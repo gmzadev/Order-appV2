@@ -67,7 +67,7 @@ export default {
   
 }
 .c-main{
-  background-color: rgb(245, 156, 83);
+  background-color: rgb(235, 179, 134);
 }
 .fade-enter-active,
 .fade-leave-active {

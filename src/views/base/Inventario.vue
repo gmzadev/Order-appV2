@@ -14,28 +14,42 @@
         </CCardHeader>
         <CCardBody class="container-fluid">
           <div>
-            <CForm>
+            <CForm @click.prevent="">
               <CInput
                 class="barra"
                 type="search"
                 name=""
                 value=""
-                placeholder="Nombre"
+                placeholder=""
                 size="lg"
+                v-model="Barra"
+                @keypress="busqueda"
+                
               >
                 <template #append-content>
                   <CButton
                     color="dark"
                     variant="outline"
                     type="submit"
-                    style="height:25px !important ; width:10px; display: flex;align-items: center; justify-content:center"
+                    @click.prevent="search"
+                    style="
+                      height: 25px !important ;
+                      width: 10px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
                   >
                     <i class="fas fa-search fa-xs"></i>
                   </CButton>
                 </template>
-                <template #prepend-content class="forma-div">
-                  <select v-model="seleccionado" class="forma center form-select">
-                    <option selected value="Codigo"  style="height:25px !important ;">Codigo</option>
+                <template #prepend-content class="">
+                  <select
+                    v-model="seleccionado"
+                    class="forma-div center form-select"
+                    style="height: 25px !important"
+                  >
+                    <option selected value="Codigo">Codigo</option>
                     <option value="Nombre">Nombre</option>
                     <option value="Fecha">Fecha</option>
                   </select>
@@ -47,7 +61,7 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">Codigo de barra</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Existencia</th>
                   <th scope="col">Fecha de Vencimiento</th>
@@ -130,6 +144,45 @@ import { db, inventario } from "@/main.js";
 export default {
   name: "Inventario",
   methods: {
+    /*search() {
+      var aux = [];
+      var i = 0;
+      if (this.Barra) {
+        for (i = 0; i < this.intens.length; i++) {
+          if (this.intens[i].itenID == this.Barra) {
+            console.log(this.intens[i].itenID);
+            aux.push(this.intens[i]);
+          }
+        }
+        this.intens = aux;
+      }
+    },*/
+    search() {
+      var aux = [];
+      var i = 0;
+      if (this.seleccionado == "Codigo") {
+        for (i = 0; i < this.intens.length; i++) {
+          if (this.intens[i].itenID.includes(this.Barra)) {
+            console.log(this.intens[i].itenID);
+            aux.push(this.intens[i]);
+          }
+        }
+      } else if (this.seleccionado == "Nombre") {
+        for (i = 0; i < this.intens.length; i++) {
+          if (this.intens[i].nombre.includes(this.Barra)) {
+            aux.push(this.intens[i]);
+          }
+        }
+      } else {
+        for (i = 0; i < this.intens.length; i++) {
+          if (this.intens[i].fecha.includes(this.Barra)) {
+            aux.push(this.intens[i]);
+          }
+        }
+      }
+      this.intens=aux;
+      aux=[]
+    },
     rerender() {
       location.reload();
     },
@@ -158,15 +211,25 @@ export default {
       }
     },
   },
+  computed: {
+    busqueda() {
+      if (!this.Barra) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.intens = inventario;
+      }
+      return this.intens;
+    },
+  },
   data() {
     return {
-      seleccionado:"Codigo",
+      seleccionado: "Codigo",
       itenID: inventario.length + 1,
       nombre: "",
       existencia: "",
       fecha: "",
       intens: inventario,
       error: "",
+      Barra: "",
     };
   },
   mounted() {
@@ -175,7 +238,6 @@ export default {
   destroyed() {
     this.intens = [];
   },
-  
 };
 </script>
 

@@ -46,6 +46,7 @@ db.collection("Usuarios").onSnapshot((querySnapshot) => {
 //funcion que llena el arreglo de inventarios
 db.collection("Inventario").onSnapshot((querySnapshot) => {
   querySnapshot.forEach((doc) => {
+      
       var iten ={
         nombre:doc.data().Nombre,
         itenID:doc.data().itenID,
