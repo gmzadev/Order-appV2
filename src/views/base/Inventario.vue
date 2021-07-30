@@ -1,6 +1,6 @@
 <template>
-  <CRow id="Reservaciones">
-    <CCol col>
+  <CRow id="inventario">
+    <CCol>
       <CCard>
         <CCardHeader>
           <strong style="text-align: center">
@@ -14,7 +14,7 @@
         </CCardHeader>
         <CCardBody class="container-fluid">
           <div>
-            <CForm @click.prevent="">
+            <CForm @submit.prevent="">
               <CInput
                 class="barra"
                 type="search"
@@ -24,7 +24,6 @@
                 size="lg"
                 v-model="Barra"
                 @keypress="busqueda"
-                
               >
                 <template #append-content>
                   <CButton
@@ -57,23 +56,48 @@
               </CInput>
             </CForm>
           </div>
-          <div>
+          <div class="table-responsive tabla-i">
             <table class="table table-striped">
               <thead>
-                <tr>
+                <tr class="center">
                   <th scope="col">Codigo de barra</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Existencia</th>
                   <th scope="col">Fecha de Vencimiento</th>
-                  <!--<th scope="col">Modificar</th>-->
+                  <th scope="col">Modificar</th>
+                  <th scope="col">Eliminar</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(iten, index) in intens" :key="index" id="tabla">
+                <tr
+                  v-for="(iten, index) in intens"
+                  :key="index"
+                  id="tabla"
+                  class="center"
+                >
                   <th scope="row">{{ iten.itenID }}</th>
                   <td>{{ iten.nombre }}</td>
                   <td>{{ iten.existencia }}</td>
                   <td>{{ iten.fecha }}</td>
+                  <td>
+                    <CButton
+                      variant="outline"
+                      color="warning"
+                      flex
+                      @click="modificar(index)"
+                      ><i class="fas fa-edit"></i
+                    ></CButton>
+                  </td>
+                  <td>
+                    <CButton
+                      class="btn"
+                      variant="outline"
+                      color="danger"
+                      @click="eliminar(index)"
+                      ><i class="fas fa-trash"></i
+                    ></CButton>
+                  </td>
+
                   <!--- <td><i class="fas fa-check btn warnin"></i></td>-->
                 </tr>
               </tbody>
@@ -82,7 +106,6 @@
           <div>
             <CForm @submit.prevent="agregarIten">
               <CInput
-                disabled
                 placeholder="ID"
                 autocomplete="ID"
                 type="number"
@@ -117,15 +140,14 @@
                   ><CIcon name="cil-calendar"
                 /></template>
               </CInput>
-              <div class="d-flex justify-content-between container-fluid">
-                <CButton variant="outline" disabled color="warning" flex
-                  >Modificar</CButton
-                >
-                <CButton variant="outline" disabled color="danger" flex
-                  >Eliminar</CButton
-                >
-                <CButton type="submit" variant="outline" color="success" flex
-                  >Crear
+              <div class="d-flex justify-content-center container-fluid">
+                <CButton
+                  type="submit"
+                  variant="outline"
+                  color="success"
+                  flex
+                  class="col-3"
+                  >Agregar iten
                 </CButton>
               </div>
             </CForm>
@@ -140,30 +162,40 @@
 </template>
 
 <script>
-import { db, inventario } from "@/main.js";
+import { db } from "@/main.js";
+var inventario = [];
 export default {
   name: "Inventario",
+
   methods: {
-    /*search() {
-      var aux = [];
-      var i = 0;
-      if (this.Barra) {
-        for (i = 0; i < this.intens.length; i++) {
-          if (this.intens[i].itenID == this.Barra) {
-            console.log(this.intens[i].itenID);
-            aux.push(this.intens[i]);
-          }
-        }
-        this.intens = aux;
-      }
-    },*/
+    modificar(i) {
+      console.log(i)
+      this.itenID = this.intens[i].itenID;
+      this.nombre = this.intens[i].nombre;
+      this.existencia = this.intens[i].existencia;
+      this.fecha = this.intens[i].fecha;
+    },
+    eliminar(index) {
+      db.collection("Inventario")
+        .doc(this.intens[index].itenID)
+        .delete()
+        .then(() => {
+          inventario = [];
+          this.intens = [];
+          console.log("Document successfully deleted!");
+          this.rerender();
+          this.intens = inventario;
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
+    },
     search() {
       var aux = [];
       var i = 0;
       if (this.seleccionado == "Codigo") {
         for (i = 0; i < this.intens.length; i++) {
           if (this.intens[i].itenID.includes(this.Barra)) {
-            console.log(this.intens[i].itenID);
             aux.push(this.intens[i]);
           }
         }
@@ -180,28 +212,38 @@ export default {
           }
         }
       }
-      this.intens=aux;
-      aux=[]
+      this.intens = aux;
+      aux = [];
     },
     rerender() {
-      location.reload();
+      db.collection("Inventario").onSnapshot((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          var iten = {
+            nombre: doc.data().Nombre,
+            itenID: doc.data().itenID,
+            existencia: doc.data().Existencia,
+            fecha: doc.data().Fecha,
+          };
+          inventario.push(iten);
+        });
+      });
     },
     agregarIten() {
       this.error = "";
-
       if (this.existencia && this.nombre && this.fecha) {
         db.collection("Inventario")
-          .doc(this.itenID.toString())
+          .doc(this.itenID.valueOf())
           .set({
-            itenID: this.itenID.toString(),
+            itenID: this.itenID,
             Nombre: this.nombre,
             Existencia: this.existencia,
             Fecha: this.fecha,
           })
-          .then((docRef) => {
-            console.log("Document written with ID: ", docRef.id);
-            this.intens = [];
+          .then(() => {
             inventario = [];
+            this.intens = [];
+            this.rerender();
+            this.intens = inventario;
           })
           .catch((error) => {
             console.error("Error adding document: ", error);
@@ -223,7 +265,7 @@ export default {
   data() {
     return {
       seleccionado: "Codigo",
-      itenID: inventario.length + 1,
+      itenID: "",
       nombre: "",
       existencia: "",
       fecha: "",
@@ -233,15 +275,29 @@ export default {
     };
   },
   mounted() {
-    console.log(inventario.length + 1);
+    this.rerender();
+    
   },
-  destroyed() {
-    this.intens = [];
+  beforeDestroy() {
+    inventario = [];
+    var unsubscribe = db.collection("Inventario").onSnapshot(() => {
+      // Respond to data
+      // ...
+    });
+    unsubscribe();
   },
+  beforeMount() {},
 };
 </script>
 
-<style>
+<style scoped>
+#inventario {
+  margin-top: -1rem;
+}
+.tabla-i {
+  height: 250px !important;
+  margin-bottom: 25px;
+}
 .barra {
   padding: 1%;
 }

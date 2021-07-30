@@ -23,7 +23,7 @@
           </CHeaderNavItem>
         </CHeaderNav>
         <CHeaderNav class=" mr-auto col-sm-auto collapse navbar-collapse  ">
-          <CHeaderNavItem style="margin-left:20vw">
+          <CHeaderNavItem style="margin-left:15vw">
             <h3 class="titulosnavitenG">La Sirenita Deli Expreess</h3>
           </CHeaderNavItem>
         </CHeaderNav>

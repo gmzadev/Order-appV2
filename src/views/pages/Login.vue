@@ -1,6 +1,7 @@
-<template>
-  <CContainer>
-    <CRow class="justify-content-center">
+<template id="body-l">
+  <div >
+    <CContainer >
+    <CRow class="justify-content-center ">
       <CCol md="8">
         <CCardGroup>
           <CCard class="p-4">
@@ -73,6 +74,7 @@
       {{ error }}
     </CAlert>
   </CContainer>
+  </div>
 </template>
 
 
@@ -124,7 +126,7 @@ export default {
   background-size: 100%;
 }
 
-.body {
+#body-l{
   margin-top: -11rem !important;
 }
 </style>

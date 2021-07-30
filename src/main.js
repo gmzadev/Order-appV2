@@ -28,40 +28,14 @@ firebase.firestore().settings({ timestampInSnapshots: true })
 
 //variables de firebase y vue
 var db = firebase.firestore();
-var usuarios=[];
-var inventario=[];
-//funcion que llena el array de usuarios con los documentos de la coleccion de usuario
-db.collection("Usuarios").onSnapshot((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
-      var   usuario ={
-        nombre:doc.data().Nombre,
-        cedula:doc.data().Cedula,
-        telefono:doc.data().Telefono,
-        correo:doc.data().Correo,
-
-      }
-      usuarios.push(usuario);
-  });
-});
 //funcion que llena el arreglo de inventarios
-db.collection("Inventario").onSnapshot((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
-      
-      var iten ={
-        nombre:doc.data().Nombre,
-        itenID:doc.data().itenID,
-        existencia:doc.data().Existencia,
-        fecha:doc.data().Fecha,
-      }
-      inventario.push(iten);
-  });
-});
+
 Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.prototype.$log = console.log.bind(console)
 
 
-export {usuarios, db,inventario}
+export { db }
 new Vue({
   el: '#app',
   router,

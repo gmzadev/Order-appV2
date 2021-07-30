@@ -1,7 +1,7 @@
 /* eslint-disable vue/require-v-for-key */
 /* eslint-disable vue/require-v-for-key */
 <template>
-  <div class="body">
+  <div id="body-r">
     <CContainer fluid>
       <CRow class="justify-content-center">
         <CCol md="6">
@@ -28,7 +28,7 @@
                   type="number"
                 >
                   <template #prepend-content>
-                    <select v-model="seleccionado" class="forma">
+                    <select v-model="seleccionado" class="forma-div">
                       <option value="V-" selected>V-</option>
                       <option value="E-">E-</option>
                       <option value="J-">J-</option>
@@ -202,8 +202,8 @@ export default {
 };
 </script>
 <style >
-.body {
-  margin: -1rem !important;
+#body-r {
+  margin: 1rem !important;
 }
 
 </style>
