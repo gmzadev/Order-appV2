@@ -1,66 +1,70 @@
-<template >
+<template>
+  <div>
   <div id="Home" style="margin: 0">
     <div class="titulos d-flex justify-content-center" style="padding: 1%">
       <h1 class="h7" style="font-size: 55px">Destacados</h1>
     </div>
     <div class="d-flex justify-content-center">
-<template>
   <CCarousel
+   class="col"
     arrows
     indicators
     animate
     interval:8000
   >
     <CCarouselItem
+    class="CCarouselItem titulosnavitenG"
       captionHeader="Primera disapositiva"
       :image="img1"
-      captionText="Nulla vitae elit libero, a pharetra augue mollis interdum."
-      style="max-height:25rem!important"
+      captionText=""
+      
     />
     <CCarouselItem
       captionHeader="Segunda  disapositiva"
+    class="CCarouselItem titulosnavitenG"
       :image="img2"
-      captionText="Nulla vitae elit libero, a pharetra augue mollis interdum."
+      captionText=""
     />
     <CCarouselItem
+    class="CCarouselItem titulosnavitenG"
      captionHeader="Tercera  disapositiva"
       :image="img3"
-      captionText="Nulla vitae elit libero, a pharetra augue mollis interdum."
+      captionText=""
     />
   </CCarousel>
-</template>
     </div>
     <div class="titulos d-flex justify-content-center" style="padding: 1%">
       <h1 class="h7" style="font-size: 50px">Menu</h1>
     </div>
-    <div class="d-flex justify-content-center" style="padding: 3%">
+    <div class=" d-flex justify-content-center card-group card-columns" style="padding: 3%">
       <div class="col">
-        <div class="card">
+        <div class="card center">
           <router-link to="/Ordenar">
             <img class="img-fluid" :src="menuinfantil" alt="text1" style="" />
             <h6>Infantiles</h6>
           </router-link>
         </div>
       </div>
-      <div class="col">
-        <div class="card">
+      <div class="col ">
+        <div class="card center">
           <img class="img-fluid" :src="Especiales" alt="text1" style="" />
           <h6>Especiales</h6>
         </div>
       </div>
       <div class="col">
-        <div class="card">
+        <div class="card center">
           <img class="img-fluid" :src="platofuerte" alt="text1" style="" />
           <h6>Gourtmest</h6>
         </div>
       </div>
-      <div class="col">
-        <div class="card">
+      <div class="col ">
+        <div class="card center">
           <img class="img-fluid" :src="menucombo" alt="text1" style="" />
           <h6>Combos</h6>
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 <script>
@@ -85,10 +89,21 @@ export default {
   },
 };
 </script>
-<style >
+<style  >
 .CCarouselItem{
-  overflow: hidden;
-  transform: scale(1.3);
+  max-height:28rem!important;
+  max-width: 100vw;
+  transform: scale(0.9);
+
+
+  
+}
+
+.carousel-caption{
+  text-shadow: black ;
+  color: black;
+  background-color: rgba(222,222,222, 0.43)!important;
+ 
 }
 </style>>
  

@@ -2,14 +2,14 @@
   <CRow id="inventario">
     <CCol>
       <CCard>
-        <CCardHeader>
-          <strong style="text-align: center">
+        <CCardHeader class="forma center forma">
             <h2>
-              <div class="d-flex justify-content-center" style="">
-                <i class="cil-inbox px-1" /> Inventario
-              </div>
+              <i class="cil-inbox px-1" />
             </h2>
-          </strong>
+            <h2 class="">
+                 Inventario
+            </h2>
+          
           <div class="card-header-actions"></div>
         </CCardHeader>
         <CCardBody class="container-fluid">

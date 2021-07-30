@@ -25,12 +25,6 @@ export default [
       },
       {
         _name: 'CSidebarNavItem',
-        name: 'Historico',
-        to: '/Users',//ruta de historico
-        icon: 'cil-description'
-      },
-      {
-        _name: 'CSidebarNavItem',
         name: 'Pagos',
         to: '/Users',//ruta de historico
         icon: 'cil-cash'

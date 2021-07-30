@@ -46,8 +46,8 @@
                   
                 </CRow> <br>
                 <h4>Bread Basket</h4><br>
-                <CRow class=" container-fluid">  
-                  <CContainer class="w3-text-grey  justify-content-between">
+                <CRow class="d-flex col container-fluid">  
+                  <CContainer class="w3-text-grey col  justify-content-between">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, incidunt a?  </p>
                          <img src="https://images.freejpg.com.ar/400/0105/hamburger-dinner-meal-food-beef-bottle-bread-F100023594.jpg" alt="">  
                         <CButton  class="btn" variant="outline"  color="dark" @click.prevent="incrementar" flex > + {{precio}}$</CButton>
@@ -83,6 +83,7 @@
 export default {
   data: function() {
     return {
+      renderopt:this.$store.state.renderopt,
       precio: 12,
       contador: 0
     }
@@ -98,19 +99,6 @@ export default {
   }
   }
 </script>
-<style>
-.btn{
-  margin: 2px!important;
-  
-}
-.todalinea{
-  display: flex;
-  flex-direction: column;
-  padding: auto;
-}
-img{
-  width:  100px!important;
-  margin-left: 5px;
-  border-radius: 5px;
-}
+<style >
+
 </style>

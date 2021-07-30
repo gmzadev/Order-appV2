@@ -6,7 +6,7 @@
     :show="show"
     @update:show="(value) => $store.commit('set', ['sidebarShow', value])"
   >
-    <CSidebarBrand class="d-md-down-none" to="/dashboard">
+    <CSidebarBrand class="d-md-down-none" to="/home">
       <i class="cil-house"></i>
          <span v-if="!$store.state.sidebarMinimize">Home</span>
     </CSidebarBrand>
@@ -36,3 +36,18 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+/*$nav-color: rgb(245, 160, 24);
+.c-sidebar-brand{
+  background-color: rgba($color: $nav-color, $alpha:0.6)!important;
+}
+.c-sidebar-nav-link{
+  background-color: rgba($color: $nav-color, $alpha:0.7)!important;
+}
+.c-sidebar-nav{
+  background-color: rgba($color: $nav-color, $alpha:0.6)!important;
+}
+.c-sidebar-minimizer{
+  background-color: rgba($color: $nav-color, $alpha:0.6)!important;
+}*/
+</style>

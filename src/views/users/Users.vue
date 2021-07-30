@@ -2,7 +2,12 @@
   <CRow>
     <CCol>
       <CCard>
-        <CCardHeader class="center forma"> Pagos Pendientes </CCardHeader>
+        <CCardHeader class="center forma"> 
+          <h2>
+              <i class="cil-cash xl" />
+            </h2>
+          <h2> Pagos Pendientes</h2>
+           </CCardHeader>
         <CCardBody>
           <div class="table-responsive tabla-p">
             <table class="table table-striped">
@@ -77,7 +82,6 @@
                 <CCardHeader class="center">
                   <p> A nombre de: {{this.nombre}}</p>
                   Cedula del Cliente: {{ this.idSujeto }}
-                 
                 </CCardHeader>
                 <CCardBody>
                   
