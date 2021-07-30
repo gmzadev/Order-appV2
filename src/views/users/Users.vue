@@ -2,12 +2,12 @@
   <CRow>
     <CCol>
       <CCard>
-        <CCardHeader class="center forma"> 
+        <CCardHeader class="center forma">
           <h2>
-              <i class="cil-cash xl" />
-            </h2>
-          <h2> Pagos Pendientes</h2>
-           </CCardHeader>
+            <i class="cil-cash xl" />
+          </h2>
+          <h2>Pagos Pendientes</h2>
+        </CCardHeader>
         <CCardBody>
           <div class="table-responsive tabla-p">
             <table class="table table-striped">
@@ -80,29 +80,34 @@
             <CCol>
               <CCard>
                 <CCardHeader class="center">
-                  <p> A nombre de: {{this.nombre}}</p>
+                  <p>A nombre de: {{ this.nombre }}</p>
                   Cedula del Cliente: {{ this.idSujeto }}
                 </CCardHeader>
-                <CCardBody>
-                  
-                </CCardBody>
+                <CCardBody> </CCardBody>
               </CCard>
             </CCol>
           </CRow>
         </template>
-        
-          <div    slot="footer" class="d-flex justify-content-between">
-            <CButton color="danger" variant="outline" @click="goBack" style="margin-right:26vw"
-              >Rechazar</CButton
-            >
-            <CButton color="success " variant="outline" @click="goBack" style="margin-right:0vh"
-              >Aceptar</CButton
-            >
-          </div>
-        
+
+        <div slot="footer" class="d-flex justify-content-between">
+          <CButton
+            color="danger"
+            variant="outline"
+            @click="goBack"
+            style="margin-right: 26vw"
+            >Rechazar</CButton
+          >
+          <CButton
+            color="success "
+            variant="outline"
+            @click="goBack"
+            style="margin-right: 0vh"
+            >Aceptar</CButton
+          >
+        </div>
       </CModal>
-    </div></CRow
-  >
+    </div>
+  </CRow>
 </template>
   
 
@@ -113,7 +118,7 @@ export default {
   data() {
     return {
       idSujeto: 0,
-      visibleData:{},
+      visibleData: {},
       warningModal: false,
       items: usersData,
       fields: [
@@ -129,9 +134,8 @@ export default {
 
   methods: {
     modal(index) {
-      (this.warningModal = true), 
-      (this.idSujeto = index);
-      this.visibleData=this.items[index]
+      (this.warningModal = true), (this.idSujeto = index);
+      this.visibleData = this.items[index];
     },
     getBadge(status) {
       switch (status) {
@@ -144,9 +148,7 @@ export default {
       }
     },
   },
-  computed: {
-
-  },
+  computed: {},
 };
 </script>
 <style scoped>

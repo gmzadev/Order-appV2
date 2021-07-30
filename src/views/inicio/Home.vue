@@ -41,7 +41,7 @@
         <div class="card center">
           <router-link to="/Ordenar">
             <img class="img-fluid" :src="menuinfantil" alt="text1" style="" />
-            <h6>Infantiles</h6>
+            <h6>Snacks</h6>
           </router-link>
         </div>
       </div>

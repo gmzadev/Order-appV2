@@ -6,6 +6,12 @@ font-family: 'Noto Sans JP', sans-serif;
 font-family: 'Open Sans', sans-serif;
 font-family: 'Poppins', sans-serif;
 font-family: 'Roboto', sans-serif;*/
+.c-sidebar {
+&.c-sidebar-fixed {
+@include media-breakpoint-up($mobile-breakpoint) {
+  position: fixed;
+  top: 4.8rem;
+}}}
 .forma {
   font-size: 1rem !important;
   font-family: "Poppins", sans-serif;
