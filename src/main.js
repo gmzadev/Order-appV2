@@ -7,7 +7,6 @@ import CoreuiVue from '@coreui/vue'
 import { iconsSet as icons } from './assets/icons/icons.js'
 import store from './store'
 import firebase from 'firebase'
-import 'firebase/analytics'
 import './registerServiceWorker'
 
 //paramtros de firebase
@@ -29,13 +28,13 @@ firebase.firestore().settings({ timestampInSnapshots: true })
 //variables de firebase y vue
 var db = firebase.firestore();
 //funcion que llena el arreglo de inventarios
-
+var storage =firebase.storage();
 Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.prototype.$log = console.log.bind(console)
 
 
-export { db }
+export { db,storage}
 new Vue({
   el: '#app',
   router,

@@ -42,6 +42,22 @@
               </CInput>
             </CForm>
           </div>
+          <div class="card-group">
+            <template  >
+              <div class="card" v-for=" n in 5" :key="n">
+                <img class="card-img-top" src="..." alt="Card image cap" />
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">
+                    {{n}}
+                  </p>
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+              </div>
+            </template>
+          </div>
           <div>
             <CForm>
               <CInput
@@ -57,13 +73,15 @@
                     ><i class="cil-dinner"></i
                   ></span>
                 </div>
-              <select class="form-select"  v-model="Tipo">
-                <option value="Selecciona una opcion">Selecciona una opcion</option>
-                <option value="Snack">Snack</option>
-                <option value="Plato Fuerte">Plato Fuerte</option>
-                <option value="Especial del dia">Especial del dia</option>
-                <option value="Extra">Extra</option>
-              </select>
+                <select class="form-select" v-model="Tipo">
+                  <option value="Selecciona una opcion">
+                    Selecciona una opcion
+                  </option>
+                  <option value="Snack">Snack</option>
+                  <option value="Plato Fuerte">Plato Fuerte</option>
+                  <option value="Especial del dia">Especial del dia</option>
+                  <option value="Extra">Extra</option>
+                </select>
               </div>
               <CInput
                 placeholder="Link de Firebase"
@@ -102,6 +120,7 @@
                   aria-label="Ingredientes"
                   aria-describedby="basic-addon1"
                   v-model="ingredientes"
+                  @keydown.prevent=""
                   @click="modal()"
                 />
               </div>
@@ -113,7 +132,11 @@
                 <CButton variant="outline" disabled color="danger" flex
                   >Eliminar Plato</CButton
                 >
-                <CButton variant="outline" color="success" flex
+                <CButton
+                  variant="outline"
+                  color="success"
+                  flex
+                  @click="agregarIten"
                   >Crear/Modificar
                 </CButton>
               </div>
@@ -126,7 +149,7 @@
       <CModal
         class="center"
         title="Pago"
-        color="warning"
+        color="success"
         size="lg"
         :show.sync="warningModal"
         :footer="!warningModal"
@@ -139,7 +162,7 @@
                 <tr class="center">
                   <th scope="col">Nombre</th>
                   <th scope="col">Existencia</th>
-                  <th scope="col">Selecionar</th>
+                  <th scope="col">Seleccionar</th>
                   <th scope="col">Cantidad</th>
                 </tr>
               </thead>
@@ -155,14 +178,20 @@
                   <td>{{ iten.existencia }}</td>
                   <td>
                     <input
-                      class="form-check-input"
+                      class=""
                       type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
+                      v-model="seleccionado[index]"
                     />
                   </td>
                   <td>
-                    <input type="number" value="" style="width: 3rem" />
+                    <input
+                      type="number"
+                      placeholder="0"
+                      style="width: 3rem"
+                      min="0"
+                      :disabled="!seleccionado[index]"
+                      v-model="cantidad[index]"
+                    />
                   </td>
                   <!--- <td><i class="fas fa-check btn warnin"></i></td>-->
                 </tr>
@@ -172,30 +201,36 @@
         </template>
 
         <div slot="footer" class="d-flex justify-content-between">
-          <CButton color="danger" variant="outline" style="margin-right: 26vw"
-            >Rechazar</CButton
-          >
-          <CButton color="success " variant="outline" style="margin-right: 0vh"
-            >Aceptar</CButton
+          <CButton
+            @click="llenar()"
+            color="success "
+            variant="outline"
+            style="margin-right: 14vw"
+            >Incluir Ingredientes</CButton
           >
         </div>
       </CModal>
     </div>
-    <CAlert color="warning" v-if="error" style="margin-top: 1rem">
+    <CAlert color="warning" v-if="error" style="margin-top: 1rem" closeButton>
       {{ error }}
     </CAlert>
   </CRow>
 </template>
 
 <script>
-import { db } from "@/main.js";
+import { db, storage } from "@/main.js";
 var inventario = [];
 var platos = [];
+var Urls = [];
 export default {
   name: "Platos",
   data() {
     return {
-      Tipo:"Selecciona una opcion",
+      cantidad: [],
+      seleccionado: [],
+      ingredientes: "",
+      urls: [],
+      Tipo: "Selecciona una opcion",
       error: "",
       precio: "",
       menu: platos,
@@ -204,26 +239,106 @@ export default {
       nombre: "",
       barra: "",
       url: "",
-      Descripcion: "",
+      descripcion: "",
     };
   },
   methods: {
+    getImg(url) {
+      var gsReference = storage.refFromURL(url);
+      gsReference
+        .getDownloadURL()
+        .then((e) => this.urls.push(e))
+        .catch((err) => alert(err));
+    },
+    arrayIngredientes() {
+      var aux = [];
+      var i = 0;
+      for (i = 0; i < this.seleccionado.length; i++) {
+        if (
+          this.seleccionado[i] == undefined ||
+          this.cantidad[i] == undefined
+        ) {
+          //
+        } else if (
+          this.seleccionado[i] == true &&
+          this.cantidad[i] != "" &&
+          this.cantidad[i] != "0"
+        ) {
+          var aux2 = {
+            nombre: this.intens[i].nombre,
+            cantidad: this.cantidad[i],
+          };
+          aux.push(aux2);
+        } else {
+          //
+        }
+      }
+      return aux;
+    },
+
+    llenar() {
+      this.ingredientes = "";
+      this.error = "";
+      /*if (this.seleccionado.indexOf(iten) > -1) {
+        console.log("estoy aqui");
+        this.seleccionado.splice(this.seleccionado.indexOf(iten), 1);
+        this.cantidad.splice(this.seleccionado.indexOf(iten), 1);
+      } else {
+        this.seleccionado.push(iten);
+      }*/
+      var i = 0;
+      this.seleccionado.length;
+      for (i = 0; i < this.seleccionado.length; i++) {
+        if (
+          this.seleccionado[i] == undefined ||
+          this.cantidad[i] == undefined
+        ) {
+          this.error = "las cantidades no pueden estar vacias";
+        } else if (
+          this.seleccionado[i] == true &&
+          this.cantidad[i] != "" &&
+          this.cantidad[i] != "0"
+        ) {
+          this.ingredientes = this.intens[i].nombre + " , " + this.ingredientes;
+        } else {
+          this.error = "las cantidades no pueden ser igual a cero";
+        }
+      }
+      this.warningModal = false;
+    },
     agregarIten() {
       this.error = "";
-      if (this.precio && this.nombre && this.url && this.Descripcion) {
-        db.collection("Inventario")
-          .doc(this.itenID.valueOf())
-          .set({
-            itenID: this.itenID,
+      if (
+        this.ingredientes &&
+        this.precio &&
+        this.nombre &&
+        this.url &&
+        this.descripcion &&
+        this.Tipo != "Selecciona una opcion"
+      ) {
+        db.collection("Platos")
+          .add({
+            Ingredientes: this.arrayIngredientes(),
+            Precio: this.precio,
             Nombre: this.nombre,
-            Existencia: this.existencia,
-            Fecha: this.fecha,
+            Url: this.url,
+            Descripcion: this.descripcion,
+            Tipo: this.Tipo,
           })
           .then(() => {
             inventario = [];
             this.intens = [];
+            this.menu = [];
             this.rerender();
-            this.intens = inventario;
+            (this.cantidad = []),
+              (this.seleccionado = []),
+              (this.ingredientes = ""),
+              (this.precio = ""),
+              (this.nombre = ""),
+              (this.barra = ""),
+              (this.url = ""),
+              (this.descripcion = ""),
+              (this.intens = inventario);
           })
           .catch((error) => {
             console.error("Error adding document: ", error);
@@ -249,13 +364,15 @@ export default {
       db.collection("Platos").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           var iten = {
-            nombre: doc.data().Nombre,
-            url: doc.data().Url,
-            descripcion: doc.data().Descripcion,
-            precio: doc.data().Precio,
-            ingredientes: doc.data().Ingredientes,
+            Ingredientes: doc.data().Ingredientes,
+            Precio: doc.data().Precio,
+            Nombre: doc.data().Nombre,
+            Url: doc.data().Url,
+            Descripcion: doc.data().Descripcion,
+            Tipo: doc.data().Tipo,
           };
           platos.push(iten);
+          Urls.push(this.getImg(iten.Url));
         });
       });
     },
@@ -281,6 +398,7 @@ export default {
     unsubscribe();
     unsubscribe2();
   },
+  computeds: {},
 };
 </script>
 

@@ -43,14 +43,14 @@ export default [
         _name: 'CSidebarNavItem',
         name: 'Órdenes',
         to: '/Ordenes',//aqui esta la ruta para ordenes
-        icon: 'cil-inbox'
+        icon: 'cil-clipboard'
       },
       {
         _name: 'CSidebarNavItem',
         route: '/base',
         name: 'Comprar',
         to: '/base/Comprar',//aqui esta la ruta para  comprar
-        icon: 'cil-inbox'
+        icon: 'cil-dollar'
       },
 
       /*/{
