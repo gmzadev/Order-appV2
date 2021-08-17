@@ -20,21 +20,28 @@
   </div>
 </template>
 <script>
-
+import { db } from "@/main.js";
 import TheSidebar from "./TheSidebar";
 //import Home from "@/views/inicio/Home";
 //import Barra from "@/views/inicio/Barra";
-import firebase from 'firebase'
+import firebase from "firebase";
 import TheHeader from "./TheHeader";
 import TheFooter from "./TheFooter";
+
 //import Dashboard from "@/views/Dashboard";
 export default {
   name: "TheContainer",
-
   data() {
     return {
       value: true,
-      user:null,
+      user: null,
+      usuario: {
+        Cedula: "",
+        Correo: "",
+        Nombre: "",
+        Telefono: "",
+        nivelUsuario: "",
+      },
     };
   },
   components: {
@@ -44,8 +51,7 @@ export default {
     //Barra,
     //Home,
   },
-    created() {
-    console.log("creado container");
+  created() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.user = user;
@@ -54,19 +60,27 @@ export default {
         this.user = null;
       }
     });
+    db.collection("Usuarios").onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.data().Correo == this.user.email) {
+          this.usuario.Cedula = doc.data().Cedula;
+          this.usuario.Correo = doc.data().Correo;
+          this.usuario.Nombre = doc.data().Nombre;
+          this.usuario.Telefono = doc.data().Telefono;
+          this.usuario.nivelUsuario = doc.data().nivelUsuario;
+        }
+      });
+    });
   },
-  
 };
-
 </script>
 
 <style scoped >
 .main-container {
   margin-top: 5rem;
   justify-content: center;
-  
 }
-.c-main{
+.c-main {
   background-color: rgb(235, 179, 134);
 }
 .fade-enter-active,

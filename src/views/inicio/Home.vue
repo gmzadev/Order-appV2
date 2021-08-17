@@ -1,70 +1,72 @@
 <template>
   <div>
-  <div id="Home" style="margin: 0">
-    <div class="titulos d-flex justify-content-center" style="padding: 1%">
-      <h1 class="h7" style="font-size: 55px">Destacados</h1>
-    </div>
-    <div class="d-flex justify-content-center">
-  <CCarousel
-   class="col"
-    arrows
-    indicators
-    animate
-    interval:8000
-  >
-    <CCarouselItem
-    class="CCarouselItem titulosnavitenG"
-      captionHeader="Primera disapositiva"
-      :image="img1"
-      captionText=""
-      
-    />
-    <CCarouselItem
-      captionHeader="Segunda  disapositiva"
-    class="CCarouselItem titulosnavitenG"
-      :image="img2"
-      captionText=""
-    />
-    <CCarouselItem
-    class="CCarouselItem titulosnavitenG"
-     captionHeader="Tercera  disapositiva"
-      :image="img3"
-      captionText=""
-    />
-  </CCarousel>
-    </div>
-    <div class="titulos d-flex justify-content-center" style="padding: 1%">
-      <h1 class="h7" style="font-size: 50px">Menu</h1>
-    </div>
-    <div class=" d-flex justify-content-center card-group card-columns" style="padding: 3%">
-      <div class="col">
-        <div class="card center">
-          <router-link to="/Ordenar">
-            <img class="img-fluid" :src="menuinfantil" alt="text1" style="" />
-            <h6>Snacks</h6>
-          </router-link>
+    <div id="Home" style="margin: 0">
+      <div class="titulos d-flex justify-content-center" style="padding: 1%">
+        <h1 class="h7" style="font-size: 55px">Destacados</h1>
+      </div>
+      <div class="d-flex justify-content-center">
+        <CCarousel class="col" arrows indicators animate interval:8000>
+          <CCarouselItem
+            class="CCarouselItem titulosnavitenG"
+            captionHeader="Primera diapositiva"
+            :image="img1"
+            captionText=""
+          />
+          <CCarouselItem
+            captionHeader="Segunda  diapositiva"
+            class="CCarouselItem titulosnavitenG"
+            :image="img2"
+            captionText=""
+          />
+          <CCarouselItem
+            class="CCarouselItem titulosnavitenG"
+            captionHeader="Tercera diapositiva"
+            :image="img3"
+            captionText=""
+          />
+        </CCarousel>
+      </div>
+      <div class="titulos d-flex justify-content-center" style="padding: 1%">
+        <h1 class="h7" style="font-size: 50px">Menu</h1>
+      </div>
+      <div
+        class="d-flex justify-content-center card-group card-columns"
+        style="padding: 3%"
+      >
+        <div class="col">
+          <div class="card center">
+            <a  @click="seleccion('Snack')">
+              <img class="img-fluid" :src="menuinfantil" alt="text1" style="" />
+              <h6>Snacks</h6>
+            </a>
+          </div>
+        </div>
+        <div class="col">
+          <a @click="seleccion('Especiales')" >
+            <div class="card center">
+              <img class="img-fluid" :src="Especiales" alt="text1" style="" />
+              <h6>Especiales</h6>
+            </div>
+          </a>
+        </div>
+        <div class="col">
+          <a @click="seleccion('Gourtmest')" >
+            <div class="card center">
+              <img class="img-fluid" :src="platofuerte" alt="text1" style="" />
+              <h6>Gourtmest</h6>
+            </div>
+          </a>
+        </div>
+        <div class="col">
+          <a @click="seleccion('Combos')" >
+            <div class="card center">
+              <img class="img-fluid" :src="menucombo" alt="text1" style="" />
+              <h6>Combos</h6>
+            </div>
+          </a>
         </div>
       </div>
-      <div class="col ">
-        <div class="card center">
-          <img class="img-fluid" :src="Especiales" alt="text1" style="" />
-          <h6>Especiales</h6>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card center">
-          <img class="img-fluid" :src="platofuerte" alt="text1" style="" />
-          <h6>Gourtmest</h6>
-        </div>
-      </div>
-      <div class="col ">
-        <div class="card center">
-          <img class="img-fluid" :src="menucombo" alt="text1" style="" />
-          <h6>Combos</h6>
-        </div>
-      </div>
     </div>
-  </div>
   </div>
 </template>
 <script>
@@ -87,23 +89,30 @@ export default {
         "https://media.istockphoto.com/vectors/grunge-blue-special-menu-word-with-dish-spoon-and-fork-icon-rubber-vector-id1318479435?b=1&k=6&m=1318479435&s=170667a&h=BzRfjwQV7m4iTipuUr690ir_oagsOOf2YD0y6gYEP-4=",
     };
   },
+  methods :{
+    seleccion(nombre) {
+      console.log("hola")
+      this.$store.commit('set', ['nombre', nombre])
+      console.log(this.$store.state.nombre)
+      this.$router.push("/Ordenar")
+    }
+  }
 };
 </script>
 <style  >
-.CCarouselItem{
-  max-height:28rem!important;
+a{
+  cursor: pointer;
+}
+.CCarouselItem {
+  max-height: 28rem !important;
   max-width: 100vw;
   transform: scale(0.9);
-
-
-  
 }
 
-.carousel-caption{
-  text-shadow: black ;
+.carousel-caption {
+  text-shadow: black;
   color: black;
-  background-color: rgba(222,222,222, 0.43)!important;
- 
+  background-color: rgba(222, 222, 222, 0.43) !important;
 }
 </style>>
  

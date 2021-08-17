@@ -7,6 +7,7 @@ const state = {
   login:true,
   user:null,
   renderopt:null,
+  nombre:'',
 }
 
 const mutations = {

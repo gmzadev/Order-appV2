@@ -3,18 +3,17 @@
     <CCol>
       <CCard>
         <CCardHeader class="forma center forma">
-            <h2>
-              <i class="cil-inbox px-1" />
-            </h2>
-            <h2 class="">
-                 Inventario
-            </h2>
-          
+          <h2>
+            <i class="cil-inbox px-1" />
+          </h2>
+          <h2 class="">Inventario</h2>
+
           <div class="card-header-actions"></div>
         </CCardHeader>
+        <hr class="rounded" />
         <CCardBody class="container-fluid">
           <div>
-            <CForm @submit.prevent="">
+            <CForm @submit.prevent="console.log('hola')">
               <CInput
                 class="barra"
                 type="search"
@@ -23,14 +22,14 @@
                 placeholder=""
                 size="lg"
                 v-model="Barra"
-                @keypress="busqueda"
+                @change="busqueda"
               >
                 <template #append-content>
                   <CButton
                     color="dark"
                     variant="outline"
                     type="submit"
-                    @click.prevent="search"
+                    @click="buscar()"
                     style="
                       height: 25px !important ;
                       width: 10px;
@@ -63,6 +62,7 @@
                   <th scope="col">Codigo de barra</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Existencia</th>
+                  <th scope="col">Tipo</th>
                   <th scope="col">Fecha de Vencimiento</th>
                   <th scope="col">Modificar</th>
                   <th scope="col">Eliminar</th>
@@ -78,6 +78,7 @@
                   <th scope="row">{{ iten.itenID }}</th>
                   <td>{{ iten.nombre }}</td>
                   <td>{{ iten.existencia }}</td>
+                  <td>{{ iten.Tipo }}</td>
                   <td>{{ iten.fecha }}</td>
                   <td>
                     <CButton
@@ -115,6 +116,22 @@
                   <CIcon name="cil-fingerprint" />
                 </template>
               </CInput>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"
+                    ><i class="cil-dinner"></i
+                  ></span>
+                </div>
+                <select
+                  class="form-select"
+                  v-model="Tipo"
+                  @change="aplicafecha()"
+                >
+                  <option value="Selecciona un tipo">Selecciona un tipo</option>
+                  <option value="Consumible">Consumible</option>
+                  <option value="Ingrediente">Ingrediente</option>
+                </select>
+              </div>
               <CInput
                 placeholder="Nombre del ingrediente o consumible"
                 autocomplete="Nombre del ingrediente o consumible"
@@ -135,6 +152,7 @@
                 autocomplete="Fecha de vencimiento"
                 type="date"
                 v-model="fecha"
+                :disabled="this.Estado"
               >
                 <template #prepend-content
                   ><CIcon name="cil-calendar"
@@ -144,10 +162,22 @@
                 <CButton
                   type="submit"
                   variant="outline"
-                  color="success"
+                  color="dark"
                   flex
                   class="col-3"
-                  >Agregar iten
+                  style="margin-right: 1%"
+                  @click="Limpiar"
+                  >Limpiar Campos
+                </CButton>
+                <CButton
+                  type="submit"
+                  variant="outline"
+                  color="success"
+                  flex
+                  style="margin-left: 1%"
+                  class="col-3"
+                  @click="agregarIten"
+                  >Agregar / Modificar
                 </CButton>
               </div>
             </CForm>
@@ -155,7 +185,7 @@
         </CCardBody>
       </CCard>
     </CCol>
-    <CAlert color="warning" v-if="error" style="margin-top: 1rem">
+    <CAlert color="warning" v-if="error" style="margin-top: 1rem" closeButton>
       {{ error }}
     </CAlert>
   </CRow>
@@ -168,12 +198,26 @@ export default {
   name: "Inventario",
 
   methods: {
+    Limpiar() {
+      this.itenID = "";
+      this.Tipo = "Selecciona un tipo";
+      this.nombre = "";
+      this.existencia = "";
+      this.fecha = "";
+      this.Estado = true;
+    },
     modificar(i) {
-      console.log(i)
+      console.log(i);
       this.itenID = this.intens[i].itenID;
       this.nombre = this.intens[i].nombre;
       this.existencia = this.intens[i].existencia;
       this.fecha = this.intens[i].fecha;
+      this.Tipo = this.intens[i].Tipo;
+      if (this.intens[i].fecha) {
+        this.Estado = false;
+      } else {
+        this.Estado = true;
+      }
     },
     eliminar(index) {
       db.collection("Inventario")
@@ -190,31 +234,7 @@ export default {
           console.error("Error removing document: ", error);
         });
     },
-    search() {
-      var aux = [];
-      var i = 0;
-      if (this.seleccionado == "Codigo") {
-        for (i = 0; i < this.intens.length; i++) {
-          if (this.intens[i].itenID.includes(this.Barra)) {
-            aux.push(this.intens[i]);
-          }
-        }
-      } else if (this.seleccionado == "Nombre") {
-        for (i = 0; i < this.intens.length; i++) {
-          if (this.intens[i].nombre.includes(this.Barra)) {
-            aux.push(this.intens[i]);
-          }
-        }
-      } else {
-        for (i = 0; i < this.intens.length; i++) {
-          if (this.intens[i].fecha.includes(this.Barra)) {
-            aux.push(this.intens[i]);
-          }
-        }
-      }
-      this.intens = aux;
-      aux = [];
-    },
+
     rerender() {
       db.collection("Inventario").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -222,6 +242,7 @@ export default {
             nombre: doc.data().Nombre,
             itenID: doc.data().itenID,
             existencia: doc.data().Existencia,
+            Tipo: doc.data().Tipo,
             fecha: doc.data().Fecha,
           };
           inventario.push(iten);
@@ -230,18 +251,36 @@ export default {
     },
     agregarIten() {
       this.error = "";
-      if (this.existencia && this.nombre && this.fecha) {
+      var auxfecha = "";
+      if (this.Tipo == "Ingrediente") {
+        auxfecha = this.fecha;
+      } else {
+        auxfecha = "";
+      }
+      if (
+        this.existencia &&
+        this.nombre &&
+        (auxfecha || this.Tipo == "Consumible") &&
+        this.Tipo != "Selecciona un tipo"
+      ) {
         db.collection("Inventario")
           .doc(this.itenID.valueOf())
           .set({
             itenID: this.itenID,
             Nombre: this.nombre,
+            Tipo: this.Tipo,
             Existencia: this.existencia,
-            Fecha: this.fecha,
+            Fecha: auxfecha,
           })
           .then(() => {
             inventario = [];
             this.intens = [];
+            this.itenID = "";
+            this.Tipo = "Selecciona un tipo";
+            this.nombre = "";
+            this.existencia = "";
+            this.fecha = "";
+            this.Estado = true;
             this.rerender();
             this.intens = inventario;
           })
@@ -252,8 +291,48 @@ export default {
         this.error = "todos los campos son requeridos";
       }
     },
+    aplicafecha() {
+      if (this.Tipo == "Ingrediente") {
+        this.Estado = false;
+        console.log("hola");
+      } else {
+        this.Estado = true;
+      }
+    },
   },
   computed: {
+    buscar() {
+      console.log("dentro de la funcion");
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.intens = inventario;
+      var aux = [];
+      var i = 0;
+      try {
+        if (this.seleccionado == "Codigo") {
+          for (i = 0; i < this.intens.length; i++) {
+            if (this.intens[i].itenID.includes(this.Barra)) {
+              aux.push(this.intens[i]);
+            }
+          }
+        } else if (this.seleccionado == "Nombre") {
+          for (i = 0; i < this.intens.length; i++) {
+            if (this.intens[i].nombre.includes(this.Barra)) {
+              aux.push(this.intens[i]);
+            }
+          }
+        } else {
+          for (i = 0; i < this.intens.length; i++) {
+            if (this.intens[i].fecha.includes(this.Barra)) {
+              aux.push(this.intens[i]);
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      return (this.intens = aux);
+    },
     busqueda() {
       if (!this.Barra) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -262,9 +341,12 @@ export default {
       return this.intens;
     },
   },
+
   data() {
     return {
+      Estado: true,
       seleccionado: "Codigo",
+      Tipo: "Selecciona un tipo",
       itenID: "",
       nombre: "",
       existencia: "",
@@ -274,9 +356,9 @@ export default {
       Barra: "",
     };
   },
+
   mounted() {
     this.rerender();
-    
   },
   beforeDestroy() {
     inventario = [];

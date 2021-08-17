@@ -10,14 +10,30 @@ font-family: 'Roboto', sans-serif;*/
 &.c-sidebar-fixed {
 @include media-breakpoint-up($mobile-breakpoint) {
   position: fixed;
-  top: 4.8rem;
+  top: 8.7vh;
 }}}
 .card,.c-card,.card-header, .CCarouselItem{
   border-radius: 15px!important
 }
+.lato-titulo{
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.3rem;
+}
 .card-header{
   outline: none;
   border: none;
+}
+
+.pb-15{
+  padding-bottom: 15px;
+}
+
+.plato{
+  height: 20rem;
+  width: 20rem ;
+  margin: 5%;
+  border: black
+ 
 }
 .card img {
   border-radius: 15px!important

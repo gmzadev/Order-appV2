@@ -9,6 +9,7 @@
           <h2>Platos</h2>
           <div class="card-header-actions"></div>
         </CCardHeader>
+        <hr class="rounded" />
         <CCardBody class="container-fluid">
           <div>
             <CForm @submit.prevent="">
@@ -42,24 +43,66 @@
               </CInput>
             </CForm>
           </div>
-          <div class="card-group">
-            <template  >
-              <div class="card" v-for=" n in 5" :key="n">
-                <img class="card-img-top" src="..." alt="Card image cap" />
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">
-                    {{n}}
-                  </p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
+          <CRow>
+            <template>
+              <div v-for="(plato, index) in menu" :key="index">
+                <CCol lg="3">
+                  <CCard flex :aria-disabled="plato.Estado">
+                    <CCardHeader class="center lato-titulo">
+                      {{ plato.Nombre }}
+                    </CCardHeader>
+                    <CCardBody>
+                      <img :src="urls[index]" alt="" class="img-fluid" />
+                    </CCardBody>
+                    <CCardFooter>
+                      <div class="borde">
+                        {{ plato.Descripcion }}
+                      </div>
+                      <hr />
+                    </CCardFooter>
+                    <div
+                      class="
+                        col-auto
+                        d-flex
+                        justify-content-between
+                        pb-15
+                        oculto
+                      "
+                    >
+                      <CButton class="col-3 p-2" variant="outline" color="danger"
+                        ><i class="fas fa-trash" />
+                      </CButton>
+                      <CButton
+                        v-if="plato.Estado"
+                        class="col-3 p-2"
+                        variant="outline"
+                        color="info"
+                        @click="updatemode(plato.Nombre,plato.Estado)"
+                        >On
+                      </CButton>
+                       <CButton
+                        v-else
+                        class="col-3 p-2"
+                        variant="outline"
+                        color="dark"
+                        @click="updatemode(plato.Nombre,plato.Estado)"
+                        >Off
+                      </CButton>
+                      <CButton
+                        class="col-3 p-2"
+                        variant="outline"
+                        color="warning"
+                        @click="modificar(index)"
+                        ><i class="fas fa-edit"/></CButton
+                      >
+                    </div>
+                  </CCard>
+                </CCol>
               </div>
             </template>
-          </div>
+          </CRow>
           <div>
-            <CForm>
+            <CForm @submit.prevent="agregarIten">
               <CInput
                 placeholder="Nombre del plato"
                 autocomplete="Nombre deL plato"
@@ -125,19 +168,25 @@
                 />
               </div>
 
-              <div class="d-flex justify-content-between container-fluid">
-                <CButton variant="outline" disabled color="warning" flex
-                  >Deshabilitar Plato</CButton
-                >
-                <CButton variant="outline" disabled color="danger" flex
-                  >Eliminar Plato</CButton
-                >
+              <div class="d-flex justify-content-center container-fluid">
                 <CButton
+                  type="submit"
+                  variant="outline"
+                  color="dark"
+                  flex
+                  class="col-3"
+                  style="margin-right: 1%"
+                  @click.prevent="Limpiar"
+                  >Limpiar Campos
+                </CButton>
+                <CButton
+                  class="col-3"
                   variant="outline"
                   color="success"
                   flex
-                  @click="agregarIten"
-                  >Crear/Modificar
+                  style="margin-left: 1%"
+                  @click.prevent="agregarIten"
+                  >Agregar / Modificar
                 </CButton>
               </div>
             </CForm>
@@ -222,27 +271,93 @@ import { db, storage } from "@/main.js";
 var inventario = [];
 var platos = [];
 var Urls = [];
+
 export default {
   name: "Platos",
   data() {
     return {
-      cantidad: [],
-      seleccionado: [],
+      Estado: false,
+      mode: false,
+      cantidad: [], //aux que mide la cantidad de un ingrediente en el modal
+      seleccionado: [], //aux de bolean que guarda la seleccion de un ingrediente
       ingredientes: "",
-      urls: [],
-      Tipo: "Selecciona una opcion",
-      error: "",
-      precio: "",
-      menu: platos,
-      intens: inventario,
-      warningModal: false,
+      urls: [], //aux de la url de las imagenes
+      Tipo: "Selecciona una opcion", //tipo de plato
+      error: "", //aux para errores
+      precio: "", //precio de un plato
+      menu: platos, //menu de platos
+      intens: inventario, //aux para renderizar inventario
+      warningModal: false, //aux que especifica el el estado de visivilidad de un modal
       nombre: "",
       barra: "",
       url: "",
       descripcion: "",
+      /**plato: [ esto es para una posible refactorizacion usar este 
+       * objeto como un plato dentro del menu `plato in menu`
+       * {
+       *   Estado: false,
+       *   cantidad: [],
+       *   seleccionado: [],
+       *   ingredientes: "",
+       *   Tipo: "Selecciona una opcion", //tipo de plato
+       *   precio: "",
+       *   nombre: "",
+       *   url: "",
+       *   descripcion: "",
+       * },
+      ],**/
     };
   },
   methods: {
+    Limpiar() {
+      this.cantidad = [];
+      this.seleccionado = [];
+      this.ingredientes = "";
+      this.precio = "";
+      this.nombre = "";
+      this.barra = "";
+      this.url = "";
+      this.Tipo = "Selecciona una opcion";
+      this.descripcion = "";
+    },
+    modificar(index) {
+      //llena los campos para ser modificados
+      var i = 0;
+      var j = 0;
+      (this.nombre = platos[index].Nombre),
+        (this.Tipo = platos[index].Tipo),
+        (this.precio = platos[index].Precio);
+      this.url = platos[index].Url;
+      (this.descripcion = platos[index].Descripcion),
+        (this.cantidad = []),
+        (this.seleccionado = []);
+      this.ingredientes = "";
+      console.log(platos[index].Ingredientes.length);
+      for (i = 0; i < platos[index].Ingredientes.length; i++) {
+        //ciclo que se mueve en el objeto ingredientes
+        console.log(platos[index].Ingredientes[i].nombre);
+        console.log(inventario[i].nombre);
+        var flag = false;
+        for (j = 0; j < inventario.length; j++) {
+          //ciclo quwe busca un ingrediente en el inventario
+          if (inventario[j].nombre == platos[index].Ingredientes[i].nombre) {
+            flag = true;
+            break;
+          } else {
+            continue;
+          }
+        }
+        if (flag) {
+          this.seleccionado.push(true);
+          this.cantidad.push(platos[index].Ingredientes[i].cantidad);
+          this.ingredientes =
+            platos[index].Ingredientes[i].nombre + " , " + this.ingredientes;
+        } else {
+          this.seleccionado.push(false);
+          this.cantidad.push("0");
+        }
+      }
+    },
     getImg(url) {
       var gsReference = storage.refFromURL(url);
       gsReference
@@ -251,6 +366,8 @@ export default {
         .catch((err) => alert(err));
     },
     arrayIngredientes() {
+      //metodo que valida los ingredientes agregados,
+      //porsteriormete devuelve el arreglo de ingredientes de un plato
       var aux = [];
       var i = 0;
       for (i = 0; i < this.seleccionado.length; i++) {
@@ -275,10 +392,48 @@ export default {
       }
       return aux;
     },
+    updatemode(id,mode) {
+      console.log("cambio");
+      mode = !mode;
+      var palabra = "";
+      var aux = db.collection("Platos").doc(id);
+      aux
+        .update({ Estado: mode })
+        .then((e) => {
+          if (mode) {
+            palabra = "activado";
+          } else {
+            palabra = "desactivado";
+          }
+          console.log(" el estado del articulo " + id + " es " + palabra);
+          console.log(e);
+          inventario = [];
+            platos = [];
+            Urls = [];
+            this.intens = [];
+            this.menu = [];
+            this.cantidad = [];
+            this.seleccionado = [];
+            this.ingredientes = "";
+            this.precio = "";
+            this.nombre = "";
+            this.barra = "";
+            this.url = "";
+            this.Tipo = "Selecciona una opcion";
+            this.descripcion = "";
+            this.rerender();
+            this.intens = inventario;
+            this.menu = platos;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
 
+    },
     llenar() {
+      //metodo que se encarga de renderizar los ingredientes en la barra
       this.ingredientes = "";
-      this.error = "";
+      this.error = " ";
       /*if (this.seleccionado.indexOf(iten) > -1) {
         console.log("estoy aqui");
         this.seleccionado.splice(this.seleccionado.indexOf(iten), 1);
@@ -307,6 +462,7 @@ export default {
       this.warningModal = false;
     },
     agregarIten() {
+      //metodo que agrega un plato al menu
       this.error = "";
       if (
         this.ingredientes &&
@@ -317,28 +473,34 @@ export default {
         this.Tipo != "Selecciona una opcion"
       ) {
         db.collection("Platos")
-          .add({
-            Ingredientes: this.arrayIngredientes(),
-            Precio: this.precio,
+          .doc(this.nombre)
+          .set({
             Nombre: this.nombre,
+            Ingredientes: this.arrayIngredientes(),
+            Estado: this.mode,
+            Precio: this.precio,
             Url: this.url,
             Descripcion: this.descripcion,
             Tipo: this.Tipo,
           })
           .then(() => {
             inventario = [];
+            platos = [];
+            Urls = [];
             this.intens = [];
             this.menu = [];
+            this.cantidad = [];
+            this.seleccionado = [];
+            this.ingredientes = "";
+            this.precio = "";
+            this.nombre = "";
+            this.barra = "";
+            this.url = "";
+            this.Tipo = "Selecciona una opcion";
+            this.descripcion = "";
             this.rerender();
-            (this.cantidad = []),
-              (this.seleccionado = []),
-              (this.ingredientes = ""),
-              (this.precio = ""),
-              (this.nombre = ""),
-              (this.barra = ""),
-              (this.url = ""),
-              (this.descripcion = ""),
-              (this.intens = inventario);
+            this.intens = inventario;
+            this.menu = platos;
           })
           .catch((error) => {
             console.error("Error adding document: ", error);
@@ -348,7 +510,7 @@ export default {
       }
     },
     rerender() {
-      //carga el arreglo de inventario
+      //carga  y renderiza el arreglo de inventario
       db.collection("Inventario").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           var iten = {
@@ -360,11 +522,12 @@ export default {
           inventario.push(iten);
         });
       });
-      //carga el arreglo de platos
+      //carga el y renderiza arreglo de platos
       db.collection("Platos").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           var iten = {
             Ingredientes: doc.data().Ingredientes,
+            Estado:doc.data().Estado,
             Precio: doc.data().Precio,
             Nombre: doc.data().Nombre,
             Url: doc.data().Url,
@@ -387,6 +550,8 @@ export default {
   },
   beforeDestroy() {
     inventario = [];
+    platos = [];
+    Urls = [];
     var unsubscribe = db.collection("Inventario").onSnapshot(() => {
       // Respond to data
       // ...

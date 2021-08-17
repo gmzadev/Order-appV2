@@ -8,6 +8,7 @@
           </h2>
           <h2>Pagos Pendientes</h2>
         </CCardHeader>
+        <hr class="rounded">
         <CCardBody>
           <div class="table-responsive tabla-p">
             <table class="table table-striped">
@@ -17,8 +18,8 @@
                   <th>{{ fields[0].key }}</th>
                   <th>{{ fields[1].key }}</th>
                   <th>{{ fields[2].key }}</th>
-                  <th>{{ fields[3].key }}</th>
-                  <th>{{ fields[4].key }}</th>
+                  <th>{{ fields[3].label }}</th>
+                  <th>{{ fields[4].label }}</th>
                   <th scope="col">Aceptar</th>
                   <th scope="col">Rechazar</th>
                 </tr>
@@ -153,6 +154,6 @@ export default {
 </script>
 <style scoped>
 .tabla-p {
-  height: 500px;
+  height: 330px;
 }
 </style>

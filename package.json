@@ -19,6 +19,7 @@
     "@coreui/vue": "^3.2.9",
     "@coreui/vue-chartjs": "^1.0.6",
     "@vue/composition-api": "^1.0.4",
+    "file-saver": "^2.0.5",
     "firebase": "^8.8.0",
     "register-service-worker": "^1.7.1",
     "vue": "~2.6.12",
