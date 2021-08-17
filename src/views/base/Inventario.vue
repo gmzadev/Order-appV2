@@ -302,7 +302,6 @@ export default {
   },
   computed: {
     buscar() {
-      console.log("dentro de la funcion");
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.intens = inventario;
       var aux = [];
@@ -316,7 +315,7 @@ export default {
           }
         } else if (this.seleccionado == "Nombre") {
           for (i = 0; i < this.intens.length; i++) {
-            if (this.intens[i].nombre.includes(this.Barra)) {
+            if (this.intens[i].nombre.toUpperCase().includes(this.Barra.toUpperCase())) {
               aux.push(this.intens[i]);
             }
           }
@@ -328,7 +327,7 @@ export default {
           }
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       return (this.intens = aux);
