@@ -43,64 +43,58 @@
               </CInput>
             </CForm>
           </div>
-          <CRow>
-            <template>
-              <div v-for="(plato, index) in menu" :key="index">
-                <CCol lg="3">
-                  <CCard flex :aria-disabled="plato.Estado">
-                    <CCardHeader class="center lato-titulo">
-                      {{ plato.Nombre }}
-                    </CCardHeader>
-                    <CCardBody>
-                      <img :src="urls[index]" alt="" class="img-fluid" />
-                    </CCardBody>
-                    <CCardFooter>
-                      <div class="borde">
-                        {{ plato.Descripcion }}
-                      </div>
-                      <hr />
-                    </CCardFooter>
-                    <div
-                      class="
-                        col-auto
-                        d-flex
-                        justify-content-between
-                        pb-15
-                        oculto
-                      "
-                    >
-                      <CButton class="col-3 p-2" variant="outline" color="danger"
-                        ><i class="fas fa-trash" />
-                      </CButton>
-                      <CButton
-                        v-if="plato.Estado"
-                        class="col-3 p-2"
-                        variant="outline"
-                        color="info"
-                        @click="updatemode(plato.Nombre,plato.Estado)"
-                        >On
-                      </CButton>
-                       <CButton
-                        v-else
-                        class="col-3 p-2"
-                        variant="outline"
-                        color="dark"
-                        @click="updatemode(plato.Nombre,plato.Estado)"
-                        >Off
-                      </CButton>
-                      <CButton
-                        class="col-3 p-2"
-                        variant="outline"
-                        color="warning"
-                        @click="modificar(index)"
-                        ><i class="fas fa-edit"/></CButton
-                      >
+
+          <template>
+            <div class="card-group">
+              <div v-for="(plato, index) in menu" :key="index" class="col-md-3">
+                <CCard flex :aria-disabled="plato.Estado">
+                  <CCardHeader class="center lato-titulo">
+                    {{ plato.Nombre }}
+                  </CCardHeader>
+                  <CCardBody>
+                    <img :src="urls[index]" alt="" class="img-fluid" />
+                  </CCardBody>
+                  <CCardFooter>
+                    <div class="borde">
+                      {{ plato.Descripcion }}
                     </div>
-                  </CCard>
-                </CCol>
+                    <hr />
+                  </CCardFooter>
+                  <div
+                    class="col-auto d-flex justify-content-between pb-15 oculto"
+                  >
+                    <CButton class="col-3 p-2" variant="outline" color="danger"
+                      ><i class="fas fa-trash" />
+                    </CButton>
+                    <CButton
+                      v-if="plato.Estado"
+                      class="col-3 p-2"
+                      variant="outline"
+                      color="info"
+                      @click="updatemode(plato.Nombre, plato.Estado)"
+                      >On
+                    </CButton>
+                    <CButton
+                      v-else
+                      class="col-3 p-2"
+                      variant="outline"
+                      color="dark"
+                      @click="updatemode(plato.Nombre, plato.Estado)"
+                      >Off
+                    </CButton>
+                    <CButton
+                      class="col-3 p-2"
+                      variant="outline"
+                      color="warning"
+                      @click="modificar(index)"
+                      ><i class="fas fa-edit"
+                    /></CButton>
+                  </div>
+                </CCard>
               </div>
-            </template>
-          </CRow>
+            </div>
+          </template>
+
           <div>
             <CForm @submit.prevent="agregarIten">
               <CInput
@@ -392,7 +386,7 @@ export default {
       }
       return aux;
     },
-    updatemode(id,mode) {
+    updatemode(id, mode) {
       console.log("cambio");
       mode = !mode;
       var palabra = "";
@@ -408,27 +402,26 @@ export default {
           console.log(" el estado del articulo " + id + " es " + palabra);
           console.log(e);
           inventario = [];
-            platos = [];
-            Urls = [];
-            this.intens = [];
-            this.menu = [];
-            this.cantidad = [];
-            this.seleccionado = [];
-            this.ingredientes = "";
-            this.precio = "";
-            this.nombre = "";
-            this.barra = "";
-            this.url = "";
-            this.Tipo = "Selecciona una opcion";
-            this.descripcion = "";
-            this.rerender();
-            this.intens = inventario;
-            this.menu = platos;
+          platos = [];
+          Urls = [];
+          this.intens = [];
+          this.menu = [];
+          this.cantidad = [];
+          this.seleccionado = [];
+          this.ingredientes = "";
+          this.precio = "";
+          this.nombre = "";
+          this.barra = "";
+          this.url = "";
+          this.Tipo = "Selecciona una opcion";
+          this.descripcion = "";
+          this.rerender();
+          this.intens = inventario;
+          this.menu = platos;
         })
         .catch((err) => {
           console.error(err);
         });
-
     },
     llenar() {
       //metodo que se encarga de renderizar los ingredientes en la barra
@@ -527,7 +520,7 @@ export default {
         querySnapshot.forEach((doc) => {
           var iten = {
             Ingredientes: doc.data().Ingredientes,
-            Estado:doc.data().Estado,
+            Estado: doc.data().Estado,
             Precio: doc.data().Precio,
             Nombre: doc.data().Nombre,
             Url: doc.data().Url,

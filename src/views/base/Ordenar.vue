@@ -100,11 +100,9 @@
 
 <script>
 
-import GFooter from '@/components/GFooter.vue'
+
 export default {
-  components: {
-    GFooter
-  },
+  
   data () {
     return {
       name: 'contactenos',
