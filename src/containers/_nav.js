@@ -3,9 +3,10 @@ export default [
     _name: 'CSidebarNav',
     _children: [
       {
-        _name: 'CSidebarNavTitle',
-        _children: ['Administrativo'],
-
+        _name: 'CSidebarNavItem',
+        name: 'Home',
+        to: '/Home',//ruta de historico
+        icon: 'cil-home'
       },
       {
         _name: 'CSidebarNavItem',
@@ -15,6 +16,7 @@ export default [
         to:'/Dashboard',
         icon: 'cil-speedometer'
       },
+      
       {
         _name: 'CSidebarNavItem',
         show: false,

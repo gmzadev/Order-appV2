@@ -121,11 +121,19 @@
                 </select>
               </div>
               <CInput
+                
                 placeholder="Link de Firebase"
                 autocomplete="Link de Firebase"
                 prepend="url"
                 v-model="url"
               />
+
+              <div class="input-group mb-3" >
+                <input type="file" class="form-control" id="inputGroupFile01"  accept="image/*" @change="onfileselected"/>
+                <label class="input-group-text" for="inputGroupFile01">
+                  <span><i class="cil-dinner"></i></span>
+                </label>
+              </div>
               <CInput
                 placeholder="descripcion"
                 autocomplete="descripcion"
@@ -168,19 +176,19 @@
                   variant="outline"
                   color="dark"
                   flex
-                  class="col-3"
+                  class="col-md-"
                   style="margin-right: 1%"
                   @click.prevent="Limpiar"
                   >Limpiar Campos
                 </CButton>
                 <CButton
-                  class="col-3"
+                  class="col-md-"
                   variant="outline"
                   color="success"
                   flex
                   style="margin-left: 1%"
                   @click.prevent="agregarIten"
-                  >Agregar / Modificar
+                  >Editar
                 </CButton>
               </div>
             </CForm>
@@ -191,8 +199,9 @@
     <div class="center" style="z-index: 3">
       <CModal
         class="center"
-        title="Pago"
+        title="Ingredientes"
         color="success"
+        style="text-align: center"
         size="lg"
         :show.sync="warningModal"
         :footer="!warningModal"
@@ -265,13 +274,14 @@ import { db, storage } from "@/main.js";
 var inventario = [];
 var platos = [];
 var Urls = [];
-
 export default {
   name: "Platos",
+
   data() {
     return {
       Estado: false,
       mode: false,
+      ref_ruta: "",
       cantidad: [], //aux que mide la cantidad de un ingrediente en el modal
       seleccionado: [], //aux de bolean que guarda la seleccion de un ingrediente
       ingredientes: "",
@@ -280,12 +290,17 @@ export default {
       error: "", //aux para errores
       precio: "", //precio de un plato
       menu: platos, //menu de platos
+      seleccionar: false,
       intens: inventario, //aux para renderizar inventario
       warningModal: false, //aux que especifica el el estado de visivilidad de un modal
       nombre: "",
       barra: "",
       url: "",
+      ruta: "",
       descripcion: "",
+      UploadValue:0,
+      slectedFile:null,
+      picture:null,
       /**plato: [ esto es para una posible refactorizacion usar este 
        * objeto como un plato dentro del menu `plato in menu`
        * {
@@ -303,6 +318,10 @@ export default {
     };
   },
   methods: {
+    onfileselected(event) {
+      this.slectedFile=event.target.files[0];
+      
+    },
     Limpiar() {
       this.cantidad = [];
       this.seleccionado = [];
@@ -313,8 +332,12 @@ export default {
       this.url = "";
       this.Tipo = "Selecciona una opcion";
       this.descripcion = "";
+      this.ruta = "";
+      this.seleccionar=false
     },
-    modificar(index) {
+    modificar(index) {//modifica un ingrediente en el array de platos del inventario luego guarda datos en firebase
+      this.seleccionar = true;
+      
       //llena los campos para ser modificados
       var i = 0;
       var j = 0;
@@ -326,11 +349,10 @@ export default {
         (this.cantidad = []),
         (this.seleccionado = []);
       this.ingredientes = "";
-      console.log(platos[index].Ingredientes.length);
       for (i = 0; i < platos[index].Ingredientes.length; i++) {
         //ciclo que se mueve en el objeto ingredientes
-        console.log(platos[index].Ingredientes[i].nombre);
-        console.log(inventario[i].nombre);
+        console.log(platos[index].Nombre);
+
         var flag = false;
         for (j = 0; j < inventario.length; j++) {
           //ciclo quwe busca un ingrediente en el inventario
@@ -341,12 +363,12 @@ export default {
             continue;
           }
         }
-        if (flag) {
+        if (flag) {//si existe lo guarda
           this.seleccionado.push(true);
           this.cantidad.push(platos[index].Ingredientes[i].cantidad);
           this.ingredientes =
             platos[index].Ingredientes[i].nombre + " , " + this.ingredientes;
-        } else {
+        } else {//si no lo crea
           this.seleccionado.push(false);
           this.cantidad.push("0");
         }
@@ -386,7 +408,7 @@ export default {
       }
       return aux;
     },
-    updatemode(id, mode) {
+    updatemode(id, mode) {//cambio de modo si esta on o off, es decir si el acticulo esta disponible para el menu si o no
       console.log("cambio");
       mode = !mode;
       var palabra = "";
@@ -455,49 +477,58 @@ export default {
       this.warningModal = false;
     },
     agregarIten() {
+      console.log('hola')
+      //const storageRef=storage().ref(`/imagenes menu/${this.slectedFile.name}`);
+      //console.log(storageRef)
+      //const task=storageRef.put(this.slectedFile);
+      this.seleccionar = false;
       //metodo que agrega un plato al menu
       this.error = "";
       if (
         this.ingredientes &&
         this.precio &&
         this.nombre &&
-        this.url &&
+        (this.url || this.ruta) &&
         this.descripcion &&
         this.Tipo != "Selecciona una opcion"
       ) {
-        db.collection("Platos")
-          .doc(this.nombre)
-          .set({
-            Nombre: this.nombre,
-            Ingredientes: this.arrayIngredientes(),
-            Estado: this.mode,
-            Precio: this.precio,
-            Url: this.url,
-            Descripcion: this.descripcion,
-            Tipo: this.Tipo,
-          })
-          .then(() => {
-            inventario = [];
-            platos = [];
-            Urls = [];
-            this.intens = [];
-            this.menu = [];
-            this.cantidad = [];
-            this.seleccionado = [];
-            this.ingredientes = "";
-            this.precio = "";
-            this.nombre = "";
-            this.barra = "";
-            this.url = "";
-            this.Tipo = "Selecciona una opcion";
-            this.descripcion = "";
-            this.rerender();
-            this.intens = inventario;
-            this.menu = platos;
-          })
-          .catch((error) => {
-            console.error("Error adding document: ", error);
-          });
+        if (this.seleccionar) {
+          db.collection("Platos")
+            .doc(this.nombre)
+            .set({
+              Nombre: this.nombre,
+              Ingredientes: this.arrayIngredientes(),
+              Estado: this.mode,
+              Precio: this.precio,
+              Url: this.url,
+              Descripcion: this.descripcion,
+              Tipo: this.Tipo,
+            })
+            .then(() => {
+              inventario = [];
+              platos = [];
+              Urls = [];
+              this.intens = [];
+              this.menu = [];
+              this.cantidad = [];
+              this.seleccionado = [];
+              this.ingredientes = "";
+              this.precio = "";
+              this.nombre = "";
+              this.barra = "";
+              this.url = "";
+              this.Tipo = "Selecciona una opcion";
+              this.descripcion = "";
+              this.rerender();
+              this.intens = inventario;
+              this.menu = platos;
+            })
+            .catch((error) => {
+              console.error("Error adding document: ", error);
+            });
+        } else {
+          console.log;
+        }
       } else {
         this.error = "todos los campos son requeridos";
       }
@@ -561,6 +592,7 @@ export default {
 </script>
 
 <style>
+
 .barra {
   padding: 1%;
 }

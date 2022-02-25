@@ -164,8 +164,8 @@
                   variant="outline"
                   color="dark"
                   flex
-                  class="col-3"
-                  style="margin-right: 1%"
+                  class="col-md-"
+                  style="margin-right: 1%; "
                   @click="Limpiar"
                   >Limpiar Campos
                 </CButton>
@@ -174,8 +174,8 @@
                   variant="outline"
                   color="success"
                   flex
-                  style="margin-left: 1%"
-                  class="col-3"
+                  style="margin-left: 1%;  "
+                  class="col-md-"
                   @click="agregarIten"
                   >Agregar / Modificar
                 </CButton>
@@ -372,9 +372,9 @@ export default {
 </script>
 
 <style scoped>
-#inventario {
+/*#inventario {
   margin-top: -1rem;
-}
+}*/
 .tabla-i {
   height: 250px !important;
   margin-bottom: 25px;

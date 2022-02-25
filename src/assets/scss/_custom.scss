@@ -6,6 +6,7 @@ font-family: 'Noto Sans JP', sans-serif;
 font-family: 'Open Sans', sans-serif;
 font-family: 'Poppins', sans-serif;
 font-family: 'Roboto', sans-serif;*/
+
 .c-sidebar {
 &.c-sidebar-fixed {
 @include media-breakpoint-up($mobile-breakpoint) {
@@ -77,6 +78,7 @@ p,a,h6,h5 {
       border-radius: 5%;
       justify-content: center;
 }
+
 .center {
   text-align: center !important;
   justify-content: center;

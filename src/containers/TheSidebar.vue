@@ -6,10 +6,7 @@
     :show="show"
     @update:show="(value) => $store.commit('set', ['sidebarShow', value])"
   >
-    <CSidebarBrand class="d-md-down-none" to="/home">
-      <i class="cil-house"></i>
-         <span v-if="!$store.state.sidebarMinimize">Home</span>
-    </CSidebarBrand>
+   
 
     <CRenderFunction flat :content-to-render="$options.nav"/>
     <CSidebarMinimizer
