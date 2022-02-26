@@ -5,7 +5,12 @@ module.exports = {
       {
         useBuiltIns: 'entry',
         corejs: 3
-      }
+      },
+      /***'@babel/env', 
+         { 
+             targets: { /* your targeted browser  },
+             useBuiltIns: "usage" 
+         }**/
     ]
   ]
 }

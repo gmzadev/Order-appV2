@@ -9,6 +9,7 @@ import store from './store'
 import firebase from 'firebase'
 import './registerServiceWorker'
 
+
 //paramtros de firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCkYV4JcFmwUboa-pyEby14RsQvnHbXjWE",
@@ -28,13 +29,13 @@ firebase.firestore().settings({ timestampInSnapshots: true })
 //variables de firebase y vue
 var db = firebase.firestore();
 //funcion que llena el arreglo de inventarios
-var storage =firebase.storage();
+var storage = firebase.storage();
 Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.prototype.$log = console.log.bind(console)
 
 
-export { db,storage}
+export { db, storage}
 new Vue({
   el: '#app',
   router,

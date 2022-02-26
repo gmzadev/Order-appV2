@@ -52,7 +52,7 @@
                     {{ plato.Nombre }}
                   </CCardHeader>
                   <CCardBody>
-                    <img :src="urls[index]" alt="" class="img-fluid" />
+                    <img :src="plato.Url" alt="" class="img-fluid" />
                   </CCardBody>
                   <CCardFooter>
                     <div class="borde">
@@ -63,7 +63,11 @@
                   <div
                     class="col-auto d-flex justify-content-between pb-15 oculto"
                   >
-                    <CButton class="col-3 p-2" variant="outline" color="danger"
+                    <CButton
+                      class="col-3 p-2"
+                      variant="outline"
+                      color="danger"
+                      @click="erase(plato.Nombre)"
                       ><i class="fas fa-trash" />
                     </CButton>
                     <CButton
@@ -120,19 +124,23 @@
                   <option value="Extra">Extra</option>
                 </select>
               </div>
-              <CInput
-                
-                placeholder="Link de Firebase"
-                autocomplete="Link de Firebase"
-                prepend="url"
-                v-model="url"
-              />
-
-              <div class="input-group mb-3" >
-                <input type="file" class="form-control" id="inputGroupFile01"  accept="image/*" @change="onfileselected"/>
-                <label class="input-group-text" for="inputGroupFile01">
-                  <span><i class="cil-dinner"></i></span>
-                </label>
+              <div class="input-group mb-3 texto">
+                <input
+                  type="file"
+                  class="form-control"
+                  id="inputGroupFile01"
+                  accept="image/*"
+                  @change="onfileselected"
+                />
+                <button
+                  class="btn btn-secondary fas fa-image texto"
+                  type="button"
+                  id="button-addon2"
+                  @click="upload"
+                  :disabled="selectedFile == null"
+                >
+                  Subir
+                </button>
               </div>
               <CInput
                 placeholder="descripcion"
@@ -263,17 +271,18 @@
         </div>
       </CModal>
     </div>
-    <CAlert color="warning" v-if="error" style="margin-top: 1rem" closeButton>
+    <CAlert color="warning" v-if="error" style="margin-top: 1rem" @click='() => { error = "" ; console.log(error)}' closeButton >
       {{ error }}
     </CAlert>
   </CRow>
 </template>
 
 <script>
+//impor;
+import "regenerator-runtime/runtime";
 import { db, storage } from "@/main.js";
 var inventario = [];
 var platos = [];
-var Urls = [];
 export default {
   name: "Platos",
 
@@ -298,9 +307,9 @@ export default {
       url: "",
       ruta: "",
       descripcion: "",
-      UploadValue:0,
-      slectedFile:null,
-      picture:null,
+      UploadValue: 0,
+      selectedFile: null,
+      picture: null,
       /**plato: [ esto es para una posible refactorizacion usar este 
        * objeto como un plato dentro del menu `plato in menu`
        * {
@@ -318,9 +327,89 @@ export default {
     };
   },
   methods: {
+    /**upload() {
+      console.log("hola");
+      let imgRef = this.selectedFile;
+      const uploadImageFetch = async (imgRef) => {
+        console.log("hola 2");
+        const blob = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.onload = function () {
+            resolve(xhr.response);
+          };
+          xhr.onerror = function (e) {
+            console.log(e);
+            reject(new TypeError("Network request failed"));
+          };
+          xhr.responseType = "blob";
+          xhr.open("GET", imgRef, true);
+          xhr.send(null);
+        });
+        const imageNameBefore = imgRef.split("/");
+        const imageName = imageNameBefore[imageNameBefore.length - 1];
+
+        const ref = storage.ref().child(`imagenes menu/${imageName}`);
+        const snapshot = await ref.put(blob);
+        blob.close();
+        return await snapshot.ref.getDownloadURL();
+      };
+    },****/
+    upload() {
+      var metadata = {
+        contentType: "image/jpeg",
+      };
+      const storageRef = storage
+        .ref(`/imagenes menu/${this.selectedFile.name}`)
+        .put(this.selectedFile, metadata);
+      storageRef.on(
+        "state_changed",
+        (snapshot) => {
+          let porcentaje =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          this.UploadValue = porcentaje;
+          console.log("Upload is " + this.UploadValue + "% done");
+        },
+        (error) => {
+          console.log("errores: ", error);
+        },
+        () => {
+          console.log("hola", this.ruta);
+          this.porcentaje = 100;
+          // Upload completed successfully, now we can get the download URL
+          storageRef.snapshot.ref.getDownloadURL().then((lincksito) => {
+            this.ruta = lincksito;
+            console.log("la ruta es", this.ruta);
+          });
+        }
+      );
+    },
+
     onfileselected(event) {
-      this.slectedFile=event.target.files[0];
-      
+      this.selectedFile = event.target.files[0];
+      console.log(this.selectedFile.name);
+    },
+    erase(index) {
+      console.log("hola");
+      db.collection("Platos")
+        .doc(index)
+        .delete()
+        .then(() => {
+          console.log("Document successfully deleted!");
+          this.inventario = [];
+          this.platos = [];
+          this.Urls = [];
+          this.intens = [];
+          this.menu = [];
+          this.cantidad = [];
+          this.seleccionado = [];
+          this.seleccionar = false;
+          this.rerender();
+          this.intens = inventario;
+          this.menu = platos;
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
     },
     Limpiar() {
       this.cantidad = [];
@@ -333,11 +422,12 @@ export default {
       this.Tipo = "Selecciona una opcion";
       this.descripcion = "";
       this.ruta = "";
-      this.seleccionar=false
+      this.seleccionar = false;
     },
-    modificar(index) {//modifica un ingrediente en el array de platos del inventario luego guarda datos en firebase
+    modificar(index) {
+      //modifica un ingrediente en el array de platos del inventario luego guarda datos en firebase
       this.seleccionar = true;
-      
+
       //llena los campos para ser modificados
       var i = 0;
       var j = 0;
@@ -363,24 +453,26 @@ export default {
             continue;
           }
         }
-        if (flag) {//si existe lo guarda
+        if (flag) {
+          //si existe lo guarda
           this.seleccionado.push(true);
           this.cantidad.push(platos[index].Ingredientes[i].cantidad);
           this.ingredientes =
             platos[index].Ingredientes[i].nombre + " , " + this.ingredientes;
-        } else {//si no lo crea
+        } else {
+          //si no lo crea
           this.seleccionado.push(false);
           this.cantidad.push("0");
         }
       }
     },
-    getImg(url) {
+   /* getImg(url) {
       var gsReference = storage.refFromURL(url);
       gsReference
         .getDownloadURL()
         .then((e) => this.urls.push(e))
         .catch((err) => alert(err));
-    },
+    },*/
     arrayIngredientes() {
       //metodo que valida los ingredientes agregados,
       //porsteriormete devuelve el arreglo de ingredientes de un plato
@@ -408,7 +500,8 @@ export default {
       }
       return aux;
     },
-    updatemode(id, mode) {//cambio de modo si esta on o off, es decir si el acticulo esta disponible para el menu si o no
+    updatemode(id, mode) {
+      //cambio de modo si esta on o off, es decir si el acticulo esta disponible para el menu si o no
       console.log("cambio");
       mode = !mode;
       var palabra = "";
@@ -425,7 +518,6 @@ export default {
           console.log(e);
           inventario = [];
           platos = [];
-          Urls = [];
           this.intens = [];
           this.menu = [];
           this.cantidad = [];
@@ -477,64 +569,85 @@ export default {
       this.warningModal = false;
     },
     agregarIten() {
-      console.log('hola')
-      //const storageRef=storage().ref(`/imagenes menu/${this.slectedFile.name}`);
-      //console.log(storageRef)
-      //const task=storageRef.put(this.slectedFile);
-      this.seleccionar = false;
       //metodo que agrega un plato al menu
       this.error = "";
+      if (this.seleccionar){
+        if (this.ruta==""){
+          this.ruta=this.url
+        }
+      }
+      console.log("hola");
       if (
         this.ingredientes &&
         this.precio &&
         this.nombre &&
-        (this.url || this.ruta) &&
+        (this.ruta||this.url) &&
         this.descripcion &&
         this.Tipo != "Selecciona una opcion"
       ) {
-        if (this.seleccionar) {
-          db.collection("Platos")
-            .doc(this.nombre)
-            .set({
-              Nombre: this.nombre,
-              Ingredientes: this.arrayIngredientes(),
-              Estado: this.mode,
-              Precio: this.precio,
-              Url: this.url,
-              Descripcion: this.descripcion,
-              Tipo: this.Tipo,
-            })
-            .then(() => {
-              inventario = [];
-              platos = [];
-              Urls = [];
-              this.intens = [];
-              this.menu = [];
-              this.cantidad = [];
-              this.seleccionado = [];
-              this.ingredientes = "";
-              this.precio = "";
-              this.nombre = "";
-              this.barra = "";
-              this.url = "";
-              this.Tipo = "Selecciona una opcion";
-              this.descripcion = "";
-              this.rerender();
-              this.intens = inventario;
-              this.menu = platos;
-            })
-            .catch((error) => {
-              console.error("Error adding document: ", error);
-            });
-        } else {
-          console.log;
-        }
+        db.collection("Platos")
+          .doc(this.nombre)
+          .set({
+            Nombre: this.nombre,
+            Ingredientes: this.arrayIngredientes(),
+            Estado: this.mode,
+            Precio: this.precio,
+            Url: this.ruta,
+            Descripcion: this.descripcion,
+            Tipo: this.Tipo,
+          })
+          .then(() => {
+            inventario = [];
+            platos = [];
+            this.intens = [];
+            this.menu = [];
+            this.cantidad = [];
+            this.seleccionado = [];
+            this.ingredientes = "";
+            this.precio = "";
+            this.nombre = "";
+            this.barra = "";
+            this.url = "";
+            this.Tipo = "Selecciona una opcion";
+            this.descripcion = "";
+
+            this.rerender();
+            this.intens = inventario;
+            this.menu = platos;
+          })
+          .catch((error) => {
+            console.error("Error adding document: ", error);
+          });
       } else {
-        this.error = "todos los campos son requeridos";
+        let tipo_error="";
+        if (this.ingredientes.length==0){
+         
+          tipo_error=" faltan ingredientes, "
+        }
+        if (this.precio==0){
+          tipo_error=tipo_error+"falta el precio, "
+         
+        }
+        if (this.nombre==""){
+          tipo_error=tipo_error+"falta el nombre, "
+
+        }
+        if (this.ruta==""){
+          tipo_error=tipo_error+"la imagen no ha sido subida, "
+        }
+        if (this.descripcion==""){
+          tipo_error=tipo_error+"falta una descripcion, "
+        }
+         if (this.Tipo=="Selecciona una opcion"){
+          tipo_error=tipo_error+"seleccione el tipo de plato, "
+        }
+        this.error = "todos los campos son requeridos: "+ tipo_error;
       }
+      this.seleccionar = false;
     },
     rerender() {
       //carga  y renderiza el arreglo de inventario
+
       db.collection("Inventario").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           var iten = {
@@ -546,7 +659,7 @@ export default {
           inventario.push(iten);
         });
       });
-      //carga el y renderiza arreglo de platos
+      //carga el y renderiza arreglo de platos y urls
       db.collection("Platos").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           var iten = {
@@ -559,7 +672,6 @@ export default {
             Tipo: doc.data().Tipo,
           };
           platos.push(iten);
-          Urls.push(this.getImg(iten.Url));
         });
       });
     },
@@ -575,7 +687,6 @@ export default {
   beforeDestroy() {
     inventario = [];
     platos = [];
-    Urls = [];
     var unsubscribe = db.collection("Inventario").onSnapshot(() => {
       // Respond to data
       // ...
@@ -592,7 +703,6 @@ export default {
 </script>
 
 <style>
-
 .barra {
   padding: 1%;
 }
