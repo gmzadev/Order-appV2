@@ -12,7 +12,7 @@
         <hr class="rounded" />
         <CCardBody class="container-fluid">
           <div>
-            <CForm @submit.prevent="">
+            <CForm @submit.prevent="" onkeydown="return (event.keyCode!=13);">
               <CInput
                 class="barra"
                 type="search"
@@ -20,15 +20,14 @@
                 value=""
                 placeholder=""
                 size="lg"
-                v-model="barra"
-                @keypress="busqueda"
+                v-model="BarraPlatos"
               >
                 <template #append-content>
                   <CButton
                     color="dark"
                     variant="outline"
                     type="submit"
-                    @click.prevent="search"
+                    @keypress="buscarPlato"
                     style="
                       height: 25px !important ;
                       width: 10px;
@@ -40,6 +39,16 @@
                     <i class="fas fa-search fa-xs"></i>
                   </CButton>
                 </template>
+                 <template #prepend-content class="">
+              <select
+                v-model="TipoDeBuquedaPlatos"
+                class="forma-div center form-select"
+                style="height: 25px !important"
+              >
+                <option selected value="Codigo">Codigo</option>
+                <option value="Nombre">Nombre</option>
+              </select>
+            </template>
               </CInput>
             </CForm>
           </div>
@@ -101,6 +110,17 @@
 
           <div>
             <CForm @submit.prevent="agregarIten">
+              <CInput
+                placeholder="ID"
+                autocomplete="ID"
+                type="number"
+                :disabled="seleccionar"
+                v-model="platoID"
+              >
+                <template #prepend-content>
+                  <CIcon name="cil-fingerprint" />
+                </template>
+              </CInput>
               <CInput
                 placeholder="Nombre del plato"
                 autocomplete="Nombre deL plato"
@@ -210,20 +230,61 @@
         title="Ingredientes"
         color="success"
         style="text-align: center"
-        size="lg"
+        size="xl"
         :show.sync="warningModal"
         :footer="!warningModal"
         :backdrop="!warningModal"
       >
+        <CForm onkeydown="return (event.keyCode!=13);">
+          <CInput
+            class="barra"
+            type="search"
+            name=""
+            value=""
+            placeholder=""
+            size="lg"
+            v-model="BarraIngredientes"
+          >
+            <template #append-content>
+              <CButton
+                color="dark"
+                variant="outline"
+                type="submit"
+                @keypress="buscarIngredientes"
+                style="
+                  height: 25px !important ;
+                  width: 10px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <i class="fas fa-search fa-xs"></i>
+              </CButton>
+            </template>
+            <template #prepend-content class="">
+              <select
+                v-model="TipoDeBuquedaIngredientes"
+                class="forma-div center form-select"
+                style="height: 25px !important"
+              >
+                <option selected value="Codigo">Codigo</option>
+                <option value="Nombre">Nombre</option>
+                <option value="Fecha">Fecha</option>
+              </select>
+            </template>
+          </CInput>
+        </CForm>
         <template>
           <div class="table-responsive tabla-i">
             <table class="table table-striped">
               <thead>
                 <tr class="center">
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Existencia</th>
-                  <th scope="col">Seleccionar</th>
-                  <th scope="col">Cantidad</th>
+                  <th scope="col-md-">Codigo</th>
+                  <th scope="col-md-">Nombre</th>
+                  <th scope="col-md-">Existencia</th>
+                  <th scope="col-md-">Seleccionar</th>
+                  <th scope="col-md-">Cantidad</th>
                 </tr>
               </thead>
               <tbody>
@@ -233,6 +294,7 @@
                   id="tabla"
                   class="center"
                 >
+                  <td>{{ iten.itenID }}</td>
                   <td>{{ iten.nombre }}</td>
                   <!--tabla de ingredientes -->
                   <td>{{ iten.existencia }}</td>
@@ -271,7 +333,7 @@
         </div>
       </CModal>
     </div>
-    <CAlert color="warning" v-if="error" style="margin-top: 1rem" @click='() => { error = "" ; console.log(error)}' closeButton >
+    <CAlert color="warning" v-if="error" style="margin-top: 1rem" closeButton>
       {{ error }}
     </CAlert>
   </CRow>
@@ -279,10 +341,10 @@
 
 <script>
 //impor;
-import "regenerator-runtime/runtime";
-import { db, storage } from "@/main.js";
-var inventario = [];
-var platos = [];
+import "regenerator-runtime/runtime"; //... lo pidio asi que lo puse
+import { db, storage } from "@/main.js"; //exportacion de firebase
+var inventario = [];//variable que  almacena  el inventario de ingredientes en el servidor
+var platos = [];//variable que almacena los platos en el servidor
 export default {
   name: "Platos",
 
@@ -290,7 +352,10 @@ export default {
     return {
       Estado: false,
       mode: false,
-      ref_ruta: "",
+      BarraIngredientes: "",
+      BarraPlatos: "",
+      TipoDeBuquedaIngredientes: "Codigo",//herramienta pasa el selector en barra ingrdienentes
+      TipoDeBuquedaPlatos:"Codigo",//herramienta pasa el selector de tipo platos en barra busqueda platos
       cantidad: [], //aux que mide la cantidad de un ingrediente en el modal
       seleccionado: [], //aux de bolean que guarda la seleccion de un ingrediente
       ingredientes: "",
@@ -302,12 +367,12 @@ export default {
       seleccionar: false,
       intens: inventario, //aux para renderizar inventario
       warningModal: false, //aux que especifica el el estado de visivilidad de un modal
-      nombre: "",
-      barra: "",
+      platoID: "",//id de un plato
+      nombre: "",//nombre ||  ||
       url: "",
       ruta: "",
       descripcion: "",
-      UploadValue: 0,
+      UploadValue: 0,//porcentaje de carga de la imagen
       selectedFile: null,
       picture: null,
       /**plato: [ esto es para una posible refactorizacion usar este 
@@ -328,7 +393,7 @@ export default {
   },
   methods: {
     /**upload() {
-      console.log("hola");
+      
       let imgRef = this.selectedFile;
       const uploadImageFetch = async (imgRef) => {
         console.log("hola 2");
@@ -389,7 +454,6 @@ export default {
       console.log(this.selectedFile.name);
     },
     erase(index) {
-      console.log("hola");
       db.collection("Platos")
         .doc(index)
         .delete()
@@ -412,6 +476,7 @@ export default {
         });
     },
     Limpiar() {
+      this.error = "";
       this.cantidad = [];
       this.seleccionado = [];
       this.ingredientes = "";
@@ -431,6 +496,7 @@ export default {
       //llena los campos para ser modificados
       var i = 0;
       var j = 0;
+      this.platoID=platos[index].PlatoId,
       (this.nombre = platos[index].Nombre),
         (this.Tipo = platos[index].Tipo),
         (this.precio = platos[index].Precio);
@@ -454,19 +520,19 @@ export default {
           }
         }
         if (flag) {
-          //si existe lo guarda
+          //si existe el ingrediente lo añade al arreglo
           this.seleccionado.push(true);
           this.cantidad.push(platos[index].Ingredientes[i].cantidad);
           this.ingredientes =
             platos[index].Ingredientes[i].nombre + " , " + this.ingredientes;
         } else {
-          //si no lo crea
+          //si no lo omite
           this.seleccionado.push(false);
           this.cantidad.push("0");
         }
       }
     },
-   /* getImg(url) {
+    /* getImg(url) {
       var gsReference = storage.refFromURL(url);
       gsReference
         .getDownloadURL()
@@ -540,7 +606,7 @@ export default {
     llenar() {
       //metodo que se encarga de renderizar los ingredientes en la barra
       this.ingredientes = "";
-      this.error = " ";
+      this.error = "";
       /*if (this.seleccionado.indexOf(iten) > -1) {
         console.log("estoy aqui");
         this.seleccionado.splice(this.seleccionado.indexOf(iten), 1);
@@ -570,24 +636,25 @@ export default {
     },
     agregarIten() {
       //metodo que agrega un plato al menu
-      this.error = "";
-      if (this.seleccionar){
-        if (this.ruta==""){
-          this.ruta=this.url
+      if (this.seleccionar) {
+        if (this.ruta == "") {
+          this.ruta = this.url;
         }
       }
-      console.log("hola");
+
       if (
+        this.platoID &&
         this.ingredientes &&
         this.precio &&
         this.nombre &&
-        (this.ruta||this.url) &&
+        (this.ruta || this.url) &&
         this.descripcion &&
         this.Tipo != "Selecciona una opcion"
       ) {
         db.collection("Platos")
-          .doc(this.nombre)
+          .doc(this.platoID.valueOf())
           .set({
+            PlatoId: this.platoID,
             Nombre: this.nombre,
             Ingredientes: this.arrayIngredientes(),
             Estado: this.mode,
@@ -604,6 +671,8 @@ export default {
             this.cantidad = [];
             this.seleccionado = [];
             this.ingredientes = "";
+            this.ruta=""
+            this.platoID = "";
             this.precio = "";
             this.nombre = "";
             this.barra = "";
@@ -619,35 +688,36 @@ export default {
             console.error("Error adding document: ", error);
           });
       } else {
-        let tipo_error="";
-        if (this.ingredientes.length==0){
-         
-          tipo_error=" faltan ingredientes, "
+        this.error = "";
+        let tipo_error = "";
+        if (this.platoID == "") {
+          tipo_error = tipo_error + " el codigo,";
         }
-        if (this.precio==0){
-          tipo_error=tipo_error+"falta el precio, "
-         
+        if (this.ingredientes.length == 0) {
+          tipo_error = tipo_error + " ingredientes, ";
         }
-        if (this.nombre==""){
-          tipo_error=tipo_error+"falta el nombre, "
-
+        if (this.precio == 0) {
+          tipo_error = tipo_error + "el precio, ";
         }
-        if (this.ruta==""){
-          tipo_error=tipo_error+"la imagen no ha sido subida, "
+        if (this.nombre == "") {
+          tipo_error = tipo_error + "el nombre, ";
         }
-        if (this.descripcion==""){
-          tipo_error=tipo_error+"falta una descripcion, "
+        if (this.ruta == "") {
+          tipo_error = tipo_error + "la imagen no ha sido subida, ";
         }
-         if (this.Tipo=="Selecciona una opcion"){
-          tipo_error=tipo_error+"seleccione el tipo de plato, "
+        if (this.descripcion == "") {
+          tipo_error = tipo_error + "una descripcion, ";
         }
-        this.error = "todos los campos son requeridos: "+ tipo_error;
+        if (this.Tipo == "Selecciona una opcion") {
+          tipo_error = tipo_error + "seleccione el tipo de plato, ";
+        }
+        this.error = "todos los campos son requeridos, Falta: " + tipo_error;
       }
       this.seleccionar = false;
     },
     rerender() {
       //carga  y renderiza el arreglo de inventario
-
+      inventario.length=0
       db.collection("Inventario").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           var iten = {
@@ -660,9 +730,11 @@ export default {
         });
       });
       //carga el y renderiza arreglo de platos y urls
+      platos.length=0
       db.collection("Platos").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           var iten = {
+            PlatoId:doc.data().PlatoId,
             Ingredientes: doc.data().Ingredientes,
             Estado: doc.data().Estado,
             Precio: doc.data().Precio,
@@ -679,7 +751,6 @@ export default {
     modal() {
       this.warningModal = true;
     },
-    busqueda() {},
   },
   mounted() {
     this.rerender();
@@ -698,7 +769,76 @@ export default {
     unsubscribe();
     unsubscribe2();
   },
-  computeds: {},
+  computed: {
+    /*recarga() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      return (this.error = "");
+    },*/
+    buscarIngredientes() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.intens = inventario;
+      var aux = [];
+      var i = 0;
+      try {
+        if (this.TipoDeBuquedaIngredientes == "Codigo") {
+          for (i = 0; i < this.intens.length; i++) {
+            if (this.intens[i].itenID.includes(this.BarraIngredientes)) {
+              aux.push(this.intens[i]);
+            }
+          }
+        } else if (this.TipoDeBuquedaIngredientes == "Nombre") {
+          for (i = 0; i < this.intens.length; i++) {
+            if (
+              this.intens[i].nombre
+                .toUpperCase()
+                .includes(this.BarraIngredientes.toUpperCase())
+            ) {
+              aux.push(this.intens[i]);
+            }
+          }
+        } else {
+          for (i = 0; i < this.intens.length; i++) {
+            if (this.intens[i].fecha.includes(this.BarraIngredientes)) {
+              aux.push(this.intens[i]);
+            }
+          }
+        }
+      } catch (error) {
+        //console.log(error);
+      }
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      return (this.intens = aux);
+    },
+    buscarPlato() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.menu= platos;
+      var aux = [];
+      var i = 0;
+      try {
+        if (this.TipoDeBuquedaPlatos == "Codigo") {
+          for (i = 0; i < this.menu.length; i++) {
+            if (this.menu[i].PlatoId.includes(this.BarraPlatos)) {
+              aux.push(this.menu[i]);
+            }
+          }
+        } else  {
+          for (i = 0; i < this.menu.length; i++) {
+            if (
+              this.menu[i].Nombre
+                .toUpperCase()
+                .includes(this.BarraPlatos.toUpperCase())
+            ) {
+              aux.push(this.menu[i]);
+            }
+          }
+        }
+      } catch (error) {
+        //console.log(error);
+      }
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      return (this.menu = aux);
+    },
+  },
 };
 </script>
 

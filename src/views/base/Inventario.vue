@@ -13,7 +13,7 @@
         <hr class="rounded" />
         <CCardBody class="container-fluid">
           <div>
-            <CForm @submit.prevent="console.log('hola')">
+            <CForm onkeydown="return (event.keyCode!=13);">
               <CInput
                 class="barra"
                 type="search"
@@ -22,14 +22,14 @@
                 placeholder=""
                 size="lg"
                 v-model="Barra"
-                @change="busqueda"
+                
               >
                 <template #append-content>
                   <CButton
                     color="dark"
                     variant="outline"
                     type="submit"
-                    @click="buscar()"
+                    @keypress="buscar"
                     style="
                       height: 25px !important ;
                       width: 10px;
@@ -332,13 +332,7 @@ export default {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       return (this.intens = aux);
     },
-    busqueda() {
-      if (!this.Barra) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.intens = inventario;
-      }
-      return this.intens;
-    },
+
   },
 
   data() {
