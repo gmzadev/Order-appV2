@@ -1,5 +1,6 @@
 <template>
-  <CDropdown
+<!--  crear una copia a base de este como carrito  --->
+  <CDropdown 
     inNav
     class="c-header-nav-items"
     placement="bottom"
@@ -10,7 +11,7 @@
         <div class="c-avatar">
           <!-- el que no tiene img define el tamano-->
           <img
-            src="img/avatars/6.jpg"
+            src="/img/avatars/6.jpg"
             class="c-avatar-img d-flex justify-content-center"
           />
         </div>

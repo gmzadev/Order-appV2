@@ -113,9 +113,9 @@ export default {
   name: "Register",
   methods: {
     Register() {
-      let join = "";
+      var join = "";
       join = this.seleccionado + this.cedula;
-      this.cedula = join;
+      var auxCedula = join;
       this.error = "";
       join = "";
       if (
@@ -135,18 +135,18 @@ export default {
             firebase
               .auth()
               .createUserWithEmailAndPassword(this.email, this.password)
-              .then((user) => {
+              .then(() => {
                 db.collection("Usuarios")
-                  .doc(this.email)
+                  .doc()
                   .set({
                     Nombre: this.name,
                     Correo: this.email,
-                    Cedula: this.cedula,
+                    Cedula: auxCedula,
                     Telefono: this.telefono,
-                    nivelUsuario: "cliente",
+                    nivelUsuario: "Cliente",
                   })
                   .then((docRef) => {
-                    console.log("Document written with ID: ", docRef.id);
+                    console.log("Document written with ID: ", docRef.ID);
                     this.$router.push({path: '/'})
                   })
                   .catch((error) => {
@@ -179,20 +179,6 @@ export default {
       cedula: "",
       telefono: "",
       error: "",
-      tipodepersona: [
-        {
-          propiedad: "V-",
-          text: "V-",
-        },
-        {
-          propiedad: "J-",
-          text: "J-",
-        },
-        {
-          propiedad: "E-",
-          text: "E-",
-        },
-      ],
     };
   },
   /*created (){

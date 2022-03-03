@@ -8,7 +8,7 @@
   >
    
 
-    <CRenderFunction flat :content-to-render="$options.nav"/>
+    <CRenderFunction flat :content-to-render="$options.nav2"/>
     <CSidebarMinimizer
       class="d-md-down-none"
       @click.native="$store.commit('set', ['sidebarMinimize', !minimize])"
@@ -19,10 +19,10 @@
 
 <script>
 import nav from './_nav'
-
+import nav2 from './_nav2'
 export default {
   name: 'TheSidebar',
-  nav,
+  nav,nav2,
   computed: {
     show () {
       return this.$store.state.sidebarShow 

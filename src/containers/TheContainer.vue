@@ -53,6 +53,7 @@ export default {
   },
   created() {
     firebase.auth().onAuthStateChanged((user) => {
+      //carga de la autenticacion si esta autenticado, se guarda el emay
       if (user) {
         this.user = user;
         this.$store.commit("set", ["user", this.user.email]);
@@ -62,12 +63,14 @@ export default {
     });
     db.collection("Usuarios").onSnapshot((querySnapshot) => {
       querySnapshot.forEach((doc) => {
+        
         if (doc.data().Correo == this.user.email) {
           this.usuario.Cedula = doc.data().Cedula;
           this.usuario.Correo = doc.data().Correo;
           this.usuario.Nombre = doc.data().Nombre;
           this.usuario.Telefono = doc.data().Telefono;
           this.usuario.nivelUsuario = doc.data().nivelUsuario;
+          this.$store.commit("set", ["usuario", this.usuario]);
         }
       });
     });

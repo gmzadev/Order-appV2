@@ -44,7 +44,7 @@
                 <template #prepend-content class="">
                   <select
                     v-model="seleccionado"
-                    class="forma-div center form-select"
+                    class="forma-div center custom-select texto"
                     style="height: 25px !important"
                   >
                     <option selected value="Codigo">Codigo</option>
@@ -105,12 +105,13 @@
             </table>
           </div>
           <div>
-            <CForm @submit.prevent="agregarIten">
+            <CForm @submit.prevent="">
               <CInput
                 placeholder="ID"
                 autocomplete="ID"
                 type="number"
                 v-model="itenID"
+                :disabled="flagProductoSelecionado"
               >
                 <template #prepend-content>
                   <CIcon name="cil-fingerprint" />
@@ -123,7 +124,7 @@
                   ></span>
                 </div>
                 <select
-                  class="form-select"
+                  class="custom-select"
                   v-model="Tipo"
                   @change="aplicafecha()"
                 >
@@ -166,7 +167,7 @@
                   flex
                   class="col-md-"
                   style="margin-right: 1%; "
-                  @click="Limpiar"
+                  @click="Limpiar()"
                   >Limpiar Campos
                 </CButton>
                 <CButton
@@ -176,8 +177,8 @@
                   flex
                   style="margin-left: 1%;  "
                   class="col-md-"
-                  @click="agregarIten"
-                  >Agregar / Modificar
+                  @click="agregarIten()"
+                  >Editar
                 </CButton>
               </div>
             </CForm>
@@ -196,9 +197,26 @@ import { db } from "@/main.js";
 var inventario = [];
 export default {
   name: "Inventario",
+  data() {
+    return {
+      Estado: true,
+      seleccionado: "Codigo",
+      Tipo: "Selecciona un tipo",
+      itenID: "",
+      nombre: "",
+      existencia: "",
+      fecha: "",
+      intens: inventario,
+      error: "",
+      Barra: "",
+      flagProductoSelecionado:false,
+    };
+  },
 
   methods: {
     Limpiar() {
+      this.flagProductoSelecionado=false;
+      this.error=""
       this.itenID = "";
       this.Tipo = "Selecciona un tipo";
       this.nombre = "";
@@ -207,7 +225,7 @@ export default {
       this.Estado = true;
     },
     modificar(i) {
-      console.log(i);
+      this.flagProductoSelecionado=true;
       this.itenID = this.intens[i].itenID;
       this.nombre = this.intens[i].nombre;
       this.existencia = this.intens[i].existencia;
@@ -252,6 +270,7 @@ export default {
     agregarIten() {
       this.error = "";
       var auxfecha = "";
+      this.flagProductoSelecionado=false;
       if (this.Tipo == "Ingrediente") {
         auxfecha = this.fecha;
       } else {
@@ -335,20 +354,7 @@ export default {
 
   },
 
-  data() {
-    return {
-      Estado: true,
-      seleccionado: "Codigo",
-      Tipo: "Selecciona un tipo",
-      itenID: "",
-      nombre: "",
-      existencia: "",
-      fecha: "",
-      intens: inventario,
-      error: "",
-      Barra: "",
-    };
-  },
+  
 
   mounted() {
     this.rerender();

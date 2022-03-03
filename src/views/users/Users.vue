@@ -8,47 +8,49 @@
           </h2>
           <h2>Pagos Pendientes</h2>
         </CCardHeader>
-        <hr class="rounded">
+        <hr class="rounded" />
         <CCardBody>
           <div class="table-responsive tabla-p">
             <table class="table table-striped">
               <thead>
                 <tr class="center">
                   <th>#</th>
-                  <th>{{ fields[0].key }}</th>
-                  <th>{{ fields[1].key }}</th>
-                  <th>{{ fields[2].key }}</th>
-                  <th>{{ fields[3].label }}</th>
-                  <th>{{ fields[4].label }}</th>
+                  <th>Cliente</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                  <th>Monto</th>
+                  <th># Orden </th>
                   <th scope="col">Aceptar</th>
                   <th scope="col">Rechazar</th>
                 </tr>
               </thead>
               <tbody>
                 <tr
-                  v-for="(iten, index) in items"
+                  v-for="(iten, index) in ListaPagos"
                   :key="index"
                   id="tabla"
                   class="center"
                 >
-                  <th scope="row">{{ index }}</th>
+                  <th scope="row">
+                    <a @click="modal(index)">{{ iten.Cedula }}</a>
+                  </th>
                   <td>
-                    <a @click="modal(index)">{{ iten.Nombre }}</a>
+                    <a @click="modal(index)">{{ iten.Cliente }}</a>
                   </td>
                   <td>
                     <a @click="modal(index)">{{ iten.Fecha }}</a>
                   </td>
                   <td>
-                    <a @click="modal(index)">{{ iten.Referencia }}</a>
+                    <a @click="modal(index)">{{ iten.Estado }}</a>
                   </td>
                   <td>
-                    <a @click="modal(index)">{{ iten.status }}</a>
+                    <a @click="modal(index)">{{ iten.Monto }}</a>
                   </td>
                   <td>
-                    <a @click="modal(index)">{{ iten.Metodo }}</a>
+                    <a @click="modal(index)">{{ iten.OrdenID }}</a>
                   </td>
                   <td>
-                    <CButton variant="outline" color="success" flex
+                    <CButton  @click="erase(iten.OrdenID)" variant="outline" color="success" flex 
                       ><i class="fas fa-check"></i
                     ></CButton>
                   </td>
@@ -81,8 +83,8 @@
             <CCol>
               <CCard>
                 <CCardHeader class="center">
-                  <p>A nombre de: {{ this.nombre }}</p>
-                  Cedula del Cliente: {{ this.idSujeto }}
+                  <p>A nombre de: {{}}</p>
+                  Cedula del Cliente: {{}}
                 </CCardHeader>
                 <CCardBody> </CCardBody>
               </CCard>
@@ -91,49 +93,56 @@
         </template>
 
         <div slot="footer" class="d-flex justify-content-between">
-          <CButton
-            color="danger"
-            variant="outline"
-            @click="goBack"
-            style="margin-right: 26vw"
-            >Rechazar</CButton
-          >
-          <CButton
-            color="success "
-            variant="outline"
-            @click="goBack"
-            style="margin-right: 0vh"
-            >Aceptar</CButton
-          >
+         
         </div>
       </CModal>
     </div>
   </CRow>
 </template>
-  
 
 <script>
-import usersData from "./UsersData";
+var Pagos = [];
+
+import { db } from "@/main.js";
 export default {
   name: "Users",
   data() {
     return {
+      ListaPagos: Pagos,
       idSujeto: 0,
       visibleData: {},
       warningModal: false,
-      items: usersData,
-      fields: [
-        { key: "Nombre", label: "Nombre", _classes: "font-weight-bold" },
-        { key: "Fecha", label: "Fecha de pago" },
-        { key: "Referencia" },
-        { key: "status", label: "Estatus" },
-        { key: "Metodo", label: "Meto de pago" },
-      ],
       activePage: 1,
     };
   },
 
   methods: {
+    erase(index) {
+      db.collection("Platos")
+        .doc(index)
+        .delete()
+        .then(() => {
+          console.log("Document successfully deleted!");
+        });
+    },
+    rerender() {
+      //carga  y renderiza el arreglo de inventario
+      db.collection("Pagos").onSnapshot((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          var iten = {
+            Cedula: doc.data().Cedula,
+            Cliente: doc.data().Cliente,
+            Comprobante: doc.data().Comprobante,
+            Estado: doc.data().Estado,
+            Fecha: doc.data().Fecha,
+            Monto: doc.data().Monto,
+            OrdenID: doc.data().OrdenID
+          };
+          Pagos.push(iten);
+        });
+      });
+      //carga el y renderiza arreglo de platos y urls
+    },
     modal(index) {
       (this.warningModal = true), (this.idSujeto = index);
       this.visibleData = this.items[index];
@@ -150,6 +159,17 @@ export default {
     },
   },
   computed: {},
+  mounted() {
+    this.rerender();
+  },
+  beforeDestroy() {
+    Pagos = [];
+    var unsubscribe = db.collection("Pagos").onSnapshot(() => {
+      // Respond to data
+      // ...
+    });
+    unsubscribe();
+  },
 };
 </script>
 <style scoped>

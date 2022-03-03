@@ -1,5 +1,6 @@
 // Here you can add other styles
 @import url("https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Noto+Sans+JP&family=Open+Sans&family=Poppins:wght@500&family=Roboto&display=swap");
+
 /*font-family: 'Lato', sans-serif;
 font-family: 'Montserrat', sans-serif;
 font-family: 'Noto Sans JP', sans-serif;
@@ -7,116 +8,240 @@ font-family: 'Open Sans', sans-serif;
 font-family: 'Poppins', sans-serif;
 font-family: 'Roboto', sans-serif;*/
 
+.abs-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.3vh;
+}
+
 .c-sidebar {
-&.c-sidebar-fixed {
-@include media-breakpoint-up($mobile-breakpoint) {
-  position: fixed;
-  top: 8.7vh;
-}}}
-.card,.c-card,.card-header, .CCarouselItem{
-  border-radius: 15px!important
-}
-.lato-titulo{
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.3rem;
-}
-.card-header{
-  outline: none;
-  border: none;
+    &.c-sidebar-fixed {
+        @include media-breakpoint-up($mobile-breakpoint) {
+            position: fixed;
+            top: 8.7vh;
+        }
+    }
 }
 
-.pb-15{
-  padding-bottom: 15px;
+.letra-calculador {
+    font-family: "unicode", monospace !important;
 }
 
-.plato{
-  height: 20rem;
-  width: 20rem ;
-  margin: 5%;
-  border: black
- 
+.borde-abajo {
+    border-bottom: 1px solid #000;
 }
-.card img {
-  border-radius: 15px!important
 
+.borde-isquierda {
+    border-left: 1px solid #000;
+}
+
+.borde-derecha {
+    border-right: 1px solid #000;
+}
+
+.carousel-item img {
+    border-radius: 15px!important;
+}
+
+.card,
+.c-card,
+.card-header
+/*,
+.CCarouselItem */
+
+{
+    border-radius: 15px !important;
+}
+
+.lato-titulo {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.3rem;
+}
+
+.card-header {
+    outline: none;
+    border: none;
+}
+
+.pb-15 {
+    padding-bottom: 15px;
+}
+
+.plato {
+    height: 20rem;
+    width: 20rem;
+    margin: 5%;
+    border: black;
 }
 
 .forma {
-  font-size: 1rem !important;
-  font-family: "Poppins", sans-serif;
-}
-.forma-div{
-  font-family: "Poppins", sans-serif;
-  font-size: 13px;
-  text-align: center;
-  justify-content: center;
-  display: flex;
-  padding-top: 0px
-}
-.titulosnaviten{
-  font-family: "Roboto", sans-serif;
-  font-size: 1.2rem;
-}
-.titulosnavitenG {
-  font-family: "Roboto", sans-serif;
-  font-size: 1.5rem;
-}
-p,a,h6,h5 {
-  font-size:small !important;
-  font-family: "Poppins", sans-serif;
-  text-decoration: none;
-  color: #000;
-  
+    font-size: 1rem !important;
+    font-family: "Poppins", sans-serif;
 }
 
-.texto {
-  font-size: 0.8rem !important;
-  font-family: "Poppins", sans-serif;
+.forma-div {
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    padding-top: 0px;
 }
+
+.img-fluid {
+    height: 25vh !important;
+    border-radius: 15px !important;
+}
+
+.carta-home {
+    width: 25vh !important;
+}
+
+.titulosnaviten {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.2rem;
+}
+
+.titulosnavitenG {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.5rem;
+}
+
+p,
+a,
+h6,
+h5,
+button {
+    font-size: small !important;
+    font-family: "Poppins", sans-serif;
+    text-decoration: none;
+    color: #000;
+}
+
+.modal-footer,
+.modal-header,
+.modal-title {
+    justify-content: center !important;
+}
+
+.modal-header {
+    background-color: rgb(235, 179, 134) !important;
+    border-radius: 8px;
+}
+
+.modal-success,
+.modal-content {
+    border-color: #000 !important;
+}
+
+.modal-title {
+    text-align: center;
+    justify-content: center;
+    font-family: "Poppins", sans-serif !important;
+    font-size: 1.3rem !important;
+    color: black;
+    font-weight: bold;
+    //text-shadow: 2px 2px 1px  #fefefe ;
+}
+
+.texto,
+button,
+tr,
+table,
+select {
+    font-size: 0.9rem !important;
+    font-family: "Poppins", sans-serif;
+}
+
 .iconos {
-      max-height: 5.8vh!important;
-      border-radius: 5%;
-      justify-content: center;
+    max-height: 5.8vh !important;
+    border-radius: 5%;
+    justify-content: center;
 }
 
 .center {
-  text-align: center !important;
-  justify-content: center;
+    text-align: center !important;
+    vertical-align: middle !important;
+    justify-content: center !important;
 }
+
+.cuenta {
+    justify-content: center;
+    height: 400px !important;
+    width: 60vw!important;
+}
+
+.numero {
+    border: 1px solid black;
+}
+
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(7, 143, 41); /* Fallback color */
-  background-color: rgba(0,0,0,0.1); /* Black w/ opacity */
+    display: none;
+    /* Hidden by default */
+    position: fixed !important;
+    /* Stay in place */
+    z-index: 3;
+    /* Sit on top */
+    padding-top: 10vh;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(7, 143, 41);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Black w/ opacity */
 }
+
+.img-lista-cuenta {
+    justify-content: center !important;
+    display: block !important;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    height: 15vh !important;
+    border-radius: 18% !important;
+}
+
 
 /* Modal Content */
+
 .modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
 }
 
+
 /* The Close Button */
+
+.cerrar {
+    height: 3vh;
+    width: 8vw;
+}
+
 .close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+    color: red;
+    float: right;
+    font-size: 1.8rem !important;
+    font-weight: bold;
+    text-shadow: 2px 3px 2px #000 !important;
+}
+
+.close:hover {
+    text-shadow: 2px 5px 2px #fefefe !important;
 }
 
 .close:hover,
 .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }

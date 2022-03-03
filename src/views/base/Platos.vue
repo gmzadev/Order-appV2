@@ -39,35 +39,38 @@
                     <i class="fas fa-search fa-xs"></i>
                   </CButton>
                 </template>
-                 <template #prepend-content class="">
-              <select
-                v-model="TipoDeBuquedaPlatos"
-                class="forma-div center form-select"
-                style="height: 25px !important"
-              >
-                <option selected value="Codigo">Codigo</option>
-                <option value="Nombre">Nombre</option>
-              </select>
-            </template>
+                <template #prepend-content class="">
+                  <select
+                    v-model="TipoDeBuquedaPlatos"
+                    class="forma-div center custom-select"
+                    style="height: 25px !important"
+                  >
+                    <option selected value="Codigo">Codigo</option>
+                    <option value="Nombre">Nombre</option>
+                  </select>
+                </template>
               </CInput>
             </CForm>
           </div>
 
           <template>
-            <div class="card-group">
-              <div v-for="(plato, index) in menu" :key="index" class="col-md-3">
+            <div :key="Reiniciar" class="card-group">
+              <div v-for="(plato, index) in menu" :key="index" class="col-sm-4">
                 <CCard flex :aria-disabled="plato.Estado">
-                  <CCardHeader class="center lato-titulo">
+                  <CCardHeader
+                    class="center lato-titulo justify-content-center"
+                  >
                     {{ plato.Nombre }}
                   </CCardHeader>
-                  <CCardBody>
+                  <CCardBody class="center lato-titulo justify-content-center">
                     <img :src="plato.Url" alt="" class="img-fluid" />
                   </CCardBody>
-                  <CCardFooter>
+                  <CCardFooter class="texto center">
                     <div class="borde">
                       {{ plato.Descripcion }}
                     </div>
                     <hr />
+                    {{ plato.Precio }} Ref
                   </CCardFooter>
                   <div
                     class="col-auto d-flex justify-content-between pb-15 oculto"
@@ -76,7 +79,7 @@
                       class="col-3 p-2"
                       variant="outline"
                       color="danger"
-                      @click="erase(plato.Nombre)"
+                      @click="erase(plato.PlatoId)"
                       ><i class="fas fa-trash" />
                     </CButton>
                     <CButton
@@ -84,7 +87,7 @@
                       class="col-3 p-2"
                       variant="outline"
                       color="info"
-                      @click="updatemode(plato.Nombre, plato.Estado)"
+                      @click="updatemode(plato.PlatoId, plato.Estado)"
                       >On
                     </CButton>
                     <CButton
@@ -92,7 +95,7 @@
                       class="col-3 p-2"
                       variant="outline"
                       color="dark"
-                      @click="updatemode(plato.Nombre, plato.Estado)"
+                      @click="updatemode(plato.PlatoId, plato.Estado)"
                       >Off
                     </CButton>
                     <CButton
@@ -134,7 +137,7 @@
                     ><i class="cil-dinner"></i
                   ></span>
                 </div>
-                <select class="form-select" v-model="Tipo">
+                <select class="custom-select" v-model="Tipo">
                   <option value="Selecciona una opcion">
                     Selecciona una opcion
                   </option>
@@ -142,26 +145,30 @@
                   <option value="Plato Fuerte">Plato Fuerte</option>
                   <option value="Especial del dia">Especial del dia</option>
                   <option value="Extra">Extra</option>
+                  <option value="Combo">Combo</option>
                 </select>
               </div>
-              <div class="input-group mb-3 texto">
+              <div class="input-group mb-3">
                 <input
                   type="file"
-                  class="form-control"
-                  id="inputGroupFile01"
+                  class="form-control "
+                  id="inputGroupFile04"
+                  aria-describedby="inputGroupFileAddon04"
+                  aria-label="Upload"
                   accept="image/*"
                   @change="onfileselected"
                 />
                 <button
-                  class="btn btn-secondary fas fa-image texto"
+                  class="btn btn-secondary fas fa-upload"
                   type="button"
-                  id="button-addon2"
+                  id="inputGroupFileAddon04"
                   @click="upload"
-                  :disabled="selectedFile == null"
+                    :disabled="selectedFile == null"
                 >
                   Subir
                 </button>
               </div>
+
               <CInput
                 placeholder="descripcion"
                 autocomplete="descripcion"
@@ -265,7 +272,7 @@
             <template #prepend-content class="">
               <select
                 v-model="TipoDeBuquedaIngredientes"
-                class="forma-div center form-select"
+                class="forma-div center custom-select"
                 style="height: 25px !important"
               >
                 <option selected value="Codigo">Codigo</option>
@@ -322,12 +329,8 @@
           </div>
         </template>
 
-        <div slot="footer" class="d-flex justify-content-between">
-          <CButton
-            @click="llenar()"
-            color="success "
-            variant="outline"
-            style="margin-right: 14vw"
+        <div slot="footer" class="d-flex justify-content-center center">
+          <CButton @click="llenar()" color="success " variant="outline"
             >Incluir Ingredientes</CButton
           >
         </div>
@@ -343,19 +346,20 @@
 //impor;
 import "regenerator-runtime/runtime"; //... lo pidio asi que lo puse
 import { db, storage } from "@/main.js"; //exportacion de firebase
-var inventario = [];//variable que  almacena  el inventario de ingredientes en el servidor
-var platos = [];//variable que almacena los platos en el servidor
+var inventario = []; //variable que  almacena  el inventario de ingredientes en el servidor
+var platos = []; //variable que almacena los platos en el servidor
 export default {
   name: "Platos",
 
   data() {
     return {
+      Reiniciar:1,
       Estado: false,
       mode: false,
       BarraIngredientes: "",
       BarraPlatos: "",
-      TipoDeBuquedaIngredientes: "Codigo",//herramienta pasa el selector en barra ingrdienentes
-      TipoDeBuquedaPlatos:"Codigo",//herramienta pasa el selector de tipo platos en barra busqueda platos
+      TipoDeBuquedaIngredientes: "Codigo", //herramienta pasa el selector en barra ingrdienentes
+      TipoDeBuquedaPlatos: "Codigo", //herramienta pasa el selector de tipo platos en barra busqueda platos
       cantidad: [], //aux que mide la cantidad de un ingrediente en el modal
       seleccionado: [], //aux de bolean que guarda la seleccion de un ingrediente
       ingredientes: "",
@@ -367,12 +371,12 @@ export default {
       seleccionar: false,
       intens: inventario, //aux para renderizar inventario
       warningModal: false, //aux que especifica el el estado de visivilidad de un modal
-      platoID: "",//id de un plato
-      nombre: "",//nombre ||  ||
+      platoID: "", //id de un plato
+      nombre: "", //nombre ||  ||
       url: "",
       ruta: "",
       descripcion: "",
-      UploadValue: 0,//porcentaje de carga de la imagen
+      UploadValue: 0, //porcentaje de carga de la imagen
       selectedFile: null,
       picture: null,
       /**plato: [ esto es para una posible refactorizacion usar este 
@@ -459,11 +463,12 @@ export default {
         .delete()
         .then(() => {
           console.log("Document successfully deleted!");
-          this.inventario = [];
-          this.platos = [];
-          this.Urls = [];
-          this.intens = [];
-          this.menu = [];
+         
+          inventario.splice(0,inventario.length)
+          platos.splice(0,platos.length)
+          this.intens.splice(0,this.intens.length)
+          this.menu.splice(0,this.menu.length)
+          this.Reiniciar=Math.floor(Math.random() * 999999999999999999999);
           this.cantidad = [];
           this.seleccionado = [];
           this.seleccionar = false;
@@ -496,8 +501,8 @@ export default {
       //llena los campos para ser modificados
       var i = 0;
       var j = 0;
-      this.platoID=platos[index].PlatoId,
-      (this.nombre = platos[index].Nombre),
+      (this.platoID = platos[index].PlatoId),
+        (this.nombre = platos[index].Nombre),
         (this.Tipo = platos[index].Tipo),
         (this.precio = platos[index].Precio);
       this.url = platos[index].Url;
@@ -582,10 +587,11 @@ export default {
           }
           console.log(" el estado del articulo " + id + " es " + palabra);
           console.log(e);
-          inventario = [];
-          platos = [];
-          this.intens = [];
-          this.menu = [];
+          inventario.splice(0,inventario.length)
+          platos.splice(0,platos.length)
+          this.intens.splice(0,this.intens.length)
+          this.menu.splice(0,this.menu.length)
+          this.Reiniciar=Math.floor(Math.random() * 999999999999999999999);
           this.cantidad = [];
           this.seleccionado = [];
           this.ingredientes = "";
@@ -664,14 +670,15 @@ export default {
             Tipo: this.Tipo,
           })
           .then(() => {
-            inventario = [];
-            platos = [];
-            this.intens = [];
-            this.menu = [];
+            inventario.splice(0,inventario.length)
+          platos.splice(0,platos.length)
+          this.intens.splice(0,this.intens.length)
+          this.menu.splice(0,this.menu.length)
+          this.Reiniciar=Math.floor(Math.random() * 999999999999999999999);
             this.cantidad = [];
             this.seleccionado = [];
             this.ingredientes = "";
-            this.ruta=""
+            this.ruta = "";
             this.platoID = "";
             this.precio = "";
             this.nombre = "";
@@ -717,7 +724,7 @@ export default {
     },
     rerender() {
       //carga  y renderiza el arreglo de inventario
-      inventario.length=0
+      this.Reiniciar=Math.floor(Math.random() * 999999999999999999999);
       db.collection("Inventario").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           var iten = {
@@ -730,11 +737,10 @@ export default {
         });
       });
       //carga el y renderiza arreglo de platos y urls
-      platos.length=0
       db.collection("Platos").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           var iten = {
-            PlatoId:doc.data().PlatoId,
+            PlatoId: doc.data().PlatoId,
             Ingredientes: doc.data().Ingredientes,
             Estado: doc.data().Estado,
             Precio: doc.data().Precio,
@@ -749,7 +755,7 @@ export default {
     },
 
     modal() {
-      this.warningModal = true;
+      this.warningModal = !this.warningModal;
     },
   },
   mounted() {
@@ -811,7 +817,7 @@ export default {
     },
     buscarPlato() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.menu= platos;
+      this.menu = platos;
       var aux = [];
       var i = 0;
       try {
@@ -821,12 +827,12 @@ export default {
               aux.push(this.menu[i]);
             }
           }
-        } else  {
+        } else {
           for (i = 0; i < this.menu.length; i++) {
             if (
-              this.menu[i].Nombre
-                .toUpperCase()
-                .includes(this.BarraPlatos.toUpperCase())
+              this.menu[i].Nombre.toUpperCase().includes(
+                this.BarraPlatos.toUpperCase()
+              )
             ) {
               aux.push(this.menu[i]);
             }

@@ -8,18 +8,19 @@ import { iconsSet as icons } from './assets/icons/icons.js'
 import store from './store'
 import firebase from 'firebase'
 import './registerServiceWorker'
-
+import { v4 as uuid } from 'uuid'
+const nameespace = "b26f73b4-7a6a-40d1-91b6-6f85c5eede01"
 
 //paramtros de firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyCkYV4JcFmwUboa-pyEby14RsQvnHbXjWE",
-  authDomain: "orden-app-ac0af.firebaseapp.com",
-  databaseURL: "https://orden-app-ac0af-default-rtdb.firebaseio.com",
-  projectId: "orden-app-ac0af",
-  storageBucket: "orden-app-ac0af.appspot.com",
-  messagingSenderId: "1047065828173",
-  appId: "1:1047065828173:web:7d990191668fea01c2f504",
-  measurementId: "G-BYG3WQNHD0"
+    apiKey: "AIzaSyCkYV4JcFmwUboa-pyEby14RsQvnHbXjWE",
+    authDomain: "orden-app-ac0af.firebaseapp.com",
+    databaseURL: "https://orden-app-ac0af-default-rtdb.firebaseio.com",
+    projectId: "orden-app-ac0af",
+    storageBucket: "orden-app-ac0af.appspot.com",
+    messagingSenderId: "1047065828173",
+    appId: "1:1047065828173:web:7d990191668fea01c2f504",
+    measurementId: "G-BYG3WQNHD0"
 }
 firebase.initializeApp(firebaseConfig)
 firebase.analytics()
@@ -35,14 +36,14 @@ Vue.use(CoreuiVue)
 Vue.prototype.$log = console.log.bind(console)
 
 
-export { db, storage}
+export { db, storage, uuid, nameespace }
 new Vue({
-  el: '#app',
-  router,
-  store,
-  icons,
-  template: '<App/>',
-  components: {
-    App
-  }
+    el: '#app',
+    router,
+    store,
+    icons,
+    template: '<App/>',
+    components: {
+        App
+    }
 })
