@@ -29,14 +29,15 @@ firebase.firestore().settings({ timestampInSnapshots: true })
 
 //variables de firebase y vue
 var db = firebase.firestore();
-//funcion que llena el arreglo de inventarios
+var auth = firebase.auth()
+    //funcion que llena el arreglo de inventarios
 var storage = firebase.storage();
 Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.prototype.$log = console.log.bind(console)
 
 
-export { db, storage, uuid, nameespace }
+export { db, storage, auth, uuid, nameespace }
 new Vue({
     el: '#app',
     router,

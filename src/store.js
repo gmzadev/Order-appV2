@@ -2,17 +2,24 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 const state = {
-    sidebarShow: 'responsive',
-    sidebarMinimize: false,
-    login: true,
-    user: null,
-    usuario: {},
-    renderopt: null,
+    sidebarShow: 'responsive', //variables responsives del sidebar
+    sidebarMinimize: false, //variables responsives del sidebar
+    login: false, //verifica el estado
+    user: null, //guarda el correo del usuario
+    usuario: {}, //objeto que guarda al usuario
+    //renderopt: null,
     nombre: 'Plato Fuerte',
     cuenta: 0,
-    Pedido: {}
-}
+    Pedido: {},
+    auxid: "",
 
+
+}
+const getters = {
+    getUser() {
+        return state.user
+    }
+}
 const mutations = {
 
     toggleSidebarDesktop(state) {
@@ -31,6 +38,7 @@ const mutations = {
 export default new Vuex.Store({
         state,
         mutations,
+        getters
 
 
     }

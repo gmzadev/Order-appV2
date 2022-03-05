@@ -238,15 +238,13 @@ export default {
       }
     },
     eliminar(index) {
+          inventario = [];
       db.collection("Inventario")
         .doc(this.intens[index].itenID)
         .delete()
-        .then(() => {
-          inventario = [];
-          this.intens = [];
-          console.log("Document successfully deleted!");
-          this.rerender();
-          this.intens = inventario;
+        .then((
+          
+        ) => {this.intens=inventario
         })
         .catch((error) => {
           console.error("Error removing document: ", error);
@@ -282,6 +280,7 @@ export default {
         (auxfecha || this.Tipo == "Consumible") &&
         this.Tipo != "Selecciona un tipo"
       ) {
+        inventario = [];
         db.collection("Inventario")
           .doc(this.itenID.valueOf())
           .set({
@@ -292,15 +291,12 @@ export default {
             Fecha: auxfecha,
           })
           .then(() => {
-            inventario = [];
-            this.intens = [];
             this.itenID = "";
             this.Tipo = "Selecciona un tipo";
             this.nombre = "";
             this.existencia = "";
             this.fecha = "";
             this.Estado = true;
-            this.rerender();
             this.intens = inventario;
           })
           .catch((error) => {

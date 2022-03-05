@@ -45,7 +45,7 @@
                     <CButton color="link" class="px-0"
                       >olvidaste tu contraseña?</CButton
                     >
-                    <CButton color="link" class="d-lg-none texto"
+                    <CButton color="link" class="d-lg-none texto" 
                       >Registrate ahora!</CButton
                     >
                   </CCol>
@@ -62,9 +62,11 @@
             <CCardBody>
               <h2>Registrate</h2>
               <p>no tienes cuenta? que esperas, unetenos ya!</p>
+              <router-link to="/pages/Register">
               <CButton class="texto" color="light" variant="outline" size="lg">
                 Crear cuenta!
-              </CButton>
+              </CButton></router-link>
+              
             </CCardBody>
           </CCard>
         </CCardGroup>

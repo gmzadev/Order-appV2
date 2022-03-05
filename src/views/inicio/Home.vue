@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="Home">
+    <div id="Home" class="body">
       <div
         class="titulos d-flex justify-content-center card center"
         style="padding: 1%"
@@ -174,7 +174,11 @@ export default {
 a {
   cursor: pointer;
 }
+.body{
+  padding-left: 4vw;
+  padding-right: 4vw;
 
+}
 .black {
   background-color: black;
   border-radius: 60%;

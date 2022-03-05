@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <TheSidebar />
+    <TheSidebar v-if="this.$store.getters.getUser" />
     <CWrapper>
       <TheHeader />
       <div class="c-body">

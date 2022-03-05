@@ -172,6 +172,7 @@
                     </div>
                   </div>
                 </ul>
+                <h3>Total: {{ calculo() }}</h3> 
               </CCardGroup>
             </div>
           </CForm>
@@ -185,7 +186,7 @@
               @click="Pagar()"
             >
               <i class=".letra-calculador">
-                Total a Pagar: {{ calculo() }}
+                Pagar
               </i></CButton
             >
           </div>
@@ -347,7 +348,7 @@ export default {
       } else {
         alert("la cantidad deve ser mayor a 0");
       }
-      console.log(this.AuxCuenta, plato.PlatoId);
+      //console.log(this.AuxCuenta, plato.PlatoId);
     },
     calculo() {
       var i = 0;

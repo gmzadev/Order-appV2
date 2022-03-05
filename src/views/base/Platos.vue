@@ -112,7 +112,7 @@
           </template>
 
           <div>
-            <CForm @submit.prevent="agregarIten">
+            <CForm @submit.prevent="agregarIten" class="center">
               <CInput
                 placeholder="ID"
                 autocomplete="ID"
@@ -151,7 +151,7 @@
               <div class="input-group mb-3">
                 <input
                   type="file"
-                  class="form-control "
+                  class="form-control"
                   id="inputGroupFile04"
                   aria-describedby="inputGroupFileAddon04"
                   aria-label="Upload"
@@ -163,12 +163,16 @@
                   type="button"
                   id="inputGroupFileAddon04"
                   @click="upload"
-                    :disabled="selectedFile == null"
+                  :disabled="selectedFile == null"
                 >
                   Subir
                 </button>
               </div>
-
+              <div v-if="carga" class="d-flex justify-content-center mt-5 mb-5">
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
               <CInput
                 placeholder="descripcion"
                 autocomplete="descripcion"
@@ -353,7 +357,8 @@ export default {
 
   data() {
     return {
-      Reiniciar:1,
+      Reiniciar: 1,
+      carga: false,
       Estado: false,
       mode: false,
       BarraIngredientes: "",
@@ -424,6 +429,7 @@ export default {
       };
     },****/
     upload() {
+      this.carga = true;
       var metadata = {
         contentType: "image/jpeg",
       };
@@ -448,6 +454,7 @@ export default {
           storageRef.snapshot.ref.getDownloadURL().then((lincksito) => {
             this.ruta = lincksito;
             console.log("la ruta es", this.ruta);
+            this.carga = false;
           });
         }
       );
@@ -458,21 +465,16 @@ export default {
       console.log(this.selectedFile.name);
     },
     erase(index) {
+      inventario = [];
+      platos = [];
       db.collection("Platos")
         .doc(index)
         .delete()
         .then(() => {
           console.log("Document successfully deleted!");
-         
-          inventario.splice(0,inventario.length)
-          platos.splice(0,platos.length)
-          this.intens.splice(0,this.intens.length)
-          this.menu.splice(0,this.menu.length)
-          this.Reiniciar=Math.floor(Math.random() * 999999999999999999999);
           this.cantidad = [];
           this.seleccionado = [];
           this.seleccionar = false;
-          this.rerender();
           this.intens = inventario;
           this.menu = platos;
         })
@@ -587,11 +589,11 @@ export default {
           }
           console.log(" el estado del articulo " + id + " es " + palabra);
           console.log(e);
-          inventario.splice(0,inventario.length)
-          platos.splice(0,platos.length)
-          this.intens.splice(0,this.intens.length)
-          this.menu.splice(0,this.menu.length)
-          this.Reiniciar=Math.floor(Math.random() * 999999999999999999999);
+          inventario.splice(0, inventario.length);
+          platos.splice(0, platos.length);
+          this.intens.splice(0, this.intens.length);
+          this.menu.splice(0, this.menu.length);
+          this.Reiniciar = Math.floor(Math.random() * 999999999999999999999);
           this.cantidad = [];
           this.seleccionado = [];
           this.ingredientes = "";
@@ -670,11 +672,11 @@ export default {
             Tipo: this.Tipo,
           })
           .then(() => {
-            inventario.splice(0,inventario.length)
-          platos.splice(0,platos.length)
-          this.intens.splice(0,this.intens.length)
-          this.menu.splice(0,this.menu.length)
-          this.Reiniciar=Math.floor(Math.random() * 999999999999999999999);
+            inventario.splice(0, inventario.length);
+            platos.splice(0, platos.length);
+            this.intens.splice(0, this.intens.length);
+            this.menu.splice(0, this.menu.length);
+            this.Reiniciar = Math.floor(Math.random() * 999999999999999999999);
             this.cantidad = [];
             this.seleccionado = [];
             this.ingredientes = "";
@@ -724,7 +726,7 @@ export default {
     },
     rerender() {
       //carga  y renderiza el arreglo de inventario
-      this.Reiniciar=Math.floor(Math.random() * 999999999999999999999);
+      this.Reiniciar = Math.floor(Math.random() * 999999999999999999999);
       db.collection("Inventario").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           var iten = {

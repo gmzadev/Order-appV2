@@ -27,8 +27,8 @@
                   v-model="cedula"
                   type="number"
                 >
-                  <template #prepend-content>
-                    <select v-model="seleccionado" class="forma-div">
+                  <template #prepend-content class="texto">
+                    <select v-model="seleccionado" >
                       <option value="V-" selected>V-</option>
                       <option value="E-">E-</option>
                       <option value="J-">J-</option>

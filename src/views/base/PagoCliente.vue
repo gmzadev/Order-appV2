@@ -15,7 +15,7 @@
             :disabled="true"
             :value="Cedula"
           >
-            <template #prepend-content> <i class="fas fa-user"></i></template>
+            <template #prepend-content> ID</template>
           </CInput>
 
           <CInput
@@ -32,7 +32,7 @@
             :value="Correo"
             :disabled="true"
           >
-            <template #prepend-content> <i class="fas fa-user"></i></template>
+            <template #prepend-content> <i class="cil-mail"></i></template>
           </CInput>
           <div class="input-group">
             <input
@@ -53,6 +53,11 @@
             >
               Subir
             </button>
+          </div>
+          <div  v-if="carga" class="d-flex justify-content-center mt-3">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
           </div>
           <br />
           <CInput
@@ -119,6 +124,7 @@ export default {
   name: "PagoCliente",
   data: function () {
     return {
+      carga: false,
       text1: "no cargo",
       AuxCuenta: this.$store.state.Pedido,
       total: this.$store.state.cuenta,
@@ -145,7 +151,7 @@ export default {
           String(fecha.getMonth() + 1).padStart(2, "0") +
           "/" +
           String(fecha.getFullYear());
-        console.log(FechaActual);
+        // console.log(FechaActual);
         db.collection("Pagos")
           .add({
             Cliente: this.NombreCliente,
@@ -157,8 +163,8 @@ export default {
             OrdenID: uuid(this.ruta, uuid.url),
           })
           .then((docRef) => {
-            alert("entro en el then")
-            var auxID=docRef.id
+            var auxID = docRef.id;
+            console.log(docRef.id);
             var aux = db.collection("Pagos").doc(docRef.id);
             aux.get().then((doc) => {
               if (doc.exists) {
@@ -170,20 +176,27 @@ export default {
                   pedido.push({
                     IntenID: this.AuxCuenta[i].Plato.PlatoId,
                     Cantidad: this.AuxCuenta[i].Cantidad,
-                    Estado:"Pendiente de Pago"
                   });
                 }
+                var hora= new Date()
+                var tiempo=String(hora.getHours()).padStart(0,2)+":"+String(hora.getMinutes()).padStart(0,2)
                 db.collection("Ordenes") //se crea la solicitud
                   .doc(doc.data().OrdenID)
                   .set({
                     Pedido: pedido,
+                    Cedula: this.Cedula,
+                    Cliente :this.NombreCliente,
                     OrdenID: doc.data().OrdenID,
+                    Hora: tiempo,
                     PagoID: auxID,
+                    Estado: "Pendiente de pago", //Estados pendiente de pago/Completada/Rechazada/En Proceso
                   })
                   .then()
                   .catch((error) => {
                     console.log(error);
+                    this.total = 0;
                   });
+                  this.$router.push("/base/Comprar");
               } else {
                 console.log("hay chamo");
               }
@@ -193,7 +206,7 @@ export default {
             alert("ha ocurrido un problema: " + error);
           });
       } else {
-        if (this.ruta != "") {
+        if (this.ruta == "") {
           document.getElementById("inputGroupFile04").focus();
           alert("Es necesario subir la imagem");
         } else {
@@ -215,6 +228,7 @@ export default {
       storageRef.on(
         "state_changed",
         (snapshot) => {
+          this.carga=true
           let porcentaje =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           this.UploadValue = porcentaje;
@@ -224,8 +238,9 @@ export default {
           console.log("errores: ", error);
         },
         () => {
-          console.log("hola", this.ruta);
+          // console.log("hola", this.ruta);
           this.porcentaje = 100;
+           this.carga=false
           // Upload completed successfully, now we can get the download URL
           storageRef.snapshot.ref.getDownloadURL().then((lincksito) => {
             this.ruta = lincksito;
@@ -234,6 +249,19 @@ export default {
         }
       );
     },
+  },
+  beforeDestroy() {
+
+    var unsubscribe = db.collection("Pagos").onSnapshot(() => {
+      // Respond to data
+      // ...
+    });
+    var unsubscribe2 = db.collection("Ordenes").onSnapshot(() => {
+      // Respond to data
+      // ...
+    });
+    unsubscribe();
+    unsubscribe2();
   },
 };
 </script>
